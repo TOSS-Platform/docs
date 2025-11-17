@@ -8,6 +8,11 @@ Comprehensive documentation for TOSS Protocol - a decentralized fund management 
 # Install dependencies
 npm install
 
+# ⚠️ Important: If you added new dependencies in package.json,
+# commit the updated package-lock.json:
+git add package-lock.json
+git commit -m "chore: update package-lock.json"
+
 # Start development server
 npm start
 
@@ -17,6 +22,13 @@ npm run build
 # Serve production build
 npm run serve
 ```
+
+:::note First Time Setup
+After cloning, run `npm install` to generate `package-lock.json` with all dependencies including:
+- `ts-node` (for MCP scripts)
+- `glob` (for file scanning)
+- `@types/node` (TypeScript types)
+:::
 
 ## 📚 Documentation Structure
 

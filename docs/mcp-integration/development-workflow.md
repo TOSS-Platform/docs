@@ -109,6 +109,21 @@ vim sidebars.js
 git add sidebars.js
 ```
 
+:::important Package Lock Sync
+If you added/updated dependencies in `package.json`:
+
+```bash
+# Update package-lock.json
+npm install
+
+# Commit lock file
+git add package-lock.json
+git commit -m "chore: update package-lock.json"
+```
+
+This ensures CI/CD has matching dependencies.
+:::
+
 #### Step 3: Commit Changes
 
 ```bash

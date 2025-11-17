@@ -276,7 +276,16 @@ async function generateMCPResources(): Promise<void> {
 }
 
 // Run if called directly
-if (require.main === module) {
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Check if this is the main module
+const isMainModule = process.argv[1] === fileURLToPath(import.meta.url);
+
+if (isMainModule) {
   generateMCPResources().catch(err => {
     console.error('❌ Error generating MCP resources:', err);
     process.exit(1);

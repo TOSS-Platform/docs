@@ -1,0 +1,2043 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2025-11-17T12:22:58.714Z",
+  "documentationHash": "ad1ed240c610474b5f76fb20f8ae6c5b3ab3dfb8081ce7a33976c1a65375395e",
+  "resourceCount": 129,
+  "toolCount": 10,
+  "resources": [
+    {
+      "uri": "toss://docs/api/abis/overview",
+      "name": "Smart Contract ABIs",
+      "description": "Documentation for Smart Contract ABIs",
+      "mimeType": "text/markdown",
+      "contentHash": "1272a792b2feac826344b4780c452da5eadc357d05708183ec2f0c89658fc82b",
+      "lastModified": "2025-11-16T16:18:56.396Z",
+      "size": 525,
+      "category": "general",
+      "tags": [
+        "general",
+        "risk"
+      ]
+    },
+    {
+      "uri": "toss://docs/api/overview",
+      "name": "API Reference Overview",
+      "description": "Documentation for API Reference Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "dd7802277256a9287fae7031250dd04bac01ea74509fbf11080a3bfaa1024764",
+      "lastModified": "2025-11-16T16:18:53.758Z",
+      "size": 3813,
+      "category": "general",
+      "tags": [
+        "general",
+        "risk",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/api/rest/authentication",
+      "name": "API Authentication",
+      "description": "Documentation for API Authentication",
+      "mimeType": "text/markdown",
+      "contentHash": "ce7f11f64a1d231e78768e4c852867e55f8d901e8e8977752b06ae5458b96a0a",
+      "lastModified": "2025-11-16T16:18:54.815Z",
+      "size": 401,
+      "category": "general",
+      "tags": [
+        "general"
+      ]
+    },
+    {
+      "uri": "toss://docs/api/rest/introduction",
+      "name": "REST API Introduction",
+      "description": "Documentation for REST API Introduction",
+      "mimeType": "text/markdown",
+      "contentHash": "f800995d5950be58d36d8aba15c819929ca77626cbec852ca181088a84370136",
+      "lastModified": "2025-11-16T16:18:54.455Z",
+      "size": 1123,
+      "category": "general",
+      "tags": [
+        "general",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/api/rest/rate-limits",
+      "name": "Rate Limits",
+      "description": "Documentation for Rate Limits",
+      "mimeType": "text/markdown",
+      "contentHash": "2fe17055760078523350328390acc8129a80f805d5b4e8801514239926bf5417",
+      "lastModified": "2025-11-16T16:18:55.223Z",
+      "size": 438,
+      "category": "general",
+      "tags": [
+        "general"
+      ]
+    },
+    {
+      "uri": "toss://docs/api/sdk/overview",
+      "name": "SDK Reference",
+      "description": "Documentation for SDK Reference",
+      "mimeType": "text/markdown",
+      "contentHash": "255901fb3307074904573fd9b0486b9e257024ea6a0860f3fb9524f8ea0d95b1",
+      "lastModified": "2025-11-16T16:19:00.938Z",
+      "size": 552,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/api/websocket/overview",
+      "name": "WebSocket Events",
+      "description": "Documentation for WebSocket Events",
+      "mimeType": "text/markdown",
+      "contentHash": "bf1e05ec6eb6f13b0de11df6aee16d95c6f89ecab3a6538da8b783bcc518b4dd",
+      "lastModified": "2025-11-16T16:19:01.958Z",
+      "size": 389,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/getting-started/first-fund",
+      "name": "Creating Your First Fund",
+      "description": "Documentation for Creating Your First Fund",
+      "mimeType": "text/markdown",
+      "contentHash": "00feaeefd9e6dc8f669dc278895694024571775100599ee7ee3efa4b4e6aaf77",
+      "lastModified": "2025-11-13T10:34:43.759Z",
+      "size": 6521,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/getting-started/installation",
+      "name": "Installation",
+      "description": "Documentation for Installation",
+      "mimeType": "text/markdown",
+      "contentHash": "0a1751670ddfaa20cfbe40bb481bab38f7dadc33816f037ca6951246b5832b9e",
+      "lastModified": "2025-11-13T10:33:52.305Z",
+      "size": 4001,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/getting-started/quick-start",
+      "name": "Quick Start",
+      "description": "Documentation for Quick Start",
+      "mimeType": "text/markdown",
+      "contentHash": "afde925e80b325eb314a9fa163379155e2d403443eb1758d0225fa2eeeba39e2",
+      "lastModified": "2025-11-13T10:34:42.668Z",
+      "size": 4185,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/intro",
+      "name": "Welcome to TOSS Protocol",
+      "description": "Documentation for Welcome to TOSS Protocol",
+      "mimeType": "text/markdown",
+      "contentHash": "b1987693066bde04b0070edcb178babe89e3edb0126ecc5a6eb3419a4daa91c4",
+      "lastModified": "2025-11-17T09:21:33.862Z",
+      "size": 4960,
+      "category": "general",
+      "tags": [
+        "general",
+        "risk",
+        "slashing",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/competitive-advantage",
+      "name": "Competitive Advantage",
+      "description": "Documentation for Competitive Advantage",
+      "mimeType": "text/markdown",
+      "contentHash": "35168cbf28ecb95d384bdc1dca82efcffa8e591c811a5da59067249c25065906",
+      "lastModified": "2025-11-16T16:21:56.806Z",
+      "size": 918,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "risk",
+        "zksync"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/competitive-analysis",
+      "name": "Competitive Analysis",
+      "description": "Documentation for Competitive Analysis",
+      "mimeType": "text/markdown",
+      "contentHash": "56f5f3062d12942f1fdbe2c5649a84a6f35d1f1ef8aa670637877943da13936e",
+      "lastModified": "2025-11-16T16:21:56.824Z",
+      "size": 1166,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "slashing",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/financials",
+      "name": "Financial Projections",
+      "description": "Documentation for Financial Projections",
+      "mimeType": "text/markdown",
+      "contentHash": "36d9465622aea504362cbb3bb40e1a75eea1df8debdeccd1207d48a8c6685836",
+      "lastModified": "2025-11-16T16:21:56.839Z",
+      "size": 1706,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/gtm-strategy",
+      "name": "Go-to-Market Strategy",
+      "description": "Documentation for Go-to-Market Strategy",
+      "mimeType": "text/markdown",
+      "contentHash": "d0a2d400aa8f4ee5f888f882e6e7bd5709a903bc6017b1fc674777c714be85bc",
+      "lastModified": "2025-11-16T16:21:56.820Z",
+      "size": 1007,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/investment-opportunity",
+      "name": "Investment Opportunity",
+      "description": "Documentation for Investment Opportunity",
+      "mimeType": "text/markdown",
+      "contentHash": "60067fa148189af2a4fe56e455e431e867ccb1f366767ca2b246bc40e590f66f",
+      "lastModified": "2025-11-16T16:21:56.839Z",
+      "size": 2886,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "risk",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/market-size",
+      "name": "Market Opportunity",
+      "description": "Documentation for Market Opportunity",
+      "mimeType": "text/markdown",
+      "contentHash": "6f4a28873be25c49e26fcd187d68de51692716f899af6e05ed8aa163537d3940",
+      "lastModified": "2025-11-16T16:21:56.861Z",
+      "size": 830,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/platform-overview",
+      "name": "Platform Overview",
+      "description": "Documentation for Platform Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "5d49dd6ea56d9c52cce198643c8bbdc79f04b0fe11c8fa22dbae5b3e4d26c02a",
+      "lastModified": "2025-11-16T16:57:25.896Z",
+      "size": 1094,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "risk",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/problem-statement",
+      "name": "Problem Statement",
+      "description": "Documentation for Problem Statement",
+      "mimeType": "text/markdown",
+      "contentHash": "4704cc0b5578a26049deb5a4d6dbbcc9b16628ab4283c9931dba066381f4e6dd",
+      "lastModified": "2025-11-16T16:19:14.275Z",
+      "size": 6934,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "risk",
+        "slashing",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/revenue-streams",
+      "name": "Revenue Streams",
+      "description": "Documentation for Revenue Streams",
+      "mimeType": "text/markdown",
+      "contentHash": "b797cc85fd3260aa18138fcf4848aed5e7de938b80dffacaa81dc40c9c3f7f2f",
+      "lastModified": "2025-11-16T16:21:56.806Z",
+      "size": 780,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/roadmap",
+      "name": "Roadmap & Milestones",
+      "description": "Documentation for Roadmap & Milestones",
+      "mimeType": "text/markdown",
+      "contentHash": "1aa319b15353fa687649f87bbe2f508d545751aade634a16cae4ed4db7e2d1d6",
+      "lastModified": "2025-11-16T16:21:56.839Z",
+      "size": 1017,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/solution-overview",
+      "name": "Solution Overview",
+      "description": "Documentation for Solution Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "cef0ad87cd01f0a20a4b8e934b6fa51830f74839400de8a85eeee953811806ca",
+      "lastModified": "2025-11-16T16:24:39.362Z",
+      "size": 10034,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "risk",
+        "slashing",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/target-segments",
+      "name": "Target Segments",
+      "description": "Documentation for Target Segments",
+      "mimeType": "text/markdown",
+      "contentHash": "f4ab43edbf1f00eef479032cc9fa2e9a2186c292600f510d4d2daf224d1305e5",
+      "lastModified": "2025-11-16T16:21:56.806Z",
+      "size": 972,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/team",
+      "name": "Team & Advisors",
+      "description": "Documentation for Team & Advisors",
+      "mimeType": "text/markdown",
+      "contentHash": "a7342ce93d94f3bfbc368aa088359bbb8fc66e48be86dc6c693dd11ef9a75ac5",
+      "lastModified": "2025-11-16T16:21:56.824Z",
+      "size": 1022,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/technical-architecture",
+      "name": "Technical Architecture",
+      "description": "Documentation for Technical Architecture",
+      "mimeType": "text/markdown",
+      "contentHash": "73fcc15abdf335897ff1a833061fd2d8d1652e4b8c3ffa1f5c26bcfe60c3f4f7",
+      "lastModified": "2025-11-16T16:21:56.806Z",
+      "size": 807,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "risk",
+        "zksync"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/tokenomics",
+      "name": "Tokenomics",
+      "description": "Documentation for Tokenomics",
+      "mimeType": "text/markdown",
+      "contentHash": "c33f6580a63c1555c59f91db51502167c1fae5becf0813d5afae1fbafe9f1088",
+      "lastModified": "2025-11-16T16:21:56.806Z",
+      "size": 1272,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/investor-deck/unit-economics",
+      "name": "Unit Economics",
+      "description": "Documentation for Unit Economics",
+      "mimeType": "text/markdown",
+      "contentHash": "54fc88d1ff6cf0d737813be8b104ed4ab53306c7242794a470b1adab73e69395",
+      "lastModified": "2025-11-16T16:21:56.811Z",
+      "size": 780,
+      "category": "investor",
+      "tags": [
+        "investor",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp-integration/development-workflow",
+      "name": "Development Workflow with MCP",
+      "description": "Documentation for Development Workflow with MCP",
+      "mimeType": "text/markdown",
+      "contentHash": "1e50ebb3ba6de70f17252be5fb918e758d204245f91dd216ba962f0aa27bd179",
+      "lastModified": "2025-11-17T12:07:36.194Z",
+      "size": 14009,
+      "category": "mcp",
+      "tags": [
+        "mcp",
+        "risk",
+        "slashing",
+        "governance"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp-integration/examples/overview",
+      "name": "MCP Examples",
+      "description": "Documentation for MCP Examples",
+      "mimeType": "text/markdown",
+      "contentHash": "52a9401d58d2b71e601fbd304baa287eb29d8ab4d3ee28a60a21a5d64951ff2e",
+      "lastModified": "2025-11-17T10:36:04.266Z",
+      "size": 1597,
+      "category": "mcp",
+      "tags": [
+        "mcp",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp-integration/integration-guide",
+      "name": "MCP Integration Guide",
+      "description": "Documentation for MCP Integration Guide",
+      "mimeType": "text/markdown",
+      "contentHash": "24f4945b4cdf6e6a9f332d0ff973bff8d2a6f0d4846bb58f704773beb9269965",
+      "lastModified": "2025-11-17T10:36:04.266Z",
+      "size": 1654,
+      "category": "mcp",
+      "tags": [
+        "mcp",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp-integration/overview",
+      "name": "MCP Integration Overview",
+      "description": "Documentation for MCP Integration Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "59b88d4488075f34cedb935e4530b0310e541207d136029ff56f667f9c304d04",
+      "lastModified": "2025-11-17T10:36:04.266Z",
+      "size": 9366,
+      "category": "mcp",
+      "tags": [
+        "mcp",
+        "risk",
+        "slashing",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp-integration/resources/overview",
+      "name": "MCP Resources Overview",
+      "description": "Documentation for MCP Resources Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "0efab45b0d7acbd7c8f7ef6630e1603a9bb876f4d3232906c11005f1d4489ad7",
+      "lastModified": "2025-11-17T10:36:04.266Z",
+      "size": 1638,
+      "category": "mcp",
+      "tags": [
+        "mcp",
+        "risk",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp-integration/sync-system",
+      "name": "MCP Sync System",
+      "description": "Documentation for MCP Sync System",
+      "mimeType": "text/markdown",
+      "contentHash": "1ada32ebee38824939fdd295c1da1c68c44ac6103598d5bd1bf1df7105e613c5",
+      "lastModified": "2025-11-17T10:43:48.647Z",
+      "size": 8491,
+      "category": "mcp",
+      "tags": [
+        "mcp",
+        "risk"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp-integration/tools/overview",
+      "name": "MCP Tools Overview",
+      "description": "Documentation for MCP Tools Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "5d483615144b2f99c6c1f384d4e5e645a1d338ae6eda768e66a50ad8db4de883",
+      "lastModified": "2025-11-17T10:36:04.266Z",
+      "size": 11041,
+      "category": "mcp",
+      "tags": [
+        "mcp",
+        "risk",
+        "slashing",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp-integration/troubleshooting",
+      "name": "MCP Sync Troubleshooting",
+      "description": "Documentation for MCP Sync Troubleshooting",
+      "mimeType": "text/markdown",
+      "contentHash": "086e4409881cdf05f0afd325aaad439111bd3372797b9d32f8a42aefe2c8dc66",
+      "lastModified": "2025-11-17T10:43:48.647Z",
+      "size": 2984,
+      "category": "mcp",
+      "tags": [
+        "mcp"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp/ai-integration",
+      "name": "AI Integration Guide",
+      "description": "Documentation for AI Integration Guide",
+      "mimeType": "text/markdown",
+      "contentHash": "8a7a69b9fe8a530f7ca1cced374e3a03aee35d2a5645efaa454a54df6122ea5d",
+      "lastModified": "2025-11-13T10:37:33.990Z",
+      "size": 1991,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp/introduction",
+      "name": "Introduction to MCP",
+      "description": "Documentation for Introduction to MCP",
+      "mimeType": "text/markdown",
+      "contentHash": "e29e80fdd1119f1a35559abf84f945ac901c803c3193f8cec530ae7c7e478160",
+      "lastModified": "2025-11-13T10:34:44.862Z",
+      "size": 6580,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp/protocol-overview",
+      "name": "MCP Protocol Overview",
+      "description": "Documentation for MCP Protocol Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "2308e55519fed7d85623e6b1c57de3b194b3328d6490cb8eda3fc2ff75414476",
+      "lastModified": "2025-11-13T10:34:44.379Z",
+      "size": 8031,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp/schemas/overview",
+      "name": "MCP Schemas Overview",
+      "description": "Documentation for MCP Schemas Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "a98d689375d45824bb8d48228da0712312e525c876de729c85ea76765ad2dedf",
+      "lastModified": "2025-11-13T10:38:00.132Z",
+      "size": 1747,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp/setup",
+      "name": "MCP Setup Guide",
+      "description": "Documentation for MCP Setup Guide",
+      "mimeType": "text/markdown",
+      "contentHash": "1428b562fdc4a9dd000f89a9da8f85055e747ce1078e0d543ceb8a2023ffa721",
+      "lastModified": "2025-11-13T10:35:22.744Z",
+      "size": 7535,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp/tools/overview",
+      "name": "MCP Tools Overview",
+      "description": "Documentation for MCP Tools Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "1ce81fa21b6762f26c1be117f8b06e8a63c501ba78ca41a3af6cfeb58a8bbc16",
+      "lastModified": "2025-11-13T10:37:36.141Z",
+      "size": 2098,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/architecture/l1-l2-communication",
+      "name": "L1-L2 Communication",
+      "description": "Documentation for L1-L2 Communication",
+      "mimeType": "text/markdown",
+      "contentHash": "831d3fd8a805b2f428db2f51120d219ad457d1d89f5fa38cd382cc037a8e2545",
+      "lastModified": "2025-11-16T16:15:02.661Z",
+      "size": 6951,
+      "category": "architecture",
+      "tags": [
+        "architecture",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/architecture/layered-system",
+      "name": "Layered System Architecture",
+      "description": "Documentation for Layered System Architecture",
+      "mimeType": "text/markdown",
+      "contentHash": "1e9080b51184bb339e347b5ada9bd4e2bd46e0b36fcddf74be6462975256fab7",
+      "lastModified": "2025-11-17T09:21:33.862Z",
+      "size": 8161,
+      "category": "architecture",
+      "tags": [
+        "architecture",
+        "risk",
+        "slashing",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/architecture/overview",
+      "name": "Architecture Overview",
+      "description": "Documentation for Architecture Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "04363aa9357acf8c12d3e2199993f922fe4aa9d26a46a8cb3e86b3e32c3727db",
+      "lastModified": "2025-11-16T16:12:01.239Z",
+      "size": 6343,
+      "category": "architecture",
+      "tags": [
+        "architecture",
+        "risk",
+        "slashing",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/architecture/security-model",
+      "name": "Security Model",
+      "description": "Documentation for Security Model",
+      "mimeType": "text/markdown",
+      "contentHash": "50d63f84f3718fed6dee6ff1d51af1b14f828df697b66eabae95c1605dbd1bfd",
+      "lastModified": "2025-11-16T16:15:03.973Z",
+      "size": 9628,
+      "category": "architecture",
+      "tags": [
+        "architecture",
+        "risk",
+        "slashing",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/core/BridgeGateway",
+      "name": "BridgeGateway.sol",
+      "description": "Documentation for BridgeGateway.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "3eebaa35f736b8d8e86ebce1baba10215fba14cf41cd6fa75e085f4aeb1cd48c",
+      "lastModified": "2025-11-17T09:41:38.030Z",
+      "size": 2305,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "zksync"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/core/DAOConfigCore",
+      "name": "DAOConfigCore.sol",
+      "description": "Documentation for DAOConfigCore.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "f6e84eab8fc7dc1d26e8d2b1e376a4041cd9620f5daa1fd6e614e4b6e6247c72",
+      "lastModified": "2025-11-17T10:19:02.928Z",
+      "size": 14913,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "risk",
+        "slashing",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/core/RewardDistributor",
+      "name": "RewardDistributor.sol",
+      "description": "Documentation for RewardDistributor.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "ab52c7a26b4ff0591c7dd787f8720b3029f5ac29332a813eee722b49df9363a9",
+      "lastModified": "2025-11-17T09:41:38.030Z",
+      "size": 1956,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "governance"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/core/TOSS",
+      "name": "TOSS.sol",
+      "description": "Documentation for TOSS.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "3e492ea57ee78992f73b99235e4dab727b5a31151f03c43ba174072cc9156e30",
+      "lastModified": "2025-11-17T09:41:38.030Z",
+      "size": 20916,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "slashing",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/core/TOSSChainState",
+      "name": "TOSSChainState.sol",
+      "description": "Documentation for TOSSChainState.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "412684906572732dbc1614cca8b80c2229a135833f02304612bf1da38997e355",
+      "lastModified": "2025-11-17T09:41:38.030Z",
+      "size": 2481,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "slashing",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/core/TOSSTreasury",
+      "name": "TOSSTreasury.sol",
+      "description": "Documentation for TOSSTreasury.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "77e6d4b782a8889dec4c544654b17415cad991810a7fd72ca075978c582075a4",
+      "lastModified": "2025-11-17T09:41:38.030Z",
+      "size": 14606,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/fund/FundConfig",
+      "name": "FundConfig.sol",
+      "description": "Documentation for FundConfig.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "5a73283790a9be9f7f7647db0dba655d4e6768c9521c3c6b59d9843a16db3031",
+      "lastModified": "2025-11-17T09:44:42.793Z",
+      "size": 5407,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/fund/FundFactory",
+      "name": "FundFactory.sol",
+      "description": "Documentation for FundFactory.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "c1e40793cfc627467e9158e64cece646bf1b4c98f765c1cb420149dc08247016",
+      "lastModified": "2025-11-17T09:41:38.040Z",
+      "size": 14963,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "risk",
+        "slashing",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/fund/FundManagerVault",
+      "name": "FundManagerVault.sol",
+      "description": "Documentation for FundManagerVault.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "e1ce86918b680cbd26c012eeb0b962e40a06b9ad3211cc44acb9531d1e3b3d39",
+      "lastModified": "2025-11-17T09:44:19.556Z",
+      "size": 11207,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "risk",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/fund/FundRegistry",
+      "name": "FundRegistry.sol",
+      "description": "Documentation for FundRegistry.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "eb182af3d3af3aedd3121cd77c65e9f8b6fe65a2e04ff72f9b39e239c89d0a8f",
+      "lastModified": "2025-11-17T09:44:17.433Z",
+      "size": 3811,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/fund/FundTradeExecutor",
+      "name": "FundTradeExecutor.sol",
+      "description": "Documentation for FundTradeExecutor.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "d6344f84b9961c9b5f660641be6c61c659f275ab631e1f7ca410f7fefc50bf23",
+      "lastModified": "2025-11-17T09:45:11.272Z",
+      "size": 3931,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "risk",
+        "slashing",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/governance-layer",
+      "name": "Governance Layer Contracts",
+      "description": "Documentation for Governance Layer Contracts",
+      "mimeType": "text/markdown",
+      "contentHash": "ffd1fe597cc3e362595e84a8eb1784ed286a85b271e3b1c5552cb0cf28df959b",
+      "lastModified": "2025-11-17T09:21:33.862Z",
+      "size": 35322,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "slashing",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/governance/FMGovernance",
+      "name": "FMGovernance.sol",
+      "description": "Documentation for FMGovernance.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "3774ad00e94c8307ff49d028386c895cfb02898ab1c5820113e0ac707de2ee8b",
+      "lastModified": "2025-11-17T09:50:56.309Z",
+      "size": 1678,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "governance"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/governance/FundGovernance",
+      "name": "FundGovernance.sol",
+      "description": "Documentation for FundGovernance.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "4b080f122c364b2b1afdc5ff1e3e7127333f71563cdf8d224b413879a14b1942",
+      "lastModified": "2025-11-17T09:50:56.309Z",
+      "size": 2202,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/governance/ProtocolGovernance",
+      "name": "ProtocolGovernance.sol",
+      "description": "Documentation for ProtocolGovernance.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "1011923a433d08ab6ce9e8914980155eb6f44f8d47f09f787f8319021143a13b",
+      "lastModified": "2025-11-17T09:50:56.318Z",
+      "size": 2095,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "governance"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/governance/VoterRegistry",
+      "name": "VoterRegistry.sol",
+      "description": "Documentation for VoterRegistry.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "9f10e84e625931de69b707dfc1682d67255ce8c054c669c5c6caa2c406b68d94",
+      "lastModified": "2025-11-17T09:50:56.318Z",
+      "size": 1561,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/investor/InvestorPenaltyEngine",
+      "name": "InvestorPenaltyEngine.sol",
+      "description": "Documentation for InvestorPenaltyEngine.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "08ecaf02ec69c00c30d7b8f4d63156d7d54063a6c235076b85239379439f92dc",
+      "lastModified": "2025-11-17T09:50:56.318Z",
+      "size": 661,
+      "category": "contracts",
+      "tags": [
+        "contracts"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/investor/InvestorRegistry",
+      "name": "InvestorRegistry.sol",
+      "description": "Documentation for InvestorRegistry.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "5d4e63bec6595ea2a92d1bce159a62d4150e47064009b722deea37ec24b70638",
+      "lastModified": "2025-11-17T09:50:56.318Z",
+      "size": 3043,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/investor/InvestorRewardEngine",
+      "name": "InvestorRewardEngine.sol",
+      "description": "Documentation for InvestorRewardEngine.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "64a005c271b4aa85c6e7096c4daee4ca93d7cddfb0dc0d4be17878a1930fdaeb",
+      "lastModified": "2025-11-17T09:50:56.318Z",
+      "size": 685,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "governance"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/investor/InvestorScoreCalculator",
+      "name": "InvestorScoreCalculator.sol",
+      "description": "Documentation for InvestorScoreCalculator.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "ae199db9cbc132199f186c19ba2c27afbbee59dad4cd2474a58cf434b695cacd",
+      "lastModified": "2025-11-17T09:50:56.318Z",
+      "size": 1696,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "governance"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/investor/InvestorStateMachine",
+      "name": "InvestorStateMachine.sol",
+      "description": "Documentation for InvestorStateMachine.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "f91a35dab9c8ab8b2009f999a95a433d4adcf2b46a6e84debc7f55d522c67de6",
+      "lastModified": "2025-11-17T09:50:56.318Z",
+      "size": 1366,
+      "category": "contracts",
+      "tags": [
+        "contracts"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/overview",
+      "name": "Smart Contracts Overview",
+      "description": "Documentation for Smart Contracts Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "03654716a676655d9fb858bc2c54a41a638b95ea164670093308aae2dc4be9ae",
+      "lastModified": "2025-11-17T09:50:56.318Z",
+      "size": 8871,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "risk",
+        "slashing",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/risk/FundRiskDomain",
+      "name": "FundRiskDomain.sol",
+      "description": "Documentation for FundRiskDomain.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "c526b402b006202b11043884332d99f32519c3e8e7bfd543cf9fdd2380f1f71b",
+      "lastModified": "2025-11-17T09:50:56.293Z",
+      "size": 2930,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "slashing",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/risk/IntentDetection",
+      "name": "IntentDetection.sol",
+      "description": "Documentation for IntentDetection.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "5093d5150811d04f6cbc5c34026d856a264b0c986eb457e44dd08f4935fd4587",
+      "lastModified": "2025-11-17T09:50:56.301Z",
+      "size": 1192,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/risk/InvestorRiskDomain",
+      "name": "InvestorRiskDomain.sol",
+      "description": "Documentation for InvestorRiskDomain.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "f43a82c90a6248bad5ae2bbf045b9babc5a653b61d1cd5a935ec93465ce35884",
+      "lastModified": "2025-11-17T09:50:56.293Z",
+      "size": 2122,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/risk/PenaltyEngine",
+      "name": "PenaltyEngine.sol",
+      "description": "Documentation for PenaltyEngine.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "1c4f79c83cfd01f5c42e78111a61cfbdf1e334bbaa02c9afe56eac856f4c0674",
+      "lastModified": "2025-11-17T09:50:56.300Z",
+      "size": 1291,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "risk",
+        "slashing"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/risk/ProtocolRiskDomain",
+      "name": "ProtocolRiskDomain.sol",
+      "description": "Documentation for ProtocolRiskDomain.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "4076ebca28791e7d1f05f4f4e690b723124ef60abf2346b41e0d8fd19e4ad6fb",
+      "lastModified": "2025-11-17T09:50:56.293Z",
+      "size": 1653,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/risk/RiskEngine",
+      "name": "RiskEngine.sol",
+      "description": "Documentation for RiskEngine.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "22ae8b2568ed7127b5ff57d3bb4e2bfb829f98d50c7639ef266458f12e30c165",
+      "lastModified": "2025-11-17T09:50:56.318Z",
+      "size": 12133,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "risk",
+        "slashing",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/risk/RiskMathLib",
+      "name": "RiskMathLib.sol",
+      "description": "Documentation for RiskMathLib.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "484034d671a6f4bb68f42a37f9dc9a5b716b875ec9dbca38ed42851b73667159",
+      "lastModified": "2025-11-17T09:50:56.305Z",
+      "size": 1751,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "governance"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/risk/SlashingEngine",
+      "name": "SlashingEngine.sol",
+      "description": "Documentation for SlashingEngine.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "61f80fb0390eafa332a76cb80f3672819e5ef67a9f3032a6a7060561322291c6",
+      "lastModified": "2025-11-17T09:50:56.293Z",
+      "size": 5538,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "risk",
+        "slashing",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/utilities/AMLGuard",
+      "name": "AMLGuard.sol",
+      "description": "Documentation for AMLGuard.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "e219ee6a1d5a2de3e1354551ffe8e793755dff45480e45f6a57d63209a09027a",
+      "lastModified": "2025-11-17T09:50:56.318Z",
+      "size": 1149,
+      "category": "contracts",
+      "tags": [
+        "contracts"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/utilities/AnalyticsHub",
+      "name": "AnalyticsHub.sol",
+      "description": "Documentation for AnalyticsHub.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "4727f903042daa3bbc4c398266399c0ea17179802a4bc1fec670845bce21c500",
+      "lastModified": "2025-11-17T09:50:56.318Z",
+      "size": 1531,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "slashing",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/utilities/GasVault",
+      "name": "GasVault.sol",
+      "description": "Documentation for GasVault.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "7fc5342746f124d988af566ba4eba19958abe8222a28a90e8624f6828da9fbe6",
+      "lastModified": "2025-11-17T09:50:56.318Z",
+      "size": 1066,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/contracts/utilities/PriceOracleRouter",
+      "name": "PriceOracleRouter.sol",
+      "description": "Documentation for PriceOracleRouter.sol",
+      "mimeType": "text/markdown",
+      "contentHash": "805bec3a7d2500425e3b323c504edf5f09f4e0f4e5a7fb7720a64ac03ce9f1ea",
+      "lastModified": "2025-11-17T09:50:56.318Z",
+      "size": 3467,
+      "category": "contracts",
+      "tags": [
+        "contracts",
+        "governance"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/governance/dao-structure",
+      "name": "DAO Structure",
+      "description": "Documentation for DAO Structure",
+      "mimeType": "text/markdown",
+      "contentHash": "76f39d06a7c90baf4963c7202be8b2f778b3c464fad0da1db69586ba3f59c7d2",
+      "lastModified": "2025-11-17T09:21:33.852Z",
+      "size": 20034,
+      "category": "governance",
+      "tags": [
+        "governance",
+        "risk",
+        "slashing",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/governance/overview",
+      "name": "Governance Overview",
+      "description": "Documentation for Governance Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "42ddc9d9058a62bbadf62e89db706bcb796f90ceb568ae4a68c6304cc5e94119",
+      "lastModified": "2025-11-17T09:21:33.852Z",
+      "size": 19704,
+      "category": "governance",
+      "tags": [
+        "governance",
+        "risk",
+        "slashing",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/governance/proposal-lifecycle",
+      "name": "Proposal Lifecycle",
+      "description": "Documentation for Proposal Lifecycle",
+      "mimeType": "text/markdown",
+      "contentHash": "971cf122a63b02b12e3b2adeb5c2bc7955758adc79d034b6edac538f18e00921",
+      "lastModified": "2025-11-17T09:21:33.852Z",
+      "size": 26640,
+      "category": "governance",
+      "tags": [
+        "governance",
+        "slashing",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/governance/voting-mechanism",
+      "name": "Voting Mechanism",
+      "description": "Documentation for Voting Mechanism",
+      "mimeType": "text/markdown",
+      "contentHash": "0b19543af657e09a0980e737f8fbbd687274120b7f2a7752656d820b60aab2c7",
+      "lastModified": "2025-11-17T09:21:33.852Z",
+      "size": 22089,
+      "category": "governance",
+      "tags": [
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/intro",
+      "name": "Protocol Documentation",
+      "description": "Documentation for Protocol Documentation",
+      "mimeType": "text/markdown",
+      "contentHash": "0c6c2b2c91b6121e1240f0aaccd15e08e35e5cc9873c78d6fafc84c16bd47cb0",
+      "lastModified": "2025-11-17T09:21:33.862Z",
+      "size": 4224,
+      "category": "general",
+      "tags": [
+        "general",
+        "risk",
+        "slashing",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/fund-manager/close-fund",
+      "name": "Fund Closure Process",
+      "description": "Documentation for Fund Closure Process",
+      "mimeType": "text/markdown",
+      "contentHash": "9e0ea06518f47aec0eb75db726ef07367ad2e4c5369d50b746bc2dd4b8e60d2d",
+      "lastModified": "2025-11-17T10:09:05.134Z",
+      "size": 1337,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "slashing",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/fund-manager/collect-fees",
+      "name": "Fee Collection Process",
+      "description": "Documentation for Fee Collection Process",
+      "mimeType": "text/markdown",
+      "contentHash": "b59223c627ee3f108a5e57081a0969a59396cfa1f9006293b18b5ed1d740af69",
+      "lastModified": "2025-11-17T10:09:05.134Z",
+      "size": 1099,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/fund-manager/create-fund",
+      "name": "Fund Creation Process",
+      "description": "Documentation for Fund Creation Process",
+      "mimeType": "text/markdown",
+      "contentHash": "efab638bc23b3505cab96c1312580a3893acf2dfc3e4696ef0544614658fc550",
+      "lastModified": "2025-11-17T10:09:05.134Z",
+      "size": 20530,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "risk",
+        "slashing",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/fund-manager/execute-trade",
+      "name": "Trade Execution Process",
+      "description": "Documentation for Trade Execution Process",
+      "mimeType": "text/markdown",
+      "contentHash": "3b46b8ce344c4b702a1b4b592892a863f3bca3aaa03c5adce51d03450cd622f7",
+      "lastModified": "2025-11-17T10:09:05.134Z",
+      "size": 5919,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "risk",
+        "slashing",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/fund-manager/manage-stake",
+      "name": "Stake Management Process",
+      "description": "Documentation for Stake Management Process",
+      "mimeType": "text/markdown",
+      "contentHash": "43af7c8db92e167e773ba25a3d25be6cb67eed4e35d2a585ed75ae6eaf7ad728",
+      "lastModified": "2025-11-17T10:09:05.134Z",
+      "size": 868,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/fund-manager/update-config",
+      "name": "Fund Configuration Update Process",
+      "description": "Documentation for Fund Configuration Update Process",
+      "mimeType": "text/markdown",
+      "contentHash": "e0a7ff6bd2abe924bb8407b869f470cc1e8856670d47caa5b602210d16b3f880",
+      "lastModified": "2025-11-17T10:09:05.134Z",
+      "size": 1101,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/governance/execution",
+      "name": "Proposal Execution Process",
+      "description": "Documentation for Proposal Execution Process",
+      "mimeType": "text/markdown",
+      "contentHash": "c60ca43c6f1a92eac1523f82c40e98c65fd18cffa842d39f9a37dbe3edf9c555",
+      "lastModified": "2025-11-17T10:09:05.201Z",
+      "size": 894,
+      "category": "processes",
+      "tags": [
+        "processes"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/governance/fm-proposal",
+      "name": "FM-Level Proposal Process",
+      "description": "Documentation for FM-Level Proposal Process",
+      "mimeType": "text/markdown",
+      "contentHash": "358b9aa2e582608e7ce857f67d30dd8efe9c7223dcf64a6a2d52ef6f32e34661",
+      "lastModified": "2025-11-17T10:09:05.161Z",
+      "size": 943,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/governance/fund-proposal",
+      "name": "Fund-Level Proposal Process",
+      "description": "Documentation for Fund-Level Proposal Process",
+      "mimeType": "text/markdown",
+      "contentHash": "bade96f65f21514ad473cdc9b91cb56faa3ab37c156b3a10aac82e14bdeb7fcb",
+      "lastModified": "2025-11-17T10:09:05.161Z",
+      "size": 1734,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/governance/protocol-proposal",
+      "name": "Protocol-Level Proposal Process",
+      "description": "Documentation for Protocol-Level Proposal Process",
+      "mimeType": "text/markdown",
+      "contentHash": "1eb263faa10b92fe12c32a3ccf63ec81a6390be2a9f895cbc388a297d8b42b31",
+      "lastModified": "2025-11-17T10:09:05.164Z",
+      "size": 1377,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "governance"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/governance/voting",
+      "name": "Voting Process",
+      "description": "Documentation for Voting Process",
+      "mimeType": "text/markdown",
+      "contentHash": "81265a2c819b1456fc2aa534cba6227d60a61d7464c9e97346f0fae3f2dedee7",
+      "lastModified": "2025-11-17T10:09:05.197Z",
+      "size": 799,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/integration/l1-to-l2-deposit",
+      "name": "L1 to L2 Deposit Process",
+      "description": "Documentation for L1 to L2 Deposit Process",
+      "mimeType": "text/markdown",
+      "contentHash": "35b1280d849a75b60ae52b648f84ac5304a5f67eee163f6fd50808bc2a329ba9",
+      "lastModified": "2025-11-17T10:09:05.201Z",
+      "size": 3581,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/integration/l2-to-l1-withdrawal",
+      "name": "L2 to L1 Withdrawal Process",
+      "description": "Documentation for L2 to L1 Withdrawal Process",
+      "mimeType": "text/markdown",
+      "contentHash": "261ffcf79228421d82f632de5bdb608de705252a7ad16989804994443782a4ea",
+      "lastModified": "2025-11-17T10:09:05.202Z",
+      "size": 1421,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/integration/offchain-sync",
+      "name": "Off-Chain Service Synchronization",
+      "description": "Documentation for Off-Chain Service Synchronization",
+      "mimeType": "text/markdown",
+      "contentHash": "17b7734becc6d047483aa703a7f8f18ddbf2994528b90ed394272483c5c9ecf1",
+      "lastModified": "2025-11-17T10:09:05.202Z",
+      "size": 1727,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "risk",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/investor/deposit",
+      "name": "Investor Deposit Process",
+      "description": "Documentation for Investor Deposit Process",
+      "mimeType": "text/markdown",
+      "contentHash": "c5c72f0560bf8ea5c04e79dcc840ff3a3ab22038fc450378ec3f591b4cf9db87",
+      "lastModified": "2025-11-17T10:09:05.134Z",
+      "size": 1337,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/investor/emergency-exit",
+      "name": "Emergency Exit Process",
+      "description": "Documentation for Emergency Exit Process",
+      "mimeType": "text/markdown",
+      "contentHash": "ac79d58a54a80fa9fa8da8ace593148ab1f8fd61dc246914ea239b5c030f718d",
+      "lastModified": "2025-11-17T10:09:05.160Z",
+      "size": 790,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/investor/onboarding",
+      "name": "Investor Onboarding Process",
+      "description": "Documentation for Investor Onboarding Process",
+      "mimeType": "text/markdown",
+      "contentHash": "338ec680bf1b1c59264f6266463f550f6b745c0c393459d576658c988bb190ca",
+      "lastModified": "2025-11-17T10:09:05.144Z",
+      "size": 639,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/investor/upgrade-class",
+      "name": "Class Upgrade Process",
+      "description": "Documentation for Class Upgrade Process",
+      "mimeType": "text/markdown",
+      "contentHash": "ede8149d482ce12a7b990326312cf512a2eaaf16b027eccfc5aa1850da5258e4",
+      "lastModified": "2025-11-17T10:09:05.156Z",
+      "size": 803,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/investor/withdraw",
+      "name": "Investor Withdrawal Process",
+      "description": "Documentation for Investor Withdrawal Process",
+      "mimeType": "text/markdown",
+      "contentHash": "5a1495b53f12aa6b4a55f5a402c9608ee97fef6c52c8d2941b78895ecd5a8b07",
+      "lastModified": "2025-11-17T10:09:05.134Z",
+      "size": 1356,
+      "category": "processes",
+      "tags": [
+        "processes"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/overview",
+      "name": "Processes & Workflows",
+      "description": "Documentation for Processes & Workflows",
+      "mimeType": "text/markdown",
+      "contentHash": "48a616127d6621f9fbe9f5c7543acd9f36ac2e0155f068913781b57ed5fd1394",
+      "lastModified": "2025-11-17T10:09:05.134Z",
+      "size": 7347,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "risk",
+        "slashing",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/risk-compliance/circuit-breaker",
+      "name": "Circuit Breaker Process",
+      "description": "Documentation for Circuit Breaker Process",
+      "mimeType": "text/markdown",
+      "contentHash": "45879c257f189f002e56fe2d8d54a6ecf0fe9db8c8a0f9bccda5a8aff58eac93",
+      "lastModified": "2025-11-17T10:09:05.161Z",
+      "size": 811,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/risk-compliance/intent-detection",
+      "name": "Intent Detection Process",
+      "description": "Documentation for Intent Detection Process",
+      "mimeType": "text/markdown",
+      "contentHash": "8dbcd95006016f345a0951e065eb928746cc0343a5eeedbf8bab2a27433386c5",
+      "lastModified": "2025-11-17T10:09:05.161Z",
+      "size": 952,
+      "category": "processes",
+      "tags": [
+        "processes"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/risk-compliance/penalty-application",
+      "name": "Penalty Application Process",
+      "description": "Documentation for Penalty Application Process",
+      "mimeType": "text/markdown",
+      "contentHash": "045f80cbeb688385b014009e23e5d748415cef255c7934bfcd5fbffd17a44b2e",
+      "lastModified": "2025-11-17T10:09:05.161Z",
+      "size": 711,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "slashing"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/risk-compliance/risk-validation",
+      "name": "Risk Validation Process",
+      "description": "Documentation for Risk Validation Process",
+      "mimeType": "text/markdown",
+      "contentHash": "e517c1683570f52f5308070e588fa0e84e95bd0930f896327e28d7098cc0a4a9",
+      "lastModified": "2025-11-17T10:09:05.160Z",
+      "size": 1391,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "risk",
+        "slashing",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/risk-compliance/slashing-execution",
+      "name": "Slashing Execution Process",
+      "description": "Documentation for Slashing Execution Process",
+      "mimeType": "text/markdown",
+      "contentHash": "5cc1aa5a00a07f1cf096f8e39b3fbfc3da444e0ff81e912415d2d79f5df04ab4",
+      "lastModified": "2025-11-17T10:09:05.160Z",
+      "size": 1527,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "risk",
+        "slashing",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/system/daily-settlement",
+      "name": "Daily Settlement Process",
+      "description": "Documentation for Daily Settlement Process",
+      "mimeType": "text/markdown",
+      "contentHash": "122c70462be8db96edafa8f3377d1e46f078dee72e90302842418c845dc97349",
+      "lastModified": "2025-11-17T10:09:05.201Z",
+      "size": 992,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/system/emergency-procedures",
+      "name": "Emergency Procedures",
+      "description": "Documentation for Emergency Procedures",
+      "mimeType": "text/markdown",
+      "contentHash": "39d8b8abfa16648ab949cac21ba373b6a728e241f1697c1b6ef35c842cdc1ac3",
+      "lastModified": "2025-11-17T10:09:05.202Z",
+      "size": 1349,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/system/fee-distribution",
+      "name": "Fee Distribution Process",
+      "description": "Documentation for Fee Distribution Process",
+      "mimeType": "text/markdown",
+      "contentHash": "f480873b7e63db6e6d9edac5a93cd9eff2f07ea5dbd009c31a0b76ac1fc26fb4",
+      "lastModified": "2025-11-17T10:09:05.201Z",
+      "size": 931,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/system/nav-update",
+      "name": "NAV Update Process",
+      "description": "Documentation for NAV Update Process",
+      "mimeType": "text/markdown",
+      "contentHash": "3c2ec46e50798d7b89dff273bf5f07da604b2fae3ce79f3e11ea26eb422c1f57",
+      "lastModified": "2025-11-17T10:09:05.201Z",
+      "size": 4096,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/security/overview",
+      "name": "Security Overview",
+      "description": "Documentation for Security Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "668b2dd661d2c299a81bb01e2782b0437063da3f6ead15b1b8ac42f8a69b45fb",
+      "lastModified": "2025-11-16T16:15:32.253Z",
+      "size": 11401,
+      "category": "general",
+      "tags": [
+        "general",
+        "risk",
+        "slashing",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/standards/overview",
+      "name": "Fund Standards & Compliance Overview",
+      "description": "Documentation for Fund Standards & Compliance Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "f40a642ebd6324a7a222c20a37d27e250e5d52b9c7718169292a156801a3fecb",
+      "lastModified": "2025-11-16T16:18:43.477Z",
+      "size": 13704,
+      "category": "general",
+      "tags": [
+        "general",
+        "risk",
+        "slashing",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/tokenomics/config-layer",
+      "name": "Config Layer",
+      "description": "Documentation for Config Layer",
+      "mimeType": "text/markdown",
+      "contentHash": "d703faf210cbdec94357fc9eefe68d94e9c962dd0be059c8e93da177c6bbac03",
+      "lastModified": "2025-11-17T10:19:02.919Z",
+      "size": 14306,
+      "category": "tokenomics",
+      "tags": [
+        "tokenomics",
+        "slashing",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/tokenomics/immutable-layer",
+      "name": "Immutable Layer",
+      "description": "Documentation for Immutable Layer",
+      "mimeType": "text/markdown",
+      "contentHash": "b59649cd26c097f44533653ebc6c234d88910a0e9ec3ffeae7caa41a52dd5f88",
+      "lastModified": "2025-11-17T10:19:02.919Z",
+      "size": 10927,
+      "category": "tokenomics",
+      "tags": [
+        "tokenomics",
+        "risk",
+        "slashing",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/tokenomics/logic-layer",
+      "name": "Logic Layer",
+      "description": "Documentation for Logic Layer",
+      "mimeType": "text/markdown",
+      "contentHash": "d38721d083e22354135cbd5b1df8fbf5138291aaa5164f4c60656b84393c34c9",
+      "lastModified": "2025-11-17T10:19:02.919Z",
+      "size": 17490,
+      "category": "tokenomics",
+      "tags": [
+        "tokenomics",
+        "risk",
+        "slashing",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/tokenomics/overview",
+      "name": "Tokenomics & Risk Engine Overview",
+      "description": "Documentation for Tokenomics & Risk Engine Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "d411baabe645fc635654456f950c0cd6e06b39b963c1b1b6f0b6bcffb34904c8",
+      "lastModified": "2025-11-17T10:19:02.919Z",
+      "size": 13704,
+      "category": "tokenomics",
+      "tags": [
+        "tokenomics",
+        "risk",
+        "slashing",
+        "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/zksync/overview",
+      "name": "zkSync Integration Overview",
+      "description": "Documentation for zkSync Integration Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "6939cece431645b3f793e9129f6c3472f58969af36fa4ca75eb4c52a3c3c9fac",
+      "lastModified": "2025-11-16T16:15:30.277Z",
+      "size": 11628,
+      "category": "general",
+      "tags": [
+        "general",
+        "risk",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/technical/getting-started/environment-setup",
+      "name": "Environment Setup",
+      "description": "Documentation for Environment Setup",
+      "mimeType": "text/markdown",
+      "contentHash": "6bfef531934442f9e1a3c67d8ecb5a54ce84db8cc3a0ac7c33d6bd8c160ba8cb",
+      "lastModified": "2025-11-16T16:18:50.791Z",
+      "size": 7636,
+      "category": "technical",
+      "tags": [
+        "technical",
+        "zksync"
+      ]
+    },
+    {
+      "uri": "toss://docs/technical/getting-started/prerequisites",
+      "name": "Prerequisites",
+      "description": "Documentation for Prerequisites",
+      "mimeType": "text/markdown",
+      "contentHash": "84d60881301f062f20d5fe9eb674d8e91a787e5040000dd3179e05efe46d2c46",
+      "lastModified": "2025-11-16T16:18:50.067Z",
+      "size": 6633,
+      "category": "technical",
+      "tags": [
+        "technical",
+        "zksync"
+      ]
+    },
+    {
+      "uri": "toss://docs/technical/getting-started/quick-start",
+      "name": "Quick Start",
+      "description": "Documentation for Quick Start",
+      "mimeType": "text/markdown",
+      "contentHash": "96da556a5f75efe477b171756120e00b4915027b6accc107203abafb59cb32ef",
+      "lastModified": "2025-11-16T16:18:50.458Z",
+      "size": 5537,
+      "category": "technical",
+      "tags": [
+        "technical",
+        "risk",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/technical/infrastructure/overview",
+      "name": "Infrastructure Overview",
+      "description": "Documentation for Infrastructure Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "dc153b31e28d007a165055344f058897d610e94585742fa91abb795de90385b4",
+      "lastModified": "2025-11-16T16:18:51.520Z",
+      "size": 11307,
+      "category": "technical",
+      "tags": [
+        "technical"
+      ]
+    },
+    {
+      "uri": "toss://docs/technical/intro",
+      "name": "Technical Documentation",
+      "description": "Documentation for Technical Documentation",
+      "mimeType": "text/markdown",
+      "contentHash": "fc5e6b05cc889b9eeb152cf3c329b5579cfe8cd80168979b62bd64ce31e088fe",
+      "lastModified": "2025-11-16T16:18:48.718Z",
+      "size": 7381,
+      "category": "technical",
+      "tags": [
+        "technical",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/technical/offchain/overview",
+      "name": "Off-Chain Services Overview",
+      "description": "Documentation for Off-Chain Services Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "ca7c25dda81116a7fc49c9afc107426260b72374b54a52102520b28aae3e3322",
+      "lastModified": "2025-11-16T16:18:51.148Z",
+      "size": 8767,
+      "category": "technical",
+      "tags": [
+        "technical",
+        "risk",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/technical/testing/overview",
+      "name": "Testing & QA Overview",
+      "description": "Documentation for Testing & QA Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "907c50807e5bd3cce472fe7f53742e6aa5727c39d206df389922f83b149032cc",
+      "lastModified": "2025-11-16T16:18:53.326Z",
+      "size": 10344,
+      "category": "technical",
+      "tags": [
+        "technical",
+        "risk",
+        "slashing",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/user-guide/fund-management",
+      "name": "Fund Management",
+      "description": "Documentation for Fund Management",
+      "mimeType": "text/markdown",
+      "contentHash": "b496fecb2583c485dd490f3347043676d21fae5d215c3a4a5389eca0aada0afe",
+      "lastModified": "2025-11-13T10:36:18.059Z",
+      "size": 1082,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/user-guide/overview",
+      "name": "User Guide Overview",
+      "description": "Documentation for User Guide Overview",
+      "mimeType": "text/markdown",
+      "contentHash": "1bc6b915bf999a03f71b080186c442c209677c4707783ddf4ee23090f3be39f5",
+      "lastModified": "2025-11-13T10:35:30.447Z",
+      "size": 1367,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "name": "toss_create_fund",
+      "description": "Create a new fund in TOSS Protocol",
+      "schemaUri": "toss://schemas/tools/create-fund.json",
+      "relatedDocs": [
+        "toss://docs/protocol/processes/fund-manager/create-fund",
+        "toss://docs/protocol/contracts/fund/FundFactory"
+      ]
+    },
+    {
+      "name": "toss_execute_trade",
+      "description": "Execute validated trade through RiskEngine",
+      "schemaUri": "toss://schemas/tools/execute-trade.json",
+      "relatedDocs": [
+        "toss://docs/protocol/processes/fund-manager/execute-trade",
+        "toss://docs/protocol/contracts/fund/FundTradeExecutor",
+        "toss://docs/protocol/contracts/risk/RiskEngine"
+      ]
+    },
+    {
+      "name": "toss_deposit_to_fund",
+      "description": "Deposit capital into a fund",
+      "schemaUri": "toss://schemas/tools/deposit.json",
+      "relatedDocs": [
+        "toss://docs/protocol/processes/investor/deposit",
+        "toss://docs/protocol/contracts/fund/FundManagerVault"
+      ]
+    },
+    {
+      "name": "toss_request_withdrawal",
+      "description": "Request withdrawal from fund",
+      "schemaUri": "toss://schemas/tools/withdraw.json",
+      "relatedDocs": [
+        "toss://docs/protocol/processes/investor/withdraw"
+      ]
+    },
+    {
+      "name": "toss_create_proposal",
+      "description": "Create governance proposal",
+      "schemaUri": "toss://schemas/tools/create-proposal.json",
+      "relatedDocs": [
+        "toss://docs/protocol/processes/governance/fund-proposal",
+        "toss://docs/protocol/processes/governance/fm-proposal",
+        "toss://docs/protocol/processes/governance/protocol-proposal"
+      ]
+    },
+    {
+      "name": "toss_vote_on_proposal",
+      "description": "Cast vote on governance proposal",
+      "schemaUri": "toss://schemas/tools/vote.json",
+      "relatedDocs": [
+        "toss://docs/protocol/processes/governance/voting"
+      ]
+    },
+    {
+      "name": "toss_get_fund_info",
+      "description": "Get comprehensive fund information",
+      "schemaUri": "toss://schemas/tools/get-fund-info.json",
+      "relatedDocs": [
+        "toss://docs/protocol/contracts/fund/FundRegistry"
+      ]
+    },
+    {
+      "name": "toss_validate_trade",
+      "description": "Pre-validate trade before execution",
+      "schemaUri": "toss://schemas/tools/validate-trade.json",
+      "relatedDocs": [
+        "toss://docs/protocol/processes/risk-compliance/risk-validation",
+        "toss://docs/protocol/contracts/risk/RiskEngine"
+      ]
+    },
+    {
+      "name": "toss_calculate_required_stake",
+      "description": "Calculate TOSS stake required for fund",
+      "schemaUri": "toss://schemas/tools/calculate-stake.json",
+      "relatedDocs": [
+        "toss://docs/protocol/contracts/fund/FundFactory"
+      ]
+    },
+    {
+      "name": "toss_get_config_parameters",
+      "description": "Get current DAO configuration parameters",
+      "schemaUri": "toss://schemas/tools/get-config.json",
+      "relatedDocs": [
+        "toss://docs/protocol/tokenomics/config-layer",
+        "toss://docs/protocol/contracts/core/DAOConfigCore"
+      ]
+    }
+  ]
+}

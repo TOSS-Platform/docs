@@ -31,10 +31,10 @@ jobs:
         run: npm install
 
       - name: Generate MCP Resources
-        run: npm run generate-mcp || echo "MCP generation skipped"
+        run: npm run generate-mcp
 
       - name: Validate MCP Sync
-        run: npm run validate-mcp-sync || echo "MCP validation skipped"
+        run: npm run validate-mcp-sync
 
       - name: Build documentation
         run: npm run build

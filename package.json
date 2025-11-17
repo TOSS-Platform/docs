@@ -6,7 +6,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "prebuild": "npm run validate-mcp-sync || echo 'MCP validation skipped'",
+    "prebuild": "npm run validate-mcp-sync",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
@@ -15,9 +15,9 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "generate-mcp": "ts-node scripts/generate-mcp-resources.ts",
-    "validate-mcp-sync": "ts-node scripts/validate-mcp-sync.ts",
-    "calculate-doc-hash": "ts-node scripts/calculate-doc-hash.ts"
+    "generate-mcp": "tsx scripts/generate-mcp-resources.ts",
+    "validate-mcp-sync": "tsx scripts/validate-mcp-sync.ts",
+    "calculate-doc-hash": "tsx scripts/calculate-doc-hash.ts"
   },
   "dependencies": {
     "@docusaurus/core": "^3.9.2",
@@ -38,7 +38,7 @@
     "@docusaurus/types": "3.9.1",
     "@types/node": "^20.0.0",
     "glob": "^10.3.10",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.7.0",
     "typescript": "~5.2.2"
   },
   "browserslist": {

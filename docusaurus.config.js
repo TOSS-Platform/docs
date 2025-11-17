@@ -13,7 +13,13 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://docs.toss.fi',
+  // Production: https://docs.toss.fi
+  // Staging: https://staging.docs.toss.fi
+  // Vercel automatically sets VERCEL_URL, but we override with DOCUSAURUS_URL for specific domains
+  url: process.env.DOCUSAURUS_URL || 
+       (process.env.VERCEL_ENV === 'production' ? 'https://docs.toss.fi' : 'https://staging.docs.toss.fi') ||
+       (process.env.NODE_ENV === 'production' ? 'https://docs.toss.fi' : 'https://staging.docs.toss.fi') ||
+       'https://docs.toss.fi',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',

@@ -105,11 +105,27 @@ AI: [Retrieves trade execution process docs]
 
 ## Quick Start for AI
 
+### MCP Endpoints
+
+**Production**:
+- Manifest: `https://docs.toss.fi/mcp-version.json`
+- Resources: `https://docs.toss.fi/mcp-resources.json`
+- Resource Base: `https://docs.toss.fi/docs/`
+
+**Staging**:
+- Manifest: `https://staging.docs.toss.fi/mcp-version.json`
+- Resources: `https://staging.docs.toss.fi/mcp-resources.json`
+- Resource Base: `https://staging.docs.toss.fi/docs/`
+
 ### Accessing TOSS Documentation
 
 ```typescript
 // AI can request any documentation page
+// URI format: toss://docs/{path}
+// Resolves to: https://docs.toss.fi/docs/{path}.md
+
 const riskEngineDoc = await mcp.getResource("toss://docs/protocol/contracts/risk/RiskEngine");
+// Resolves to: https://docs.toss.fi/docs/protocol/contracts/risk/RiskEngine.md
 // Returns complete RiskEngine.md markdown
 
 // AI can now answer questions about RiskEngine

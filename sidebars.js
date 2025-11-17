@@ -232,6 +232,7 @@ const sidebars = {
         'mcp-integration/tools/overview',
         'mcp-integration/resources/overview',
         'mcp-integration/integration-guide',
+        'mcp-integration/cursor-setup',
         'mcp-integration/examples/overview',
         'mcp-integration/sync-system',
         'mcp-integration/development-workflow',

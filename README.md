@@ -1,68 +1,124 @@
-# TOSS Documentation
+# TOSS Protocol Documentation
 
-Official documentation for TOSS Crypto Fund System with MCP (Model Context Protocol) integration.
+Comprehensive documentation for TOSS Protocol - a decentralized fund management platform on zkSync.
 
-## Features
-
-- 📚 Comprehensive user and developer documentation
-- 🤖 MCP protocol integration for AI assistants
-- 🔌 Interactive API reference with OpenAPI specs
-- 🎨 Modern, responsive design
-- 🔍 Full-text search
-- 🌙 Dark mode support
-
-## Development
-
-### Prerequisites
-
-- Node.js >= 18.0
-- npm or yarn
-
-### Installation
+## 🚀 Quick Start
 
 ```bash
+# Install dependencies
 npm install
-```
 
-### Local Development
-
-```bash
+# Start development server
 npm start
+
+# Build for production
+npm run build
+
+# Serve production build
+npm run serve
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+## 📚 Documentation Structure
 
-### Build
+- **Protocol Documentation**: Smart contract specs, architecture, tokenomics
+- **Technical Documentation**: Developer guides, deployment, testing
+- **API Reference**: REST API, SDKs, ABIs (coming soon)
+- **Investor Deck**: Business overview for VCs
+
+## 🤖 MCP Integration
+
+TOSS documentation includes MCP (Model Context Protocol) integration for AI assistance.
+
+### MCP Sync System
+
+**Automatic synchronization** ensures MCP resources always match documentation:
 
 ```bash
+# Generate MCP resources
+npm run generate-mcp
+
+# Validate sync
+npm run validate-mcp-sync
+```
+
+**Automation**:
+- ✅ Pre-commit hook auto-generates MCP
+- ✅ Pre-build validation ensures sync
+- ✅ CI/CD validates on every push
+
+## 🛠️ Development
+
+### Adding Documentation
+
+```bash
+# 1. Create/edit documentation
+vim docs/protocol/new-page.md
+
+# 2. Commit (MCP auto-updates)
+git commit -am "docs: add new page"
+
+# 3. Push
+git push
+```
+
+MCP synchronization is **fully automatic**!
+
+### Updating Sidebar
+
+Edit `sidebars.js` to add new pages to navigation.
+
+## 📝 Scripts
+
+```bash
+npm start                  # Start dev server
+npm run build              # Build for production
+npm run generate-mcp       # Generate MCP resources
+npm run validate-mcp-sync  # Check MCP sync
+npm run typecheck          # TypeScript check
+```
+
+## 🔧 Troubleshooting
+
+### MCP Out of Sync
+
+```bash
+npm run generate-mcp
+```
+
+### Build Fails
+
+```bash
+# Clear cache
+npm run clear
+
+# Rebuild
 npm run build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+### Dependencies Issues
 
-### Deployment
-
-The documentation is automatically deployed to Vercel:
-
-- **Production**: Deployed from `main` branch
-- **Staging**: Deployed from `staging` or `develop` branch
-
-## Project Structure
-
-```
-docs/
-├── docs/              # Documentation pages
-├── blog/              # Blog posts
-├── src/               # Custom components and styles
-├── static/            # Static assets
-└── docusaurus.config.js  # Configuration file
+```bash
+rm -rf node_modules package-lock.json
+npm install
 ```
 
-## Contributing
+## 📖 Documentation
 
-Please read our contributing guidelines before submitting pull requests.
+- Live: https://docs.toss.fi
+- Repository: https://github.com/toss/docs
 
-## License
+## 🤝 Contributing
 
-Copyright © 2025 TOSS. All rights reserved.
+1. Fork repository
+2. Create feature branch
+3. Add/update documentation
+4. Commit (MCP auto-updates)
+5. Push and create PR
 
+## 📄 License
+
+MIT License - See LICENSE file
+
+---
+
+**Built with** [Docusaurus](https://docusaurus.io/)

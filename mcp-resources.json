@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2025-11-17T12:22:58.714Z",
-  "documentationHash": "ad1ed240c610474b5f76fb20f8ae6c5b3ab3dfb8081ce7a33976c1a65375395e",
-  "resourceCount": 129,
+  "generatedAt": "2025-11-17T18:12:33.691Z",
+  "documentationHash": "e8b0a1e5d49809f33fcef8e836b651b6c9bf1c00231353e882384ebfbaa16545",
+  "resourceCount": 130,
   "toolCount": 10,
   "resources": [
     {
@@ -150,9 +150,9 @@
       "name": "Welcome to TOSS Protocol",
       "description": "Documentation for Welcome to TOSS Protocol",
       "mimeType": "text/markdown",
-      "contentHash": "b1987693066bde04b0070edcb178babe89e3edb0126ecc5a6eb3419a4daa91c4",
-      "lastModified": "2025-11-17T09:21:33.862Z",
-      "size": 4960,
+      "contentHash": "d3024c92eed7af681e85a0962f16c490998459e40a991b23eb7c998d20220d3c",
+      "lastModified": "2025-11-17T12:55:23.566Z",
+      "size": 4952,
       "category": "general",
       "tags": [
         "general",
@@ -404,13 +404,29 @@
       ]
     },
     {
+      "uri": "toss://docs/mcp-integration/cursor-setup",
+      "name": "Cursor IDE Setup with TOSS MCP",
+      "description": "Documentation for Cursor IDE Setup with TOSS MCP",
+      "mimeType": "text/markdown",
+      "contentHash": "35966d9773831f16a0795593b249b9afde36083f1ba275e3318d3875570c0c4a",
+      "lastModified": "2025-11-17T12:42:59.306Z",
+      "size": 7160,
+      "category": "mcp",
+      "tags": [
+        "mcp",
+        "risk",
+        "governance",
+        "fund"
+      ]
+    },
+    {
       "uri": "toss://docs/mcp-integration/development-workflow",
       "name": "Development Workflow with MCP",
       "description": "Documentation for Development Workflow with MCP",
       "mimeType": "text/markdown",
-      "contentHash": "1e50ebb3ba6de70f17252be5fb918e758d204245f91dd216ba962f0aa27bd179",
-      "lastModified": "2025-11-17T12:07:36.194Z",
-      "size": 14009,
+      "contentHash": "5eeaaa3b634932024cfe1ca6d9549d76bbbb17b71f6caf66cea055db998fc5bb",
+      "lastModified": "2025-11-17T12:40:45.323Z",
+      "size": 15563,
       "category": "mcp",
       "tags": [
         "mcp",
@@ -439,12 +455,13 @@
       "name": "MCP Integration Guide",
       "description": "Documentation for MCP Integration Guide",
       "mimeType": "text/markdown",
-      "contentHash": "24f4945b4cdf6e6a9f332d0ff973bff8d2a6f0d4846bb58f704773beb9269965",
-      "lastModified": "2025-11-17T10:36:04.266Z",
-      "size": 1654,
+      "contentHash": "b4592ab60cd3eedb5d48dfd46ae74ca405b1eda32c4945ee3edeb10b640e0b33",
+      "lastModified": "2025-11-17T12:42:59.302Z",
+      "size": 4137,
       "category": "mcp",
       "tags": [
         "mcp",
+        "risk",
         "fund"
       ]
     },
@@ -453,9 +470,9 @@
       "name": "MCP Integration Overview",
       "description": "Documentation for MCP Integration Overview",
       "mimeType": "text/markdown",
-      "contentHash": "59b88d4488075f34cedb935e4530b0310e541207d136029ff56f667f9c304d04",
-      "lastModified": "2025-11-17T10:36:04.266Z",
-      "size": 9366,
+      "contentHash": "fc2cffc944c0d09bffe1f7d6fc1907e71a0613fd068972af81b5d430b7793306",
+      "lastModified": "2025-11-17T12:40:17.552Z",
+      "size": 9913,
       "category": "mcp",
       "tags": [
         "mcp",
@@ -471,9 +488,9 @@
       "name": "MCP Resources Overview",
       "description": "Documentation for MCP Resources Overview",
       "mimeType": "text/markdown",
-      "contentHash": "0efab45b0d7acbd7c8f7ef6630e1603a9bb876f4d3232906c11005f1d4489ad7",
-      "lastModified": "2025-11-17T10:36:04.266Z",
-      "size": 1638,
+      "contentHash": "762fc7c5b1d1c3bb012e688ae5cdb739ec512ed77cf9ba39558190727eeea7d0",
+      "lastModified": "2025-11-17T12:40:45.323Z",
+      "size": 2536,
       "category": "mcp",
       "tags": [
         "mcp",
@@ -684,12 +701,13 @@
       "name": "BridgeGateway.sol",
       "description": "Documentation for BridgeGateway.sol",
       "mimeType": "text/markdown",
-      "contentHash": "3eebaa35f736b8d8e86ebce1baba10215fba14cf41cd6fa75e085f4aeb1cd48c",
-      "lastModified": "2025-11-17T09:41:38.030Z",
-      "size": 2305,
+      "contentHash": "504460aef6ce054c646a88639441018245772ebb7e1602e9d10b10589156df17",
+      "lastModified": "2025-11-17T14:25:21.843Z",
+      "size": 7431,
       "category": "contracts",
       "tags": [
         "contracts",
+        "governance",
         "zksync"
       ]
     },
@@ -698,9 +716,9 @@
       "name": "DAOConfigCore.sol",
       "description": "Documentation for DAOConfigCore.sol",
       "mimeType": "text/markdown",
-      "contentHash": "f6e84eab8fc7dc1d26e8d2b1e376a4041cd9620f5daa1fd6e614e4b6e6247c72",
-      "lastModified": "2025-11-17T10:19:02.928Z",
-      "size": 14913,
+      "contentHash": "72833287aba4fbe228d60f34384671ecd8ee3831761e393dc9443adc8c74f748",
+      "lastModified": "2025-11-17T14:25:25.870Z",
+      "size": 22315,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -715,13 +733,14 @@
       "name": "RewardDistributor.sol",
       "description": "Documentation for RewardDistributor.sol",
       "mimeType": "text/markdown",
-      "contentHash": "ab52c7a26b4ff0591c7dd787f8720b3029f5ac29332a813eee722b49df9363a9",
-      "lastModified": "2025-11-17T09:41:38.030Z",
-      "size": 1956,
+      "contentHash": "360b8fb2ba403f168ab2ee3c2bb34c9ae3b1e22e68fefa4d2a4e800730f6028c",
+      "lastModified": "2025-11-17T14:34:26.973Z",
+      "size": 6891,
       "category": "contracts",
       "tags": [
         "contracts",
-        "governance"
+        "governance",
+        "fund"
       ]
     },
     {
@@ -729,9 +748,9 @@
       "name": "TOSS.sol",
       "description": "Documentation for TOSS.sol",
       "mimeType": "text/markdown",
-      "contentHash": "3e492ea57ee78992f73b99235e4dab727b5a31151f03c43ba174072cc9156e30",
-      "lastModified": "2025-11-17T09:41:38.030Z",
-      "size": 20916,
+      "contentHash": "679360e87d798b1ad619bf2221ba7a70fba6e7457be05bf848c9084e6a40a2f4",
+      "lastModified": "2025-11-17T14:25:12.210Z",
+      "size": 27871,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -746,9 +765,9 @@
       "name": "TOSSChainState.sol",
       "description": "Documentation for TOSSChainState.sol",
       "mimeType": "text/markdown",
-      "contentHash": "412684906572732dbc1614cca8b80c2229a135833f02304612bf1da38997e355",
-      "lastModified": "2025-11-17T09:41:38.030Z",
-      "size": 2481,
+      "contentHash": "fba106ed46632a1cda4623fcc3cd08faa8ef9c5f2174e0e1ccebc747fd47f7cf",
+      "lastModified": "2025-11-17T14:25:23.928Z",
+      "size": 8830,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -762,9 +781,9 @@
       "name": "TOSSTreasury.sol",
       "description": "Documentation for TOSSTreasury.sol",
       "mimeType": "text/markdown",
-      "contentHash": "77e6d4b782a8889dec4c544654b17415cad991810a7fd72ca075978c582075a4",
-      "lastModified": "2025-11-17T09:41:38.030Z",
-      "size": 14606,
+      "contentHash": "4002db240836c354ef0c90f3a6cb90291dd5d6c174fa50f1f4b216dec939a226",
+      "lastModified": "2025-11-17T14:25:14.525Z",
+      "size": 23957,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -777,12 +796,13 @@
       "name": "FundConfig.sol",
       "description": "Documentation for FundConfig.sol",
       "mimeType": "text/markdown",
-      "contentHash": "5a73283790a9be9f7f7647db0dba655d4e6768c9521c3c6b59d9843a16db3031",
-      "lastModified": "2025-11-17T09:44:42.793Z",
-      "size": 5407,
+      "contentHash": "40222a399aad0c1ac2d95bade020cee78c2a46377aa39364f16963eacb4839c0",
+      "lastModified": "2025-11-17T14:32:27.418Z",
+      "size": 10804,
       "category": "contracts",
       "tags": [
         "contracts",
+        "risk",
         "governance",
         "fund"
       ]
@@ -792,9 +812,9 @@
       "name": "FundFactory.sol",
       "description": "Documentation for FundFactory.sol",
       "mimeType": "text/markdown",
-      "contentHash": "c1e40793cfc627467e9158e64cece646bf1b4c98f765c1cb420149dc08247016",
-      "lastModified": "2025-11-17T09:41:38.040Z",
-      "size": 14963,
+      "contentHash": "167ac97e1915697aef183b57cc08b922ea6a9dc8aec1ef6c14345e4b7d2e11d4",
+      "lastModified": "2025-11-17T14:25:28.010Z",
+      "size": 19762,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -809,9 +829,9 @@
       "name": "FundManagerVault.sol",
       "description": "Documentation for FundManagerVault.sol",
       "mimeType": "text/markdown",
-      "contentHash": "e1ce86918b680cbd26c012eeb0b962e40a06b9ad3211cc44acb9531d1e3b3d39",
-      "lastModified": "2025-11-17T09:44:19.556Z",
-      "size": 11207,
+      "contentHash": "e4c2f88b873c472309676f2a7fc005983408d8026baa0fad97843887d375b732",
+      "lastModified": "2025-11-17T14:34:26.045Z",
+      "size": 20827,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -824,9 +844,9 @@
       "name": "FundRegistry.sol",
       "description": "Documentation for FundRegistry.sol",
       "mimeType": "text/markdown",
-      "contentHash": "eb182af3d3af3aedd3121cd77c65e9f8b6fe65a2e04ff72f9b39e239c89d0a8f",
-      "lastModified": "2025-11-17T09:44:17.433Z",
-      "size": 3811,
+      "contentHash": "a278e5f9c5d3edf2a4df488769c9167512661598e6f2dda1d766af42378ffeef",
+      "lastModified": "2025-11-17T14:34:26.066Z",
+      "size": 8821,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -838,9 +858,9 @@
       "name": "FundTradeExecutor.sol",
       "description": "Documentation for FundTradeExecutor.sol",
       "mimeType": "text/markdown",
-      "contentHash": "d6344f84b9961c9b5f660641be6c61c659f275ab631e1f7ca410f7fefc50bf23",
-      "lastModified": "2025-11-17T09:45:11.272Z",
-      "size": 3931,
+      "contentHash": "cff5b2cb66259702b1a74cc0a3b7389c3da9e307f9583f47d48c8b864eb596ff",
+      "lastModified": "2025-11-17T14:25:43.834Z",
+      "size": 9869,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -871,13 +891,14 @@
       "name": "FMGovernance.sol",
       "description": "Documentation for FMGovernance.sol",
       "mimeType": "text/markdown",
-      "contentHash": "3774ad00e94c8307ff49d028386c895cfb02898ab1c5820113e0ac707de2ee8b",
-      "lastModified": "2025-11-17T09:50:56.309Z",
-      "size": 1678,
+      "contentHash": "5f4d92f7a234edcff6e88a011ed7c9505e36dd62426556fd495d8e07c8a58d9d",
+      "lastModified": "2025-11-17T14:34:28.790Z",
+      "size": 9037,
       "category": "contracts",
       "tags": [
         "contracts",
-        "governance"
+        "governance",
+        "fund"
       ]
     },
     {
@@ -885,9 +906,9 @@
       "name": "FundGovernance.sol",
       "description": "Documentation for FundGovernance.sol",
       "mimeType": "text/markdown",
-      "contentHash": "4b080f122c364b2b1afdc5ff1e3e7127333f71563cdf8d224b413879a14b1942",
-      "lastModified": "2025-11-17T09:50:56.309Z",
-      "size": 2202,
+      "contentHash": "9b7bb41ba1a7f535580363e033578435ad593ea55c52a014744d31ac786458ec",
+      "lastModified": "2025-11-17T14:34:26.045Z",
+      "size": 9517,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -900,13 +921,14 @@
       "name": "ProtocolGovernance.sol",
       "description": "Documentation for ProtocolGovernance.sol",
       "mimeType": "text/markdown",
-      "contentHash": "1011923a433d08ab6ce9e8914980155eb6f44f8d47f09f787f8319021143a13b",
-      "lastModified": "2025-11-17T09:50:56.318Z",
-      "size": 2095,
+      "contentHash": "f244e959e820636b2d981af776a9663448aa51fd5ac23c31ae54b524c3abda01",
+      "lastModified": "2025-11-17T14:26:05.341Z",
+      "size": 11235,
       "category": "contracts",
       "tags": [
         "contracts",
-        "governance"
+        "governance",
+        "fund"
       ]
     },
     {
@@ -914,9 +936,9 @@
       "name": "VoterRegistry.sol",
       "description": "Documentation for VoterRegistry.sol",
       "mimeType": "text/markdown",
-      "contentHash": "9f10e84e625931de69b707dfc1682d67255ce8c054c669c5c6caa2c406b68d94",
-      "lastModified": "2025-11-17T09:50:56.318Z",
-      "size": 1561,
+      "contentHash": "08d6410b0f1ac540cb585831abf7b9f326bef88e5d2d3ddb20d3c14dcc230bed",
+      "lastModified": "2025-11-17T14:26:06.505Z",
+      "size": 8715,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -929,9 +951,9 @@
       "name": "InvestorPenaltyEngine.sol",
       "description": "Documentation for InvestorPenaltyEngine.sol",
       "mimeType": "text/markdown",
-      "contentHash": "08ecaf02ec69c00c30d7b8f4d63156d7d54063a6c235076b85239379439f92dc",
-      "lastModified": "2025-11-17T09:50:56.318Z",
-      "size": 661,
+      "contentHash": "f4af1ac3e13240d566f4c3daa4bc4750b9f885c8f06edf722ae32b3a3e9e21cc",
+      "lastModified": "2025-11-17T14:28:49.071Z",
+      "size": 7078,
       "category": "contracts",
       "tags": [
         "contracts"
@@ -942,9 +964,9 @@
       "name": "InvestorRegistry.sol",
       "description": "Documentation for InvestorRegistry.sol",
       "mimeType": "text/markdown",
-      "contentHash": "5d4e63bec6595ea2a92d1bce159a62d4150e47064009b722deea37ec24b70638",
-      "lastModified": "2025-11-17T09:50:56.318Z",
-      "size": 3043,
+      "contentHash": "ff0bcb27f391e6d8ea79f56e1d09ccaae1cee6d938355646b1016231fcaef3b2",
+      "lastModified": "2025-11-17T14:27:48.484Z",
+      "size": 8613,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -956,13 +978,14 @@
       "name": "InvestorRewardEngine.sol",
       "description": "Documentation for InvestorRewardEngine.sol",
       "mimeType": "text/markdown",
-      "contentHash": "64a005c271b4aa85c6e7096c4daee4ca93d7cddfb0dc0d4be17878a1930fdaeb",
-      "lastModified": "2025-11-17T09:50:56.318Z",
-      "size": 685,
+      "contentHash": "3fa4e50514b686325a0a927ecedd2ef03e3dc10fa4ab439882072df2d161184a",
+      "lastModified": "2025-11-17T14:29:08.592Z",
+      "size": 7346,
       "category": "contracts",
       "tags": [
         "contracts",
-        "governance"
+        "governance",
+        "fund"
       ]
     },
     {
@@ -970,13 +993,14 @@
       "name": "InvestorScoreCalculator.sol",
       "description": "Documentation for InvestorScoreCalculator.sol",
       "mimeType": "text/markdown",
-      "contentHash": "ae199db9cbc132199f186c19ba2c27afbbee59dad4cd2474a58cf434b695cacd",
-      "lastModified": "2025-11-17T09:50:56.318Z",
-      "size": 1696,
+      "contentHash": "cf530b106420647e3826124ed68704d78c5199bb7561f8c0b9f54964980a2267",
+      "lastModified": "2025-11-17T14:28:35.662Z",
+      "size": 7672,
       "category": "contracts",
       "tags": [
         "contracts",
-        "governance"
+        "governance",
+        "fund"
       ]
     },
     {
@@ -984,9 +1008,9 @@
       "name": "InvestorStateMachine.sol",
       "description": "Documentation for InvestorStateMachine.sol",
       "mimeType": "text/markdown",
-      "contentHash": "f91a35dab9c8ab8b2009f999a95a433d4adcf2b46a6e84debc7f55d522c67de6",
-      "lastModified": "2025-11-17T09:50:56.318Z",
-      "size": 1366,
+      "contentHash": "bff522cff367a03723f90507536deb9052ffc6a7d43aa443c0e3e998baf6fc9a",
+      "lastModified": "2025-11-17T14:28:37.697Z",
+      "size": 7253,
       "category": "contracts",
       "tags": [
         "contracts"
@@ -1015,13 +1039,13 @@
       "name": "FundRiskDomain.sol",
       "description": "Documentation for FundRiskDomain.sol",
       "mimeType": "text/markdown",
-      "contentHash": "c526b402b006202b11043884332d99f32519c3e8e7bfd543cf9fdd2380f1f71b",
-      "lastModified": "2025-11-17T09:50:56.293Z",
-      "size": 2930,
+      "contentHash": "16901f4abbe72f1bdc51c07f83688691d140a9ab1d42e9f2dbf57caa26bc07ca",
+      "lastModified": "2025-11-17T14:34:26.066Z",
+      "size": 8586,
       "category": "contracts",
       "tags": [
         "contracts",
-        "slashing",
+        "risk",
         "fund"
       ]
     },
@@ -1030,12 +1054,13 @@
       "name": "IntentDetection.sol",
       "description": "Documentation for IntentDetection.sol",
       "mimeType": "text/markdown",
-      "contentHash": "5093d5150811d04f6cbc5c34026d856a264b0c986eb457e44dd08f4935fd4587",
-      "lastModified": "2025-11-17T09:50:56.301Z",
-      "size": 1192,
+      "contentHash": "dd3d6de202344603eda7feffe096b3731615a6eade9ae01aa11a30084897c2a8",
+      "lastModified": "2025-11-17T14:34:26.045Z",
+      "size": 5858,
       "category": "contracts",
       "tags": [
         "contracts",
+        "risk",
         "fund"
       ]
     },
@@ -1044,12 +1069,13 @@
       "name": "InvestorRiskDomain.sol",
       "description": "Documentation for InvestorRiskDomain.sol",
       "mimeType": "text/markdown",
-      "contentHash": "f43a82c90a6248bad5ae2bbf045b9babc5a653b61d1cd5a935ec93465ce35884",
-      "lastModified": "2025-11-17T09:50:56.293Z",
-      "size": 2122,
+      "contentHash": "639d5153c471e99760f32d2a4fffe1e43963f12a82e1237741ac3657994f4ccf",
+      "lastModified": "2025-11-17T14:27:05.031Z",
+      "size": 6936,
       "category": "contracts",
       "tags": [
         "contracts",
+        "risk",
         "fund"
       ]
     },
@@ -1058,9 +1084,9 @@
       "name": "PenaltyEngine.sol",
       "description": "Documentation for PenaltyEngine.sol",
       "mimeType": "text/markdown",
-      "contentHash": "1c4f79c83cfd01f5c42e78111a61cfbdf1e334bbaa02c9afe56eac856f4c0674",
-      "lastModified": "2025-11-17T09:50:56.300Z",
-      "size": 1291,
+      "contentHash": "f4ab59d6b38f49c5092ef25558a9cdde5c7ef2e328b911281d0873612d78c921",
+      "lastModified": "2025-11-17T14:26:18.856Z",
+      "size": 6045,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -1073,12 +1099,13 @@
       "name": "ProtocolRiskDomain.sol",
       "description": "Documentation for ProtocolRiskDomain.sol",
       "mimeType": "text/markdown",
-      "contentHash": "4076ebca28791e7d1f05f4f4e690b723124ef60abf2346b41e0d8fd19e4ad6fb",
-      "lastModified": "2025-11-17T09:50:56.293Z",
-      "size": 1653,
+      "contentHash": "b59e4baba7bffee3470731280fbff525002964121ffa43aa9867d0c6bcc26fa1",
+      "lastModified": "2025-11-17T14:34:22.596Z",
+      "size": 5954,
       "category": "contracts",
       "tags": [
         "contracts",
+        "risk",
         "zksync",
         "fund"
       ]
@@ -1088,9 +1115,9 @@
       "name": "RiskEngine.sol",
       "description": "Documentation for RiskEngine.sol",
       "mimeType": "text/markdown",
-      "contentHash": "22ae8b2568ed7127b5ff57d3bb4e2bfb829f98d50c7639ef266458f12e30c165",
-      "lastModified": "2025-11-17T09:50:56.318Z",
-      "size": 12133,
+      "contentHash": "d0ba9b9bca532562dae09ae56e21659eb72ed42fb25f486648051ec1f541fa4e",
+      "lastModified": "2025-11-17T14:33:55.815Z",
+      "size": 17032,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -1104,12 +1131,13 @@
       "name": "RiskMathLib.sol",
       "description": "Documentation for RiskMathLib.sol",
       "mimeType": "text/markdown",
-      "contentHash": "484034d671a6f4bb68f42a37f9dc9a5b716b875ec9dbca38ed42851b73667159",
-      "lastModified": "2025-11-17T09:50:56.305Z",
-      "size": 1751,
+      "contentHash": "b780def6d61084ccbe56ad7035edd6ad70e4356784b13416315d7c33ad0257a6",
+      "lastModified": "2025-11-17T14:34:26.045Z",
+      "size": 6793,
       "category": "contracts",
       "tags": [
         "contracts",
+        "risk",
         "governance"
       ]
     },
@@ -1118,9 +1146,9 @@
       "name": "SlashingEngine.sol",
       "description": "Documentation for SlashingEngine.sol",
       "mimeType": "text/markdown",
-      "contentHash": "61f80fb0390eafa332a76cb80f3672819e5ef67a9f3032a6a7060561322291c6",
-      "lastModified": "2025-11-17T09:50:56.293Z",
-      "size": 5538,
+      "contentHash": "b421fc36a376145b5e8bc34ac54fb1e54b1112cd956c6fee584f0270417ea9d5",
+      "lastModified": "2025-11-17T14:32:27.418Z",
+      "size": 11516,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -1134,12 +1162,14 @@
       "name": "AMLGuard.sol",
       "description": "Documentation for AMLGuard.sol",
       "mimeType": "text/markdown",
-      "contentHash": "e219ee6a1d5a2de3e1354551ffe8e793755dff45480e45f6a57d63209a09027a",
-      "lastModified": "2025-11-17T09:50:56.318Z",
-      "size": 1149,
+      "contentHash": "32aae013c3b0ace795be4b46235f0ca77c8e6c20a08d4952aab71b7ef7892945",
+      "lastModified": "2025-11-17T14:32:27.412Z",
+      "size": 8018,
       "category": "contracts",
       "tags": [
-        "contracts"
+        "contracts",
+        "governance",
+        "fund"
       ]
     },
     {
@@ -1147,9 +1177,9 @@
       "name": "AnalyticsHub.sol",
       "description": "Documentation for AnalyticsHub.sol",
       "mimeType": "text/markdown",
-      "contentHash": "4727f903042daa3bbc4c398266399c0ea17179802a4bc1fec670845bce21c500",
-      "lastModified": "2025-11-17T09:50:56.318Z",
-      "size": 1531,
+      "contentHash": "564ac01f20025975e98e5720fd95f895a6543459fc0757681f7c4a78e83a57aa",
+      "lastModified": "2025-11-17T14:34:23.973Z",
+      "size": 8607,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -1162,9 +1192,9 @@
       "name": "GasVault.sol",
       "description": "Documentation for GasVault.sol",
       "mimeType": "text/markdown",
-      "contentHash": "7fc5342746f124d988af566ba4eba19958abe8222a28a90e8624f6828da9fbe6",
-      "lastModified": "2025-11-17T09:50:56.318Z",
-      "size": 1066,
+      "contentHash": "484f515bd2f2f26ae01840c8b42656347b118a8ff3180a0ba408cad6c67f874f",
+      "lastModified": "2025-11-17T14:32:27.412Z",
+      "size": 7689,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -1177,12 +1207,13 @@
       "name": "PriceOracleRouter.sol",
       "description": "Documentation for PriceOracleRouter.sol",
       "mimeType": "text/markdown",
-      "contentHash": "805bec3a7d2500425e3b323c504edf5f09f4e0f4e5a7fb7720a64ac03ce9f1ea",
-      "lastModified": "2025-11-17T09:50:56.318Z",
-      "size": 3467,
+      "contentHash": "b4f38975e5c138a528b354f5011abc95579785db9750d0a3773e4d2e6eec91d3",
+      "lastModified": "2025-11-17T14:34:28.790Z",
+      "size": 9867,
       "category": "contracts",
       "tags": [
         "contracts",
+        "risk",
         "governance"
       ]
     },
@@ -1254,9 +1285,9 @@
       "name": "Protocol Documentation",
       "description": "Documentation for Protocol Documentation",
       "mimeType": "text/markdown",
-      "contentHash": "0c6c2b2c91b6121e1240f0aaccd15e08e35e5cc9873c78d6fafc84c16bd47cb0",
-      "lastModified": "2025-11-17T09:21:33.862Z",
-      "size": 4224,
+      "contentHash": "f20c2cca6462690a14ad444a4ed9ea44f8ba222288c5948e24f07b07d9fd4f0a",
+      "lastModified": "2025-11-17T14:07:28.924Z",
+      "size": 10500,
       "category": "general",
       "tags": [
         "general",

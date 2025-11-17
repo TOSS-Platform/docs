@@ -1,0 +1,116 @@
+{
+  "tools": [
+    {
+      "name": "get_portfolio",
+      "description": "Get current portfolio holdings and valuation",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fundId"],
+        "properties": {
+          "fundId": {
+            "type": "string",
+            "description": "Fund identifier",
+            "format": "uuid"
+          },
+          "includeHistory": {
+            "type": "boolean",
+            "description": "Include historical data",
+            "default": false
+          }
+        }
+      }
+    },
+    {
+      "name": "get_portfolio_performance",
+      "description": "Calculate portfolio performance metrics",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fundId"],
+        "properties": {
+          "fundId": {
+            "type": "string",
+            "description": "Fund identifier",
+            "format": "uuid"
+          },
+          "period": {
+            "type": "string",
+            "enum": ["1d", "7d", "30d", "90d", "1y", "all"],
+            "description": "Time period for performance calculation",
+            "default": "30d"
+          }
+        }
+      }
+    },
+    {
+      "name": "get_asset_allocation",
+      "description": "Get current asset allocation breakdown",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fundId"],
+        "properties": {
+          "fundId": {
+            "type": "string",
+            "description": "Fund identifier",
+            "format": "uuid"
+          },
+          "groupBy": {
+            "type": "string",
+            "enum": ["asset", "type", "sector"],
+            "description": "How to group the allocation",
+            "default": "asset"
+          }
+        }
+      }
+    },
+    {
+      "name": "rebalance_portfolio",
+      "description": "Rebalance portfolio to target allocation",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fundId", "targetAllocation"],
+        "properties": {
+          "fundId": {
+            "type": "string",
+            "description": "Fund identifier",
+            "format": "uuid"
+          },
+          "targetAllocation": {
+            "type": "object",
+            "description": "Target allocation percentages by asset",
+            "additionalProperties": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          },
+          "dryRun": {
+            "type": "boolean",
+            "description": "Preview rebalancing without executing",
+            "default": false
+          }
+        }
+      }
+    }
+  ],
+  "resources": [
+    {
+      "uri": "portfolio://{fundId}",
+      "name": "Portfolio Overview",
+      "description": "Current portfolio state and holdings",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "portfolio://{fundId}/allocation",
+      "name": "Asset Allocation",
+      "description": "Detailed asset allocation breakdown",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "portfolio://{fundId}/performance",
+      "name": "Performance Metrics",
+      "description": "Performance metrics and analytics",
+      "mimeType": "application/json"
+    }
+  ]
+}
+

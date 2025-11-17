@@ -1,0 +1,16 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Check if any documentation files changed
+if git diff --cached --name-only | grep -q "^docs/.*\.md$"; then
+  echo "📚 Documentation changed, updating MCP resources..."
+  
+  # Generate MCP resources
+  npm run generate-mcp
+  
+  # Add generated files to commit
+  git add mcp-resources.json mcp-version.json
+  
+  echo "✅ MCP resources updated and added to commit"
+fi
+

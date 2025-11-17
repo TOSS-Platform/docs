@@ -1,0 +1,103 @@
+openapi: 3.0.3
+info:
+  title: TOSS MCP Protocol
+  version: 1.0.0
+  description: |
+    Model Context Protocol (MCP) integration for TOSS Crypto Fund System
+    
+    This protocol defines how AI assistants can interact with TOSS through standardized tools and resources.
+
+servers:
+  - url: mcp://toss.finance
+    description: MCP Protocol Endpoint
+
+tags:
+  - name: Tools
+    description: MCP tool definitions
+  - name: Resources
+    description: MCP resource definitions
+
+paths:
+  /tools/list:
+    get:
+      summary: List available MCP tools
+      description: Returns all available MCP tools for TOSS operations
+      operationId: listTools
+      tags:
+        - Tools
+      responses:
+        '200':
+          description: List of available tools
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tools:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tool'
+
+  /tools/call:
+    post:
+      summary: Call an MCP tool
+      description: Execute a specific MCP tool with provided arguments
+      operationId: callTool
+      tags:
+        - Tools
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolCall'
+      responses:
+        '200':
+          description: Tool execution result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolResult'
+
+components:
+  schemas:
+    Tool:
+      type: object
+      properties:
+        name:
+          type: string
+          example: create_fund
+        description:
+          type: string
+        inputSchema:
+          type: object
+    
+    ToolCall:
+      type: object
+      required:
+        - name
+        - arguments
+      properties:
+        name:
+          type: string
+        arguments:
+          type: object
+    
+    ToolResult:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum: [text, image, resource]
+              text:
+                type: string
+              data:
+                type: string
+              mimeType:
+                type: string
+

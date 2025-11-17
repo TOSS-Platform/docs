@@ -1,0 +1,89 @@
+name: Sync MCP Resources
+
+on:
+  push:
+    paths:
+      - 'docs/**/*.md'
+      - 'docs/**/*.mdx'
+    branches:
+      - main
+      - develop
+  pull_request:
+    paths:
+      - 'docs/**/*.md'
+      - 'docs/**/*.mdx'
+
+jobs:
+  validate-mcp-sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Calculate current documentation hash
+        id: doc-hash
+        run: |
+          HASH=$(npm run calculate-doc-hash --silent)
+          echo "hash=$HASH" >> $GITHUB_OUTPUT
+          echo "Current doc hash: $HASH"
+      
+      - name: Check if MCP needs update
+        id: check-sync
+        run: |
+          if [ -f "mcp-version.json" ]; then
+            CURRENT_HASH=$(cat mcp-version.json | jq -r '.documentationHash')
+            NEW_HASH=${{ steps.doc-hash.outputs.hash }}
+            
+            echo "MCP hash: $CURRENT_HASH"
+            echo "Doc hash: $NEW_HASH"
+            
+            if [ "$CURRENT_HASH" != "$NEW_HASH" ]; then
+              echo "needs_update=true" >> $GITHUB_OUTPUT
+              echo "⚠️  MCP needs update"
+            else
+              echo "needs_update=false" >> $GITHUB_OUTPUT
+              echo "✅ MCP is in sync"
+            fi
+          else
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "⚠️  mcp-version.json not found, generating..."
+          fi
+      
+      - name: Generate MCP resources
+        if: steps.check-sync.outputs.needs_update == 'true'
+        run: npm run generate-mcp
+      
+      - name: Validate MCP resources
+        run: npm run validate-mcp-sync
+      
+      - name: Commit MCP updates (if on push)
+        if: steps.check-sync.outputs.needs_update == 'true' && github.event_name == 'push'
+        run: |
+          git config user.name "MCP Bot"
+          git config user.email "bot@toss.finance"
+          git add mcp-resources.json mcp-version.json
+          git commit -m "chore: sync MCP resources with documentation [skip ci]" || echo "No changes to commit"
+          git push
+      
+      - name: Comment on PR (if on pull_request)
+        if: steps.check-sync.outputs.needs_update == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '⚠️ Documentation changed. MCP resources need regeneration.\n\nRun: `npm run generate-mcp` and commit the changes.'
+            })
+

@@ -1,0 +1,97 @@
+.toolCard {
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s;
+}
+
+.toolCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.toolHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.toolName {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--ifm-color-primary);
+}
+
+.toolBadge {
+  background: linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-primary-light) 100%);
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.toolDescription {
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.schemaSection,
+.examplesSection {
+  margin-top: 1.5rem;
+}
+
+.schemaSection h4,
+.examplesSection h4 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: var(--ifm-color-emphasis-800);
+}
+
+.schemaBlock {
+  background: var(--ifm-code-background);
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  margin: 0;
+}
+
+.examplesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.exampleItem {
+  background: var(--ifm-color-emphasis-100);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  border-left: 4px solid var(--ifm-color-info);
+}
+
+.exampleItem code {
+  background: transparent;
+  padding: 0;
+  border: none;
+  color: var(--ifm-color-emphasis-900);
+}
+
+@media (max-width: 996px) {
+  .toolHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
+

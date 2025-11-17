@@ -1,0 +1,139 @@
+{
+  "tools": [
+    {
+      "name": "create_transaction",
+      "description": "Create a new transaction (deposit, withdrawal, or transfer)",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fundId", "type", "amount", "asset"],
+        "properties": {
+          "fundId": {
+            "type": "string",
+            "description": "Fund identifier",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["deposit", "withdrawal", "buy", "sell", "transfer"],
+            "description": "Type of transaction"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Transaction amount",
+            "minimum": 0,
+            "exclusiveMinimum": true
+          },
+          "asset": {
+            "type": "string",
+            "description": "Asset symbol (e.g., BTC, ETH, USD)",
+            "pattern": "^[A-Z]{3,10}$"
+          },
+          "price": {
+            "type": "number",
+            "description": "Price per unit (for buy/sell transactions)",
+            "minimum": 0
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes about the transaction",
+            "maxLength": 500
+          }
+        }
+      }
+    },
+    {
+      "name": "get_transaction",
+      "description": "Retrieve details of a specific transaction",
+      "inputSchema": {
+        "type": "object",
+        "required": ["transactionId"],
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "description": "Unique transaction identifier",
+            "format": "uuid"
+          }
+        }
+      }
+    },
+    {
+      "name": "list_transactions",
+      "description": "List transactions with filtering and pagination",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "fundId": {
+            "type": "string",
+            "description": "Filter by fund ID",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["deposit", "withdrawal", "buy", "sell", "transfer"],
+            "description": "Filter by transaction type"
+          },
+          "asset": {
+            "type": "string",
+            "description": "Filter by asset symbol"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Start date for filtering"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "End date for filtering"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "default": 1
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20
+          }
+        }
+      }
+    },
+    {
+      "name": "cancel_transaction",
+      "description": "Cancel a pending transaction",
+      "inputSchema": {
+        "type": "object",
+        "required": ["transactionId"],
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "description": "ID of transaction to cancel",
+            "format": "uuid"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for cancellation",
+            "maxLength": 200
+          }
+        }
+      }
+    }
+  ],
+  "resources": [
+    {
+      "uri": "transaction://{transactionId}",
+      "name": "Transaction Details",
+      "description": "Complete transaction information",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "fund://{fundId}/transactions",
+      "name": "Fund Transactions",
+      "description": "All transactions for a specific fund",
+      "mimeType": "application/json"
+    }
+  ]
+}
+

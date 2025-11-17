@@ -1,0 +1,120 @@
+{
+  "tools": [
+    {
+      "name": "get_analytics_summary",
+      "description": "Get comprehensive analytics summary for a fund",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fundId"],
+        "properties": {
+          "fundId": {
+            "type": "string",
+            "description": "Fund identifier",
+            "format": "uuid"
+          },
+          "period": {
+            "type": "string",
+            "enum": ["1d", "7d", "30d", "90d", "1y", "all"],
+            "default": "30d"
+          }
+        }
+      }
+    },
+    {
+      "name": "calculate_risk_metrics",
+      "description": "Calculate risk metrics including volatility, Sharpe ratio, etc.",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fundId"],
+        "properties": {
+          "fundId": {
+            "type": "string",
+            "description": "Fund identifier",
+            "format": "uuid"
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["volatility", "sharpe", "sortino", "max_drawdown", "var", "beta"]
+            },
+            "description": "Specific metrics to calculate"
+          }
+        }
+      }
+    },
+    {
+      "name": "compare_funds",
+      "description": "Compare performance of multiple funds",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fundIds"],
+        "properties": {
+          "fundIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "minItems": 2,
+            "maxItems": 10,
+            "description": "Fund IDs to compare"
+          },
+          "period": {
+            "type": "string",
+            "enum": ["1d", "7d", "30d", "90d", "1y", "all"],
+            "default": "30d"
+          }
+        }
+      }
+    },
+    {
+      "name": "generate_report",
+      "description": "Generate a detailed performance report",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fundId"],
+        "properties": {
+          "fundId": {
+            "type": "string",
+            "description": "Fund identifier",
+            "format": "uuid"
+          },
+          "reportType": {
+            "type": "string",
+            "enum": ["monthly", "quarterly", "annual", "custom"],
+            "default": "monthly"
+          },
+          "format": {
+            "type": "string",
+            "enum": ["pdf", "json", "csv"],
+            "default": "pdf"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    }
+  ],
+  "resources": [
+    {
+      "uri": "analytics://{fundId}/summary",
+      "name": "Analytics Summary",
+      "description": "Overview of fund analytics",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "analytics://{fundId}/risk",
+      "name": "Risk Metrics",
+      "description": "Risk assessment and metrics",
+      "mimeType": "application/json"
+    }
+  ]
+}
+

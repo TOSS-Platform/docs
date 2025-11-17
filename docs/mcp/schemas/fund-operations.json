@@ -1,0 +1,153 @@
+{
+  "tools": [
+    {
+      "name": "create_fund",
+      "description": "Create a new crypto fund with specified parameters",
+      "inputSchema": {
+        "type": "object",
+        "required": ["name", "currency"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the fund",
+            "minLength": 3,
+            "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the fund's purpose and strategy",
+            "maxLength": 500
+          },
+          "currency": {
+            "type": "string",
+            "enum": ["USD", "EUR", "BTC", "ETH"],
+            "description": "Base currency for the fund"
+          },
+          "initialDeposit": {
+            "type": "number",
+            "description": "Initial deposit amount in the base currency",
+            "minimum": 0
+          },
+          "strategy": {
+            "type": "string",
+            "enum": ["conservative", "balanced", "aggressive", "custom"],
+            "description": "Investment strategy type"
+          }
+        }
+      }
+    },
+    {
+      "name": "get_fund",
+      "description": "Retrieve detailed information about a specific fund",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fundId"],
+        "properties": {
+          "fundId": {
+            "type": "string",
+            "description": "Unique identifier of the fund",
+            "format": "uuid"
+          }
+        }
+      }
+    },
+    {
+      "name": "list_funds",
+      "description": "List all funds accessible to the user with optional filters",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["active", "paused", "closed"],
+            "description": "Filter by fund status"
+          },
+          "currency": {
+            "type": "string",
+            "enum": ["USD", "EUR", "BTC", "ETH"],
+            "description": "Filter by base currency"
+          },
+          "page": {
+            "type": "integer",
+            "description": "Page number for pagination",
+            "minimum": 1,
+            "default": 1
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Number of results per page",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20
+          }
+        }
+      }
+    },
+    {
+      "name": "update_fund",
+      "description": "Update fund settings and configuration",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fundId"],
+        "properties": {
+          "fundId": {
+            "type": "string",
+            "description": "Unique identifier of the fund",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "New name for the fund",
+            "minLength": 3,
+            "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "description": "Updated description",
+            "maxLength": 500
+          },
+          "strategy": {
+            "type": "string",
+            "enum": ["conservative", "balanced", "aggressive", "custom"],
+            "description": "Updated investment strategy"
+          }
+        }
+      }
+    },
+    {
+      "name": "close_fund",
+      "description": "Close a fund and liquidate all positions",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fundId"],
+        "properties": {
+          "fundId": {
+            "type": "string",
+            "description": "Unique identifier of the fund to close",
+            "format": "uuid"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for closing the fund",
+            "maxLength": 200
+          }
+        }
+      }
+    }
+  ],
+  "resources": [
+    {
+      "uri": "fund://{fundId}",
+      "name": "Fund Details",
+      "description": "Complete fund information including holdings and performance",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "fund://{fundId}/performance",
+      "name": "Fund Performance",
+      "description": "Historical performance data and metrics",
+      "mimeType": "application/json"
+    }
+  ]
+}
+

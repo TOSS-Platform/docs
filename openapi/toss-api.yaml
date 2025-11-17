@@ -1,0 +1,166 @@
+openapi: 3.0.3
+info:
+  title: TOSS API
+  version: 1.0.0
+  description: |
+    TOSS Crypto Fund System REST API
+    
+    This API provides endpoints for managing crypto funds, portfolios, and transactions.
+  contact:
+    name: TOSS Support
+    email: support@toss.finance
+    url: https://toss.finance
+  license:
+    name: Proprietary
+    url: https://toss.finance/license
+
+servers:
+  - url: https://api.toss.finance/v1
+    description: Production server
+  - url: https://api-staging.toss.finance/v1
+    description: Staging server
+
+tags:
+  - name: Funds
+    description: Fund management operations
+  - name: Portfolios
+    description: Portfolio tracking and management
+  - name: Transactions
+    description: Transaction operations
+  - name: Analytics
+    description: Analytics and reporting
+
+paths:
+  /funds:
+    get:
+      summary: List all funds
+      description: Retrieve a list of all funds accessible to the authenticated user
+      operationId: listFunds
+      tags:
+        - Funds
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Fund'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+    post:
+      summary: Create a new fund
+      description: Create a new crypto fund
+      operationId: createFund
+      tags:
+        - Funds
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFundRequest'
+      responses:
+        '201':
+          description: Fund created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fund'
+
+  /funds/{fundId}:
+    get:
+      summary: Get fund details
+      description: Retrieve details of a specific fund
+      operationId: getFund
+      tags:
+        - Funds
+      parameters:
+        - name: fundId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fund'
+
+components:
+  schemas:
+    Fund:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        totalValue:
+          type: number
+          format: double
+        currency:
+          type: string
+          enum: [USD, EUR, BTC, ETH]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    
+    CreateFundRequest:
+      type: object
+      required:
+        - name
+        - currency
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        currency:
+          type: string
+          enum: [USD, EUR, BTC, ETH]
+    
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        total:
+          type: integer
+        totalPages:
+          type: integer
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
+

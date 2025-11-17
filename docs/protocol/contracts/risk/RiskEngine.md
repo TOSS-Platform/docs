@@ -368,81 +368,88 @@ event ThresholdUpdated(
 
 ## Test Scenarios
 
-```typescript
-describe("RiskEngine - Validation", () => {
-  it("should approve trade within limits", async () => {
-    const params = createSafeTradeParams();
-    const { approved, faultIndex } = await riskEngine.validateTrade(fundId, params);
-    
-    expect(approved).to.be.true;
-    expect(faultIndex).to.be.lt(10);  // Below warning threshold
-  });
-  
-  it("should reject trade exceeding limits", async () => {
-    const params = createRiskyTradeParams();  // Exceeds PSL
-    const { approved, faultIndex } = await riskEngine.validateTrade(fundId, params);
-    
-    expect(approved).to.be.false;
-    expect(faultIndex).to.be.gte(30);  // Above slashing threshold
-  });
-  
-  it("should calculate FI correctly", async () => {
-    const fi = await riskEngine.calculateFaultIndex(
-      50,  // L: 50% limit breach
-      20,  // B: 20% behavior anomaly
-      30,  // D: 30% damage ratio
-      10   // I: 10% intent probability
-    );
-    
-    // FI = 0.45×50 + 0.25×20 + 0.20×30 + 0.10×10 = 22.5 + 5 + 6 + 1 = 34.5
-    expect(fi).to.be.closeTo(34, 1);
-  });
-  
-  it("should trigger slashing for high FI", async () => {
-    const params = createMaliciousTradeParams();
-    
-    await riskEngine.validateTrade(fundId, params);
-    
-    // Should emit SlashingTriggered event
-    const events = await riskEngine.queryFilter("SlashingTriggered");
-    expect(events.length).to.be.gt(0);
-  });
-  
-  it("should coordinate all domains", async () => {
-    // Mock domain responses
-    await protocolDomain.setHealth(true, 0);
-    await fundDomain.mockValidation(fundId, true, 15);
-    await investorDomain.mockValidation(fundId, true, 5);
-    
-    const { approved, faultIndex } = await riskEngine.validateTrade(fundId, params);
-    
-    // Should use worst FI from domains
-    expect(faultIndex).to.equal(15);
-  });
-});
+### Happy Path Tests
 
-describe("RiskEngine - Security", () => {
-  it("should prevent approval forgery", async () => {
-    const fakeApproval = ethers.utils.randomBytes(65);
-    
-    await expect(
-      tradeExecutor.executeTrade(fundId, params, fakeApproval)
-    ).to.be.revertedWith("Invalid approval");
-  });
-  
-  it("should prevent replay attacks", async () => {
-    const { approved, signature } = await riskEngine.validateTrade(fundId, params);
-    
-    // Use signature once - ok
-    await tradeExecutor.executeTrade(fundId, params, signature);
-    
-    // Try to reuse - fails
-    await expect(
-      tradeExecutor.executeTrade(fundId, params, signature)
-    ).to.be.revertedWith("Approval already used");
-  });
-});
-```
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Approve trade within limits | RiskEngine validates trade that meets all risk limits | Trade approved, faultIndex below warning threshold, approval signature generated |
+| Validate safe trade | TradeExecutor requests validation for trade within all limits | Validation succeeds, approved=true, faultIndex &lt; 10 |
+| Calculate FaultIndex correctly | RiskEngine calculates FI from L, B, D, I components | FI calculated as weighted sum: wL×L + wB×B + wD×D + wI×I, formula applied correctly |
+| Coordinate all domains | RiskEngine queries Protocol, Fund, and Investor domains | All domains checked, worst FI used, trade approved if all domains pass |
+| Generate approval signature | RiskEngine generates approval signature for validated trade | Signature generated correctly, can be verified by TradeExecutor |
+| Check fund health | RiskEngine checks overall fund health status | Fund health assessed, health status returned, faults identified |
+| Trigger manual review | Guardian triggers manual review for suspicious activity | Manual review flag set, ManualReviewTriggered event emitted |
+| Query validation result | Query previous validation result for trade | Returns approval status and faultIndex for trade |
+
+### Edge Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Trade exactly at limit | Trade exactly meets position size limit (PSL) | Trade approved at boundary, faultIndex at threshold |
+| Trade exactly at warning threshold | FaultIndex exactly equals warning threshold (e.g., 10) | Trade approved with warning, warning event emitted |
+| Trade exactly at slashing threshold | FaultIndex exactly equals slashing threshold (e.g., 30) | Trade may be approved or rejected depending on implementation, slashing triggered |
+| Calculate FI with zero components | Calculate FI with all components zero | FI equals 0, no fault detected |
+| Calculate FI with maximum components | Calculate FI with all components at maximum (100) | FI equals 100, maximum fault detected |
+| All domains pass | All three domains return healthy status | Trade approved, FI is zero or minimum |
+| Single domain fails | One domain fails, others pass | Worst FI used, trade rejected if FI above threshold |
+| Multiple domains fail | Multiple domains fail with different FIs | Worst FI used for overall assessment |
+
+### Failure Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Reject trade exceeding limits | RiskEngine validates trade that exceeds PSL or other limits | Trade rejected, approved=false, faultIndex ≥30, SlashingTriggered event emitted |
+| Reject trade with high FI | Trade has high FaultIndex above slashing threshold | Trade rejected, slashing triggered, SlashingTriggered event emitted |
+| Invalid trade parameters | TradeExecutor requests validation with invalid parameters | Transaction reverts with validation error |
+| Domain validation failure | One or more domains return unhealthy status | Trade rejected, faultIndex reflects worst domain FI |
+| Fund not found | Attempt to validate trade for non-existent fund | Transaction reverts with "Fund not found" error |
+| Validation during pause | Attempt to validate trade when protocol paused | Transaction reverts with "Protocol paused" error |
+
+### Security Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Prevent approval forgery | Attacker attempts to forge RiskEngine approval signature | Signature validation fails, forged approval rejected by TradeExecutor |
+| Prevent replay attacks | Attacker attempts to reuse approval signature multiple times | Signature marked as used or nonce-based, replay attempts rejected |
+| Prevent FI manipulation | Attempt to manipulate FaultIndex calculation | FI calculation deterministic, weights from DAOConfigCore, cannot manipulate |
+| Domain validation integrity | Verify domain responses cannot be forged | Domain contracts queried directly, responses cannot be spoofed |
+| Approval signature integrity | Verify approval signatures include all trade parameters | Signature includes all trade params, parameter substitution invalidates signature |
+| Weight manipulation prevention | Attempt to manipulate FI weights | Weights read from DAOConfigCore, cannot modify in calculation |
+| Slashing threshold enforcement | Verify slashing triggered correctly for high FI | Threshold enforced, slashing triggered when FI exceeds threshold |
+| Manual review authorization | Verify only Guardian can trigger manual review | Transaction reverts if not Guardian, manual review protected |
+
+### Access Control Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Validate trade by TradeExecutor | TradeExecutor requests trade validation | Transaction succeeds |
+| Validate trade by non-TradeExecutor | Non-TradeExecutor attempts to validate trade | Transaction succeeds (validation may be public) or reverts depending on implementation |
+| Trigger manual review by Guardian | Guardian triggers manual review | Transaction succeeds |
+| Trigger manual review by non-Guardian | Non-Guardian attempts to trigger manual review | Transaction reverts with "Not Guardian" |
+| Query functions by any address | Any address queries validation results, fund health | Queries succeed, read-only functions are public |
+
+### Integration Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Complete validation flow | TradeExecutor requests validation, RiskEngine validates, approval generated | Complete flow succeeds, trade can proceed if approved |
+| Domain coordination | RiskEngine queries all three domains, coordinates responses | All domains checked, worst FI used, validation accurate |
+| SlashingEngine integration | RiskEngine triggers slashing via SlashingEngine | Slashing triggered correctly, FI passed to SlashingEngine |
+| TradeExecutor integration | RiskEngine approval verified by TradeExecutor | Approval signature verified, trade executed if valid |
+| DAOConfigCore integration | RiskEngine reads FI weights from DAOConfigCore | Weights read correctly, FI calculation uses current weights |
+| FundConfig integration | RiskEngine reads fund limits from FundConfig | Limits read correctly, validation uses current fund limits |
+| Multiple trade validations | Multiple trades validated simultaneously | All validations independent, no interference |
+| Approval signature lifecycle | Approval generated, used once, cannot be reused | Single-use approval, replay prevention works correctly |
+
+### Gas Optimization Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Trade validation gas | RiskEngine validates trade with all domain checks | Gas usage reasonable for validation operation |
+| FI calculation gas | RiskEngine calculates FaultIndex | Gas usage reasonable for calculation |
+| Approval signature generation gas | RiskEngine generates approval signature | Gas usage reasonable for signature generation |
+| Query operations gas | Multiple queries for validation results, fund health | View functions consume no gas (read-only) |
+| Batch validation gas | Multiple trades validated in sequence | Each validation uses similar gas, no gas accumulation |
 
 ---
 

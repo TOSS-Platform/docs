@@ -393,144 +393,101 @@ event MinimumStakeUpdated(uint256 oldValue, uint256 newValue);
 
 ## Test Scenarios
 
-### Happy Path
+### Happy Path Tests
 
-```typescript
-describe("FundFactory - Fund Creation", () => {
-  it("should create fund with valid parameters", async () => {
-    const config = {
-      fundClass: FundClass.BALANCED,
-      riskTier: RiskTier.TIER_2,
-      managementFee: 200,  // 2%
-      performanceFee: 2000,  // 20%
-      initialAUM: 0,
-    };
-    
-    const stakeAmount = ethers.utils.parseEther("10000");
-    await toss.connect(fm).approve(factory.address, stakeAmount);
-    
-    const tx = await factory.connect(fm).createFund(config, stakeAmount);
-    const receipt = await tx.wait();
-    
-    const event = receipt.events.find(e => e.event === 'FundCreated');
-    expect(event.args.manager).to.equal(fm.address);
-    expect(event.args.stakeAmount).to.equal(stakeAmount);
-  });
-  
-  it("should deploy fund as minimal proxy", async () => {
-    const { fundAddress } = await factory.connect(fm).createFund(config, stake);
-    
-    // Verify it's a proxy pointing to implementation
-    const code = await ethers.provider.getCode(fundAddress);
-    expect(code.length).to.be.lt(100);  // Minimal proxy is tiny
-  });
-  
-  it("should register fund in registry", async () => {
-    const { fundId, fundAddress } = await factory.connect(fm).createFund(config, stake);
-    
-    expect(await fundRegistry.getFundAddress(fundId)).to.equal(fundAddress);
-    expect(await fundRegistry.getFundManager(fundId)).to.equal(fm.address);
-  });
-});
-```
-
-### Failure Cases
-
-```typescript
-describe("FundFactory - Validations", () => {
-  it("should reject creation from ineligible FM", async () => {
-    await expect(
-      factory.connect(unregisteredFM).createFund(config, stake)
-    ).to.be.revertedWith("FM not eligible");
-  });
-  
-  it("should reject insufficient stake", async () => {
-    const requiredStake = await factory.getRequiredStake(1000000);  // $1M AUM
-    const insufficientStake = requiredStake.sub(1);
-    
-    await expect(
-      factory.connect(fm).createFund(config, insufficientStake)
-    ).to.be.revertedWith("Insufficient stake");
-  });
-  
-  it("should reject if FM is banned", async () => {
-    await slashingEngine.banFM(fm.address);
-    
-    await expect(
-      factory.connect(fm).createFund(config, stake)
-    ).to.be.revertedWith("FM banned");
-  });
-  
-  it("should reject invalid config", async () => {
-    const invalidConfig = { ...config, managementFee: 500 };  // 5% > max
-    
-    await expect(
-      factory.connect(fm).createFund(invalidConfig, stake)
-    ).to.be.revertedWith("Fee exceeds maximum");
-  });
-});
-```
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Create fund with valid parameters | Eligible FM creates fund with valid config and sufficient stake | Fund deployed as minimal proxy, registered in FundRegistry, stake locked, FundCreated event emitted |
+| Deploy fund as minimal proxy | FM creates fund, verify deployed contract is minimal proxy | Fund address contains minimal proxy code, points to implementation, gas-efficient deployment |
+| Register fund in registry | Fund created, verify registered correctly | Fund ID assigned, fund address registered, manager linked to fund ID |
+| Calculate required stake | Query required stake for projected AUM | Returns correct stake amount: minimumFMStake + (AUM × stakePerAUMRatio / 10000) |
+| Query FM stake | Query FM's stake for specific fund | Returns FMStake struct with amount, lockedAt timestamp, and active status |
+| Check FM eligibility | Query if FM can create fund | Returns bool and reason string indicating eligibility status |
+| Increase stake | FM adds more stake to existing fund for AUM growth | Additional stake locked, total stake updated, StakeIncreased event emitted |
+| Close fund | FM closes fund, all investors withdrawn, positions liquidated | Stake returned (minus slashing), fund marked as closed, FundClosed event emitted |
+| FM creates multiple funds | Same FM creates multiple funds with different configs | Each fund gets unique ID, all tracked correctly, FM can manage multiple funds |
+| Query funds created by FM | Query count of funds created by specific FM | Returns correct count, tracks all funds created by FM |
 
 ### Edge Cases
 
-```typescript
-describe("FundFactory - Edge Cases", () => {
-  it("should handle FM creating multiple funds", async () => {
-    const fund1 = await factory.connect(fm).createFund(config1, stake1);
-    const fund2 = await factory.connect(fm).createFund(config2, stake2);
-    
-    expect(fund1.fundId).to.not.equal(fund2.fundId);
-    expect(await factory.fundsCreatedByFM(fm.address)).to.equal(2);
-  });
-  
-  it("should calculate stake correctly for large AUM", async () => {
-    const largeAUM = ethers.utils.parseUnits("100000000", 6);  // $100M
-    const required = await factory.getRequiredStake(largeAUM);
-    
-    // minimumStake + (AUM × 0.001)
-    const expected = ethers.utils.parseEther("10000").add(
-      largeAUM.mul(10).div(10000)  // $100M × 0.1% = $100k
-    );
-    expect(required).to.equal(expected);
-  });
-});
-```
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Create fund with minimum stake | FM creates fund with exactly required minimum stake | Transaction succeeds, stake locked at minimum threshold |
+| Create fund with maximum allowed stake | FM creates fund with very large stake amount | Transaction succeeds, large stake locked successfully |
+| Calculate stake for zero AUM | Query required stake for $0 AUM | Returns minimumFMStake (base stake only) |
+| Calculate stake for very large AUM | Query required stake for $100M AUM | Returns minimumFMStake + (100M × stakePerAUMRatio / 10000) |
+| FM creates fund after previous fund closed | FM closes fund, then creates new fund | New fund created successfully, previous fund state doesn't affect new creation |
+| Increase stake to exact requirement | FM increases stake to exactly match new AUM requirement | Transaction succeeds, stake updated correctly |
+| Close fund with no slashing history | FM closes fund with perfect record, no slashing occurred | Full stake returned, no deductions |
+
+### Failure Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Create fund from ineligible FM | Unregistered or low-score FM attempts to create fund | Transaction reverts with "FM not eligible" error |
+| Create fund with insufficient stake | FM attempts to create fund with stake below requirement | Transaction reverts with "Insufficient stake" error |
+| Create fund when FM is banned | Banned FM attempts to create fund | Transaction reverts with "FM banned" error |
+| Create fund with invalid config | FM attempts to create fund with invalid fee rates or risk parameters | Transaction reverts with validation error (e.g., "Fee exceeds maximum") |
+| Create fund without TOSS approval | FM attempts to create fund without approving Factory to spend TOSS | Transaction reverts with "ERC20: insufficient allowance" error |
+| Create fund with insufficient TOSS balance | FM attempts to create fund but doesn't have enough TOSS | Transaction reverts with "ERC20: transfer amount exceeds balance" error |
+| Close fund from non-FM | Non-FM address attempts to close fund | Transaction reverts with "Not FM" error |
+| Close fund with active investors | FM attempts to close fund while investors still have deposits | Transaction reverts with "Fund has active investors" error |
+| Close fund with open positions | FM attempts to close fund with unfinalized trades | Transaction reverts with "Fund has open positions" error |
+| Increase stake from non-FM | Non-FM attempts to increase stake | Transaction reverts with "Not FM" error |
+| Increase stake for non-existent fund | FM attempts to increase stake for fund they don't manage | Transaction reverts with "Fund not found" or "Not FM" error |
+| Query stake for non-existent fund | Query stake for fund that doesn't exist | Returns default FMStake struct or reverts |
 
 ### Security Tests
 
-```typescript
-describe("FundFactory - Security", () => {
-  it("should prevent reentrancy during fund creation", async () => {
-    const maliciousCallback = await deployMaliciousContract();
-    
-    await expect(
-      factory.connect(maliciousCallback).createFund(config, stake)
-    ).to.be.reverted;  // Reentrancy guard triggers
-  });
-  
-  it("should lock stake immediately", async () => {
-    await factory.connect(fm).createFund(config, stake);
-    
-    // FM cannot withdraw stake
-    await expect(
-      factory.connect(fm).withdrawStake(fundId)
-    ).to.be.revertedWith("Fund still active");
-  });
-  
-  it("should only allow SlashingEngine to reduce stake", async () => {
-    await factory.connect(fm).createFund(config, stake);
-    
-    await expect(
-      factory.connect(attacker).slashStake(fundId, 1000)
-    ).to.be.revertedWith("Only SlashingEngine");
-    
-    // SlashingEngine can slash
-    await factory.connect(slashingEngine).slashStake(fundId, 1000);
-    const remaining = await factory.getFMStake(fm.address, fundId);
-    expect(remaining.amount).to.equal(stake.sub(1000));
-  });
-});
-```
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Prevent reentrancy during fund creation | Malicious contract attempts reentrancy during createFund | Reentrancy guard prevents recursive calls, transaction reverts |
+| Stake lock enforcement | FM attempts to withdraw stake while fund is active | Transaction reverts with "Fund still active" or "Stake locked" error |
+| Only SlashingEngine can slash stake | Attacker attempts to slash FM stake | Transaction reverts with "Only SlashingEngine" error, only SlashingEngine can reduce stake |
+| SlashingEngine slashing works | SlashingEngine slashes FM stake after slashing event | Stake reduced correctly, slashed amount tracked, FM cannot prevent slashing |
+| Fund implementation safety | Verify fund implementation cannot be changed maliciously | Implementation address immutable or changeable only by governance |
+| Stake calculation accuracy | Verify stake calculation cannot be manipulated | Formula enforced on-chain, calculations deterministic |
+| Multiple fund isolation | FM creates multiple funds, verify stake isolation | Each fund's stake tracked separately, no cross-fund stake access |
+| Factory authorization | Verify only Factory can register funds in registry | FundRegistry rejects registrations from non-Factory addresses |
+| FM score validation | Verify FM score checked before fund creation | Score queried from FMRegistry, minimum score enforced |
+| Ban status validation | Verify banned FM cannot create funds | Ban status checked before fund creation, banned FMs rejected |
+
+### Access Control Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Create fund by eligible FM | Eligible FM creates fund | Transaction succeeds |
+| Create fund by ineligible FM | Ineligible FM attempts to create fund | Transaction reverts with "FM not eligible" |
+| Close fund by FM | FM closes their fund | Transaction succeeds |
+| Close fund by non-FM | Non-FM attempts to close fund | Transaction reverts with "Not FM" |
+| Increase stake by FM | FM increases stake for their fund | Transaction succeeds |
+| Increase stake by non-FM | Non-FM attempts to increase stake | Transaction reverts with "Not FM" |
+| Query functions by any address | Any address queries stake, eligibility, required stake | Queries succeed, read-only functions are public |
+| Slash stake by SlashingEngine | SlashingEngine slashes FM stake | Transaction succeeds |
+| Slash stake by non-SlashingEngine | Non-SlashingEngine attempts to slash stake | Transaction reverts with "Only SlashingEngine" |
+
+### Integration Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| TOSS token approval flow | FM approves Factory, Factory pulls stake during fund creation | TOSS transferred correctly, allowance decreased, stake locked |
+| FundRegistry integration | Factory creates fund, registers in FundRegistry | Fund registered correctly, registry state updated |
+| FMRegistry eligibility check | Factory queries FM eligibility and score before fund creation | Eligibility and score checked correctly, fund creation respects requirements |
+| RiskEngine config validation | Factory validates fund config via RiskEngine | Config validated against risk tier limits, invalid configs rejected |
+| SlashingEngine integration | SlashingEngine slashes FM stake after slashing event | Stake reduced in Factory, SlashingEngine has access to stake |
+| Fund initialization | Factory deploys proxy, initializes fund with config | Fund initialized correctly, config set, manager assigned |
+| Multiple funds by same FM | FM creates multiple funds, all tracked correctly | Each fund independent, stake tracked separately, all funds active |
+| Fund closure and stake return | FM closes fund, stake returned after slashing deductions | Remaining stake returned to FM, accounting accurate |
+| Stake increase with AUM growth | Fund AUM grows, FM increases stake to meet requirement | New stake locked, total stake updated, requirements met |
+
+### Gas Optimization Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Fund creation gas usage | FM creates fund with minimal proxy | Gas usage reasonable, minimal proxy deployment gas-efficient |
+| Stake locking gas | Factory locks FM stake | Gas usage reasonable for stake locking operation |
+| Query operations gas | Multiple queries for required stake, FM stake, eligibility | View functions consume no gas (read-only) |
+| Batch fund creation gas | FM creates multiple funds in sequence | Each creation uses similar gas, no gas accumulation issues |
 
 ## Deployment Example
 

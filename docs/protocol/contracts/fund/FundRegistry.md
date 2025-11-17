@@ -141,31 +141,82 @@ function searchFunds(
 
 ## Test Scenarios
 
-```typescript
-describe("FundRegistry", () => {
-  it("should register fund correctly", async () => {
-    const fundId = await registry.connect(factory).registerFund(
-      fundAddress,
-      fm.address,
-      FundClass.BALANCED,
-      RiskTier.TIER_2
-    );
-    
-    expect(fundId).to.equal(1);
-    expect(await registry.addressToFundId(fundAddress)).to.equal(fundId);
-  });
-  
-  it("should filter funds by risk tier", async () => {
-    // Create multiple funds
-    await createFund(FundClass.STABLE, RiskTier.TIER_1);
-    await createFund(FundClass.BALANCED, RiskTier.TIER_2);
-    await createFund(FundClass.ALPHA, RiskTier.TIER_1);
-    
-    const tier1Funds = await registry.getFundsByRiskTier(RiskTier.TIER_1);
-    expect(tier1Funds.length).to.equal(2);
-  });
-});
-```
+### Happy Path Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Register fund correctly | FundFactory registers new fund with manager, class, and tier | Fund ID assigned, fund address registered, metadata stored, FundRegistered event emitted |
+| Map address to fund ID | After registration, verify fund address maps to fund ID | addressToFundId mapping created correctly, reverse lookup works |
+| Query fund metadata | Query fund metadata by fund ID | Returns FundMetadata struct with all fund information |
+| Get funds by risk tier | Query all funds in specific risk tier | Returns array of fund IDs in that tier |
+| Get funds by class | Query all funds of specific fund class | Returns array of fund IDs in that class |
+| Get funds by status | Query all funds with specific status (ACTIVE, PAUSED, CLOSED) | Returns array of fund IDs with that status |
+| Get funds by manager | Query all funds managed by specific FM | Returns array of fund IDs for that manager |
+| Search funds by criteria | Multi-criteria search: class, tier, NAV range, status | Returns fund IDs matching all criteria |
+| Get funds by performance | Query funds with minimum return over period | Returns fund IDs meeting performance criteria |
+| Update fund NAV | NAV Engine updates fund's current NAV | NAV updated in metadata, NAVUpdated event emitted |
+| Update fund status | Fund status changes (e.g., ACTIVE to CLOSED) | Status updated in metadata, event emitted |
+
+### Edge Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Register first fund | First fund registered in empty registry | Fund ID is 1, fundCount increments to 1 |
+| Register multiple funds | Multiple funds registered sequentially | Each gets unique fund ID, all tracked correctly |
+| Query empty tier | Query funds in risk tier with no funds | Returns empty array |
+| Query empty class | Query funds in class with no funds | Returns empty array |
+| Search with no matches | Search with criteria that match no funds | Returns empty array |
+| Update NAV to zero | NAV Engine updates fund NAV to 0 | NAV updated to 0, metadata reflects zero NAV |
+| Update NAV to very large value | NAV Engine updates fund NAV to maximum | NAV updated correctly, no overflow issues |
+| Register fund with all tiers | Fund registered in each risk tier | All tiers populated, queries return correct funds |
+
+### Failure Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Register fund from non-Factory | Non-Factory address attempts to register fund | Transaction reverts with "Only Factory" error |
+| Register duplicate fund address | Factory attempts to register same fund address twice | Transaction reverts with "Fund already registered" error |
+| Update NAV from non-NAV Engine | Non-NAV Engine attempts to update NAV | Transaction reverts with "Only NAV Engine" error |
+| Query non-existent fund | Query metadata for fund ID that doesn't exist | Returns empty metadata or reverts |
+| Search with invalid criteria | Search with invalid NAV range (min &gt; max) | Transaction reverts with validation error |
+
+### Security Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Prevent unauthorized registration | Attacker attempts to register fund directly | Transaction reverts, only Factory can register |
+| Prevent unauthorized NAV updates | Attacker attempts to update NAV maliciously | Transaction reverts, only NAV Engine can update |
+| Address mapping integrity | Verify address to fund ID mapping cannot be manipulated | Mapping set only during registration, immutable afterwards |
+| Fund isolation | Verify fund metadata isolated from other funds | Each fund tracked independently, no cross-fund data access |
+
+### Access Control Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Register fund by Factory | FundFactory registers fund | Transaction succeeds |
+| Register fund by non-Factory | Non-Factory attempts to register | Transaction reverts with "Only Factory" |
+| Update NAV by NAV Engine | NAV Engine updates NAV | Transaction succeeds |
+| Update NAV by non-NAV Engine | Non-NAV Engine attempts to update | Transaction reverts with "Only NAV Engine" |
+| Query functions by any address | Any address queries funds, metadata, searches | Queries succeed, read-only functions are public |
+
+### Integration Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| FundFactory registration flow | FundFactory creates fund, registers in registry | Fund registered correctly, all metadata stored |
+| NAV Engine update flow | NAV Engine calculates NAV, updates registry | NAV updated in registry, metadata reflects new value |
+| Multiple funds registration | Multiple funds registered, all tracked correctly | Each fund independent, queries return correct results |
+| Search and filter integration | Front-end queries registry for fund discovery | Search and filter functions work correctly, return accurate results |
+| Status updates on fund closure | Fund closes, status updated in registry | Status changed to CLOSED, queries reflect new status |
+
+### Gas Optimization Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Fund registration gas | Factory registers fund | Gas usage reasonable for registration operation |
+| NAV update gas | NAV Engine updates fund NAV | Gas usage reasonable for NAV update |
+| Query operations gas | Multiple queries for funds, metadata, searches | View functions consume no gas (read-only) |
+| Search with many funds | Search through registry with 100+ funds | Query remains efficient, gas usage reasonable |
 
 ---
 

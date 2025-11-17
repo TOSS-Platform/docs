@@ -4,7 +4,7 @@
 // There are various equivalent ways to declare your Docusaurus config.
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
-import {themes as prismThemes} from 'prism-react-renderer';
+const {themes: prismThemes} = require('prism-react-renderer');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -59,7 +59,7 @@ const config = {
           sidebarPath: './sidebars.js',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/toss/toss-docs/tree/main/',
+          editUrl: 'https://github.com/TOSS-Platform/docs/tree/main/',
         },
         blog: {
           showReadingTime: true,
@@ -69,7 +69,7 @@ const config = {
           },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/toss/toss-docs/tree/main/',
+          editUrl: 'https://github.com/TOSS-Platform/docs/tree/main/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -155,7 +155,7 @@ const config = {
             label: 'Investor Deck',
           },
           {
-            href: 'https://github.com/toss/toss-docs',
+            href: 'https://github.com/TOSS-Platform/docs',
             label: 'GitHub',
             position: 'right',
           },
@@ -199,15 +199,15 @@ const config = {
             items: [
               {
                 label: 'Discord',
-                href: 'https://discord.gg/toss',
+                href: '#',
               },
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/toss_finance',
+                href: '#',
               },
               {
                 label: 'Telegram',
-                href: 'https://t.me/toss_community',
+                href: '#',
               },
             ],
           },
@@ -216,11 +216,11 @@ const config = {
             items: [
               {
                 label: 'Blog',
-                to: '/blog',
+                to: '#',
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/toss/toss-docs',
+                href: 'https://github.com/TOSS-Platform/docs',
               },
               {
                 label: 'Status',
@@ -250,5 +250,5 @@ const config = {
     }),
 };
 
-export default config;
+module.exports = config;
 

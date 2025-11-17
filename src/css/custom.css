@@ -223,8 +223,14 @@ table th {
 
 /* Footer */
 .footer {
-  background: var(--ifm-footer-background-color);
+  background: var(--toss-color-primary);
   padding: 3rem 0;
+}
+
+.footer__dark {
+  background: var(--toss-color-primary);
+
+  height: 100px;
 }
 
 .footer__title {

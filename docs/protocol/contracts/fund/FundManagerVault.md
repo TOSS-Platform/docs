@@ -382,48 +382,117 @@ event FeeCollected(FeeType feeType, uint256 amount, uint256 timestamp);
 
 ## Test Scenarios
 
-```typescript
-describe("FundManagerVault - Critical Security", () => {
-  it("should prevent unauthorized trade execution", async () => {
-    await expect(
-      vault.connect(attacker).executeTrade(...)
-    ).to.be.revertedWith("Only TradeExecutor");
-  });
-  
-  it("should prevent reentrancy on withdrawal", async () => {
-    const malicious = await deployReentrantContract();
-    await vault.connect(malicious).requestWithdrawal(shares);
-    
-    await expect(
-      vault.processWithdrawal(requestId)
-    ).to.be.revertedWith("ReentrancyGuard: reentrant call");
-  });
-  
-  it("should isolate assets between funds", async () => {
-    // Fund A and Fund B both hold USDC
-    const fund A_balance = await usdc.balanceOf(vaultA.address);
-    const fundB_balance = await usdc.balanceOf(vaultB.address);
-    
-    // FM of Fund A cannot access Fund B assets
-    await expect(
-      vaultA.connect(fmA).executeTrade(/* use Fund B assets */)
-    ).to.be.reverted;
-  });
-  
-  it("should calculate shares correctly on deposits", async () => {
-    // First deposit: 1:1
-    await vault.deposit(1000, usdc.address);
-    expect(await vault.shares(investor.address)).to.equal(1000);
-    
-    // NAV doubles
-    await vault.updateNAV(2000);
-    
-    // Second deposit: half the shares
-    await vault.deposit(1000, usdc.address);
-    expect(await vault.shares(investor.address)).to.equal(1500);  // 1000 + 500
-  });
-});
-```
+### Happy Path Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Deposit tokens | Investor deposits USDC into fund vault | Tokens transferred, shares minted based on NAV, Deposit event emitted |
+| First deposit (1:1 ratio) | First investor deposits when fund has no shares | Shares minted at 1:1 ratio, totalShares equals deposit amount |
+| Subsequent deposit | Investor deposits after NAV has changed | Shares calculated as (amount × totalShares) / currentNAV, proportional share issuance |
+| Request withdrawal | Investor requests withdrawal of shares | Shares burned, withdrawal request added to queue, WithdrawalRequested event emitted |
+| Process withdrawal | Keeper processes withdrawal request from queue | Assets transferred to investor based on current NAV, daily limit checked, WithdrawalProcessed event emitted |
+| Execute trade (authorized) | TradeExecutor executes validated trade | Assets swapped via router, holdings updated, TradeExecuted event emitted |
+| Update NAV | NAV Engine updates fund's Net Asset Value | NAV updated, highWaterMark updated if new high, NAVUpdated event emitted |
+| Collect management fee | Management fee collected on schedule | Fee calculated, shares minted to FM (dilution) or fee transferred, FeeCollected event emitted |
+| Collect performance fee | Performance fee collected when NAV &gt; HWM | Fee calculated on profit, highWaterMark updated, FeeCollected event emitted |
+| Deposit multiple assets | Investor deposits multiple assets in one transaction | All assets transferred, shares calculated based on total value, deposit succeeds |
+| Emergency withdrawal | Investor performs emergency withdrawal when fund in EMERGENCY state | Immediate withdrawal with 5% fee, no queue wait, emergency fee collected |
+
+### Edge Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Deposit zero amount | Investor attempts to deposit 0 tokens | Transaction may succeed or revert depending on implementation (zero may be invalid) |
+| Deposit to fund with zero NAV | Investor deposits when NAV is 0 | Transaction reverts or handles edge case (division by zero prevention) |
+| Request withdrawal for zero shares | Investor attempts to withdraw 0 shares | Transaction reverts with "Zero shares" error |
+| Process withdrawal when NAV is zero | Keeper processes withdrawal when NAV is 0 | Transaction reverts or handles edge case (cannot calculate value) |
+| Execute trade with zero input | TradeExecutor executes trade with 0 input amount | Transaction reverts with "Zero amount" error |
+| Update NAV to zero | NAV Engine updates NAV to 0 | NAV updated to 0, highWaterMark remains at previous value |
+| Update NAV to maximum | NAV Engine updates NAV to max uint256 | NAV updated correctly, no overflow issues |
+| Withdrawal queue empty | Attempt to process withdrawal from empty queue | Transaction reverts with "Invalid request" error |
+| Daily withdrawal limit reached | Attempt to process withdrawal when daily limit exceeded | Transaction reverts with "Daily limit exceeded" error |
+| Deposit after lockup period | Investor deposits after fund lockup period has passed | Deposit succeeds, lockup doesn't affect deposits |
+
+### Failure Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Deposit without approval | Investor attempts to deposit without approving vault | Transaction reverts with "ERC20: insufficient allowance" error |
+| Deposit exceeds balance | Investor attempts to deposit more tokens than they own | Transaction reverts with "ERC20: transfer amount exceeds balance" error |
+| Deposit asset not allowed | Investor attempts to deposit asset not in allowed list | Transaction reverts with "Asset not allowed" error |
+| Request withdrawal exceeds shares | Investor attempts to withdraw more shares than they own | Transaction reverts with "Insufficient shares" error |
+| Request withdrawal before lockup | Investor attempts to withdraw before lockup period ends | Transaction reverts with "Lockup not expired" error |
+| Process withdrawal from non-queue | Attempt to process withdrawal request that wasn't queued | Transaction reverts with "Invalid request" error |
+| Process already processed withdrawal | Attempt to process withdrawal request that was already processed | Transaction reverts with "Already processed" error |
+| Execute trade without RiskEngine approval | TradeExecutor attempts to execute trade without RiskEngine validation | Transaction reverts with "Not approved" error |
+| Execute trade from non-TradeExecutor | Unauthorized address attempts to execute trade | Transaction reverts with "Only TradeExecutor" error |
+| Execute trade exceeding slippage | Trade executed but output amount below minAmountOut | Transaction reverts with "Slippage exceeded" error |
+| Update NAV from non-NAV Engine | Non-NAV Engine attempts to update NAV | Transaction reverts with "Only NAV Engine" error |
+| Emergency withdrawal when not in emergency | Investor attempts emergency withdrawal when fund not in EMERGENCY | Transaction reverts with "Not in emergency" error |
+
+### Security Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Prevent unauthorized trade execution | Attacker attempts to execute trade directly | Transaction reverts, only TradeExecutor can execute trades |
+| Prevent reentrancy on withdrawal | Malicious contract attempts reentrancy during withdrawal processing | Reentrancy guard prevents recursive calls, funds secure |
+| Asset isolation between funds | Verify Fund A assets cannot be accessed by Fund B manager | Each fund's assets isolated, cross-fund access prevented |
+| Share calculation accuracy | Verify share calculations cannot be manipulated | NAV-based calculations deterministic, cannot inflate shares |
+| Prevent NAV manipulation | Attacker attempts to manipulate NAV to affect share prices | Only NAV Engine can update NAV, manipulation prevented |
+| Prevent unauthorized asset movement | Attacker attempts to move assets without trade execution | All asset movements via TradeExecutor, unauthorized access prevented |
+| Withdrawal queue integrity | Verify withdrawal queue cannot be manipulated | Queue append-only, requests processed in order, cannot skip or reorder |
+| Daily withdrawal limit enforcement | Multiple withdrawals attempted to bypass daily limit | Daily limit enforced, cannot bypass via multiple transactions |
+| Fee collection authorization | Verify only authorized contracts can collect fees | Fee collection restricted to specific roles, unauthorized collection prevented |
+| Deposit fee accuracy | Verify deposit fees calculated correctly | Fees calculated as percentage of deposit, deducted correctly |
+
+### Access Control Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Deposit by any investor | Any investor deposits tokens | Transaction succeeds if asset allowed and approved |
+| Request withdrawal by investor | Investor requests withdrawal | Transaction succeeds if owns shares and lockup expired |
+| Process withdrawal by keeper | Keeper processes withdrawal from queue | Transaction succeeds if request valid and daily limit not exceeded |
+| Execute trade by TradeExecutor | TradeExecutor executes validated trade | Transaction succeeds if RiskEngine approved |
+| Execute trade by non-TradeExecutor | Non-TradeExecutor attempts to execute trade | Transaction reverts with "Only TradeExecutor" |
+| Update NAV by NAV Engine | NAV Engine updates NAV | Transaction succeeds |
+| Update NAV by non-NAV Engine | Non-NAV Engine attempts to update NAV | Transaction reverts with "Only NAV Engine" |
+| Collect fees by FM | Fund Manager collects management/performance fees | Transaction succeeds if conditions met |
+| Emergency withdrawal by investor | Investor performs emergency withdrawal | Transaction succeeds if fund in EMERGENCY state |
+| Query functions by any address | Any address queries shares, NAV, holdings | Queries succeed, read-only functions are public |
+
+### Integration Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| RiskEngine trade validation flow | TradeExecutor validates trade with RiskEngine, then executes | RiskEngine approval required, trade executes only if approved |
+| NAV calculation and share pricing | NAV updated, new deposits use updated NAV for share calculation | Share prices reflect current NAV, proportional share issuance |
+| Withdrawal queue processing | Multiple withdrawals requested, processed by keeper | Queue processed in order, daily limits respected, all withdrawals processed |
+| Fee collection integration | Management and performance fees collected, distributed | Fees calculated correctly, distributed to FM and protocol treasury |
+| Multi-asset fund management | Fund holds multiple assets, trades between them | Asset holdings tracked correctly, trades update holdings accurately |
+| Trade execution via router | TradeExecutor routes trade through swap router | Swap executed correctly, output amount validated, holdings updated |
+| Share dilution from fees | Management fee collected via share minting | Shares minted to FM, existing investors diluted proportionally |
+| High water mark tracking | NAV increases above HWM, performance fee calculated | HWM updated, performance fee calculated on profit above HWM |
+| Emergency procedures | Fund enters emergency state, investors can emergency withdraw | Emergency state allows immediate withdrawals with fees |
+
+### State Transition Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Fund state: ACTIVE → PAUSED | Fund paused, operations blocked | Deposit/withdrawal/trade operations blocked, only emergency withdrawals allowed |
+| Fund state: PAUSED → ACTIVE | Fund unpaused, operations resume | All operations resume normally |
+| Fund state: ACTIVE → CLOSED | Fund closed, no new operations | New deposits/withdrawals blocked, existing withdrawals processed, fund winding down |
+| Withdrawal state: QUEUED → PROCESSED | Withdrawal request queued, then processed | Request state transitions correctly, shares burned then assets transferred |
+
+### Gas Optimization Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Deposit gas usage | Investor deposits tokens | Gas usage reasonable for deposit operation |
+| Withdrawal request gas | Investor requests withdrawal | Gas usage reasonable for queue operation |
+| Trade execution gas | TradeExecutor executes trade | Gas usage reasonable, includes router call gas |
+| NAV update gas | NAV Engine updates NAV | Gas usage reasonable for state update |
+| Query operations gas | Multiple queries for shares, NAV, holdings | View functions consume no gas (read-only) |
+| Batch deposit gas | Investor deposits multiple assets in one transaction | Batch deposit uses less gas than individual deposits |
 
 ---
 

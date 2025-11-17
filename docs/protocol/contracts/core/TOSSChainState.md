@@ -97,12 +97,91 @@ function setProtocolFeeRate(uint256 newRate) external onlyGovernance
 
 ## Test Scenarios
 
-```typescript
-it("should pause protocol", async () => {
-  await chainState.connect(guardian).pause();
-  expect(await chainState.state()).to.equal(ProtocolState.PAUSED);
-});
-```
+### Happy Path Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Query protocol state | Query current protocol state | Returns current state (ACTIVE, PAUSED, EMERGENCY) |
+| Pause protocol (guardian) | Guardian pauses protocol in emergency | State transitions to PAUSED, lastPauseTime updated, pauseCount incremented, Paused event emitted |
+| Unpause protocol | Governance unpauses protocol | State transitions to ACTIVE, Unpaused event emitted |
+| Set protocol fee rate | Governance updates protocol fee rate within limits | Fee rate updated, ProtocolFeeRateUpdated event emitted |
+| Query protocol version | Query current protocol version | Returns current version number |
+| Query protocol fee rate | Query current protocol fee rate | Returns current fee rate in basis points |
+
+### Edge Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Pause already paused | Guardian attempts to pause when already paused | Transaction may succeed (idempotent) or revert depending on implementation |
+| Unpause when active | Governance attempts to unpause when already active | Transaction may succeed (idempotent) or revert |
+| Set fee rate to zero | Governance sets protocol fee rate to 0 | Transaction succeeds, fee rate set to 0 |
+| Set fee rate to maximum | Governance sets protocol fee rate to maximum allowed | Transaction succeeds, fee rate set to max (100 bps) |
+| Query state at deployment | Query protocol state immediately after deployment | Returns ACTIVE state |
+
+### Failure Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Pause from non-guardian | Non-guardian address attempts to pause protocol | Transaction reverts with "Not guardian or governance" error |
+| Unpause from non-governance | Non-governance address attempts to unpause | Transaction reverts with "Not governance" error |
+| Set fee rate from non-governance | Non-governance address attempts to update fee rate | Transaction reverts with "Not governance" error |
+| Set fee rate exceeds maximum | Governance attempts to set fee rate above 100 bps | Transaction reverts with "Fee rate exceeds maximum" error |
+| Set fee rate change too large | Governance attempts to change fee rate by more than 50% | Transaction reverts with "Fee change too large" error |
+| Pause when in emergency state | Attempt to pause when already in EMERGENCY state | Transaction may succeed or revert (depends on state machine logic) |
+
+### Security Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Prevent unauthorized pause | Attacker attempts to pause protocol | Transaction reverts, only guardian or governance can pause |
+| Prevent unauthorized unpause | Attacker attempts to unpause protocol | Transaction reverts, only governance can unpause |
+| Prevent fee rate manipulation | Verify fee rate cannot be set to extreme values | Bounds enforced, fee rate remains within safe limits |
+| Pause count tracking | Multiple pauses tracked correctly | Pause count increments correctly, cannot be manipulated |
+| State transition validation | Verify only valid state transitions allowed | Invalid transitions revert (e.g., EMERGENCY cannot directly go to ACTIVE) |
+| Guardian cannot unpause | Verify guardian can pause but cannot unpause | Guardian pause succeeds, guardian unpause reverts |
+| Fee rate change limits | Verify fee rate cannot change more than 50% per proposal | Change limit enforced, prevents sudden extreme changes |
+
+### Access Control Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Pause by guardian | Guardian pauses protocol | Transaction succeeds |
+| Pause by governance | Governance pauses protocol | Transaction succeeds |
+| Pause by non-authorized | Non-authorized address attempts to pause | Transaction reverts with "Not guardian or governance" |
+| Unpause by governance | Governance unpauses protocol | Transaction succeeds |
+| Unpause by non-governance | Non-governance attempts to unpause | Transaction reverts with "Not governance" |
+| Set fee rate by governance | Governance updates fee rate | Transaction succeeds |
+| Set fee rate by non-governance | Non-governance attempts to update fee rate | Transaction reverts with "Not governance" |
+| Query functions by any address | Any address queries state, version, fee rate | Queries succeed, read-only functions are public |
+
+### Integration Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Protocol pause affects operations | Protocol paused, other contracts check state before operations | Other contracts respect paused state, operations blocked |
+| Fee rate used by contracts | Protocol fee rate queried by other contracts for fee calculations | Fee calculations use current fee rate from ChainState |
+| State monitoring | Off-chain systems monitor protocol state changes via events | Events captured correctly, monitoring systems updated |
+| Emergency procedures | Protocol enters emergency state, emergency procedures activated | Emergency state properly communicated, procedures execute correctly |
+| Version tracking | Protocol version updated on upgrades | Version increments correctly, tracking maintained |
+
+### State Transition Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| ACTIVE → PAUSED | Guardian or governance pauses active protocol | State transitions correctly to PAUSED |
+| PAUSED → ACTIVE | Governance unpauses paused protocol | State transitions correctly to ACTIVE |
+| ACTIVE → EMERGENCY | Protocol enters emergency state | State transitions correctly to EMERGENCY |
+| EMERGENCY → PAUSED | Emergency state transitions to paused | Transition may be allowed or blocked (depends on implementation) |
+| EMERGENCY → ACTIVE | Attempt to go directly from emergency to active | Transaction reverts, must go through paused state first |
+
+### Gas Optimization Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Pause operation gas | Guardian pauses protocol | Gas usage reasonable for state change |
+| Unpause operation gas | Governance unpauses protocol | Gas usage reasonable for state change |
+| Fee rate update gas | Governance updates fee rate | Gas usage reasonable for parameter update |
+| Query operations gas | Multiple queries for state, version, fee rate | View functions consume no gas (read-only) |
 
 ---
 

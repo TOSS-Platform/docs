@@ -24,8 +24,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "24.1.0"
+          node-version: "20.18.0"
           cache: "npm"
+
+      - name: Clear Docusaurus cache
+        run: npm run clear || true
 
       - name: Install dependencies
         run: npm install

@@ -29,12 +29,11 @@
     }
   ],
   "env": {
-    "NODE_VERSION": "24.1.0",
-    "NODE_ENV": "production"
+    "NODE_VERSION": "20.18.0"
   },
   "build": {
     "env": {
-      "NODE_VERSION": "24.1.0"
+      "NODE_VERSION": "20.18.0"
     }
   },
   "github": {
@@ -44,7 +43,7 @@
   "regions": ["iad1"],
   "functions": {
     "api/**": {
-      "runtime": "nodejs24.x"
+      "runtime": "nodejs20.x"
     }
   }
 }

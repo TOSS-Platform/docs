@@ -101,8 +101,8 @@ async function generateMCPResources(): Promise<void> {
   const docsDir = path.join(process.cwd(), 'docs');
   const pattern = path.join(docsDir, '**/*.md');
   
-  // Find all markdown files
-  const files = glob.sync(pattern, { ignore: ['**/node_modules/**'] });
+  // Find all markdown files (sorted for consistency)
+  const files = glob.sync(pattern, { ignore: ['**/node_modules/**'] }).sort();
   
   console.log(`📚 Found ${files.length} documentation files\n`);
   
@@ -140,9 +140,15 @@ async function generateMCPResources(): Promise<void> {
     totalSize += stats.size;
   }
   
-  // Calculate overall documentation hash
-  const allContent = resources.map(r => r.contentHash).join('');
-  const documentationHash = calculateHash(allContent);
+  // Calculate overall documentation hash using same method as calculate-doc-hash.ts
+  // Read all files again in sorted order and hash complete content
+  let allDocContent = '';
+  const sortedFiles = [...files].sort();
+  for (const file of sortedFiles) {
+    const content = fs.readFileSync(file, 'utf8');
+    allDocContent += content;
+  }
+  const documentationHash = calculateHash(allDocContent);
   
   // Define MCP tools (conceptual - actual implementation would query contract ABIs)
   const tools: MCPTool[] = [
@@ -276,7 +282,16 @@ async function generateMCPResources(): Promise<void> {
 }
 
 // Run if called directly
-if (require.main === module) {
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Check if this is the main module
+const isMainModule = process.argv[1] === fileURLToPath(import.meta.url);
+
+if (isMainModule) {
   generateMCPResources().catch(err => {
     console.error('❌ Error generating MCP resources:', err);
     process.exit(1);

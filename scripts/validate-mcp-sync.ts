@@ -8,7 +8,8 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { calculateDocumentationHash } from './calculate-doc-hash';
+import { fileURLToPath } from 'url';
+import { calculateDocumentationHash } from './calculate-doc-hash.js';
 import { glob } from 'glob';
 
 interface MCPVersion {
@@ -78,10 +79,11 @@ function validateMCPSync(): boolean {
 }
 
 // Run if called directly
-if (require.main === module) {
+const isMainModule = process.argv[1] === fileURLToPath(import.meta.url);
+
+if (isMainModule) {
   const isValid = validateMCPSync();
   process.exit(isValid ? 0 : 1);
 }
 
 export { validateMCPSync };
-

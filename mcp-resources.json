@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2025-11-18T07:22:01.378Z",
-  "documentationHash": "c42ef847655b3e38aad9074ac4963a7f486c878eeae5a2eb13b9b5992b0c40eb",
+  "generatedAt": "2025-11-18T11:58:00.724Z",
+  "documentationHash": "ee92bc258c7e833c0e21d1dda0322e46786518ed30a4f8b682b92d4c8401b405",
   "resourceCount": 130,
   "toolCount": 10,
   "resources": [
@@ -1285,9 +1285,9 @@
       "name": "Protocol Documentation",
       "description": "Documentation for Protocol Documentation",
       "mimeType": "text/markdown",
-      "contentHash": "741da9831a5fb62d03b86de3c688cfa65589e42e6f65e324efe06eb42383ee6d",
-      "lastModified": "2025-11-18T07:21:03.272Z",
-      "size": 10470,
+      "contentHash": "d25574ad08a57f6d5711e4bfa43453c16ae5208eedeb2ed803db51b17592235a",
+      "lastModified": "2025-11-18T11:57:58.348Z",
+      "size": 14160,
       "category": "general",
       "tags": [
         "general",

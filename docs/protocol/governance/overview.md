@@ -20,7 +20,9 @@ The TOSS Protocol employs a **multi-level governance system** where different st
 - **Maintain Safety**: Critical protocol changes have appropriate oversight
 - **Encourage Participation**: Rewards for active governance at all levels
 
-## Multi-Level Governance Structure
+## Multi-Domain Governance Structure
+
+TOSS employs **domain-specific DAOs** where each domain manages only its own parameters:
 
 ```mermaid
 graph TB
@@ -31,17 +33,24 @@ graph TB
         FP2 --> FV
     end
     
-    subgraph "Level 2: FM-Level Governance"
-        FM2[Fund Managers] -->|Propose| FMP[FM-Wide Proposal]
+    subgraph "Level 2: FM DAO (Fund Manager Domain)"
+        FM2[Fund Managers] -->|Propose| FMP[FM Domain Proposals]
         FMP --> FMV[FM Voters: Only Fund Managers]
+        Note1[FM DAO manages:<br/>- FM stake requirements<br/>- FundClass templates<br/>- FM standards]
     end
     
-    subgraph "Level 3: Protocol-Level Governance"
-        Admin[Admin/DAO] -->|Proposes| PP[Protocol Proposal]
-        PP --> PV[Voters: Admin-Specified Group]
-        PV --> FMOnly[FMs Only]
-        PV --> InvOnly[Investors Only]
-        PV --> Both[Both FMs & Investors]
+    subgraph "Level 3: Protocol Domain DAOs"
+        subgraph "Core DAO (Protocol Domain)"
+            CoreAdmin[Admin Committee] -->|Proposes| CoreProp[Core Infrastructure Proposals]
+            CoreProp --> CoreVoters[Voters: FM Only or Both]
+            Note2[Core DAO manages:<br/>- Oracle config<br/>- RiskEngine algorithms<br/>- Protocol fees<br/>- Infrastructure upgrades]
+        end
+        
+        subgraph "Investor DAO (Investor Domain)"
+            InvAdmin[Admin Committee] -->|Proposes| InvProp[Investor Domain Proposals]
+            InvProp --> InvVoters[Voters: Investor Only]
+            Note3[Investor DAO manages:<br/>- Investor class definitions<br/>- Class upgrade thresholds<br/>- Investor penalties/rewards<br/>- Investor standards]
+        end
     end
 ```
 
@@ -126,51 +135,94 @@ fmGovernance.createProposal(
 // Only FMs vote, weighted by AUM
 ```
 
-### Level 3: Protocol-Level Governance
+### Level 3: Domain-Specific DAOs
 
-Protocol-wide governance for critical infrastructure and security.
+Protocol governance is organized into **three domain-specific DAOs**, each managing only its own parameters:
 
-**Proposer**: Admin (initially core team, later DAO-elected admin committee)
+#### Core DAO (Protocol Domain)
 
-**Voter Group**: Admin specifies for each proposal
+**Scope**: Protocol infrastructure, security, and core systems
 
-**Voter Group Options**:
-1. **FMs Only**: For changes primarily affecting Fund Managers
-2. **Investors Only**: For changes primarily affecting Investors
-3. **Both FMs & Investors**: For changes affecting entire ecosystem
-4. **Guardian Committee**: For emergency actions
+**Proposer**: Admin committee (initially core team, later DAO-elected)
+
+**Voter Group**: Admin specifies per proposal (FM Only or Both FM & Investor)
 
 **Examples**:
-
-*FMs Only*:
-- FundFactory deployment parameters
-- Global FM slashing formulas
-- RiskEngine core algorithms
-
-*Investors Only*:
-- Protocol fee structure
-- Investor class definitions
-- Reward distribution mechanisms
-
-*Both Groups*:
-- TOSS token economics changes
-- zkSync integration updates
-- Major protocol upgrades
 - Oracle configuration
+- RiskEngine core algorithms
+- zkSync integration updates
+- Protocol fee structure
+- Contract upgrades
+- Emergency pause mechanisms
 
 **Typical Flow**:
 ```solidity
-// Admin proposes protocol change
+// Admin proposes Core DAO change
 protocolGovernance.createProposal(
-    "Update oracle configuration",
+    ProposalType.ORACLE_CONFIG,
     VoterGroup.BOTH,  // FMs and Investors vote
     targetContract,
     calldata
 );
-
-// Specified group votes
-// Voting power = TOSS staked + bonuses
 ```
+
+**Key Principle**: Core DAO manages infrastructure only, not domain-specific parameters.
+
+#### FM DAO (Fund Manager Domain)
+
+**Scope**: Fund Manager standards, templates, and operational parameters
+
+**Proposer**: Any active Fund Manager
+
+**Voter Group**: Fund Managers only (AUM-weighted)
+
+**Examples**:
+- Minimum FM stake requirements
+- FundClass templates (Alpha, Balanced, Stable, etc.)
+- FM certification standards
+- FM dispute resolution procedures
+- RiskTier definitions (within protocol bounds)
+
+**Typical Flow**:
+```solidity
+// FM proposes FM DAO change
+fmGovernance.createProposal(
+    ProposalType.FM_STAKE_REQUIREMENT,
+    proposalData
+);
+
+// Only FMs vote, weighted by AUM
+```
+
+**Key Principle**: FM DAO manages FM domain parameters only.
+
+#### Investor DAO (Investor Domain)
+
+**Scope**: Investor standards, class definitions, and investor-specific parameters
+
+**Proposer**: Admin committee (for now, may evolve)
+
+**Voter Group**: Investors only (TOSS-staked, class-weighted)
+
+**Examples**:
+- Investor class definitions (Retail, Premium, Institutional, Strategic)
+- Class upgrade thresholds
+- Investor penalty/reward parameters
+- Investor behavior standards
+- Investor access rules
+
+**Typical Flow**:
+```solidity
+// Admin proposes Investor DAO change
+protocolGovernance.createProposal(
+    ProposalType.INVESTOR_CLASS,
+    VoterGroup.INVESTOR_ONLY,  // Only investors vote
+    targetContract,
+    calldata
+);
+```
+
+**Key Principle**: Investor DAO manages investor domain parameters only.
 
 ## Governance Actors by Level
 
@@ -227,44 +279,36 @@ Where:
 - Must have managed funds for ≥30 days
 - No slashing violations in last 90 days
 
-### Protocol-Level Actors
+### Domain-Specific DAO Actors
 
-#### Admin Committee (Proposers)
+#### Core DAO Actors
 
-**Composition**: Initially core team, later DAO-elected committee
-
-**Rights**:
-- Create protocol-wide proposals
-- Specify voter group for each proposal
+**Admin Committee (Proposers)**:
+- Create Core DAO proposals (infrastructure, security, protocol fees)
+- Specify voter group per proposal (FM_ONLY or BOTH)
 - Emergency pause authority
 
-**Limitations**:
-- Cannot execute without vote approval
-- Subject to timelock delays
-- Guardian committee can veto
+**Voter Groups**:
+- **FM_ONLY**: For Core DAO proposals primarily affecting FMs
+- **BOTH**: For Core DAO proposals affecting entire ecosystem
 
-#### Voter Groups (Admin-Specified)
+#### FM DAO Actors
 
-When creating protocol proposal, admin specifies voter group:
+**Fund Managers (Proposers & Voters)**:
+- Any active FM can propose
+- All active FMs vote (AUM-weighted)
+- Manages FM domain parameters only
 
-```solidity
-enum VoterGroup {
-    FM_ONLY,           // Only Fund Managers vote
-    INVESTOR_ONLY,     // Only Investors vote
-    BOTH,              // Both FMs and Investors vote
-    GUARDIAN           // Guardian committee votes
-}
-```
+#### Investor DAO Actors
 
-**Voting Power (Protocol Level)**:
-```
-VP_Protocol = TOSS_Staked × (1 + LockTimeBonus) × RoleMultiplier
+**Admin Committee (Proposers)**:
+- Create Investor DAO proposals (investor classes, upgrade thresholds, investor standards)
+- Always INVESTOR_ONLY voter group
 
-RoleMultiplier:
-- Fund Manager: 1.5x
-- Strategic Investor: 2.0x
-- Regular Investor: 1.0x
-```
+**Investors (Voters)**:
+- All TOSS-staked investors vote
+- Voting power weighted by TOSS stake, lock time, and investor class
+- Manages investor domain parameters only
 
 ### Guardian Committee
 
@@ -338,10 +382,12 @@ Different governance levels have different proposal flows optimized for their co
 - **AUM-Weighted**: Larger funds have proportionally more say
 - **Higher Thresholds**: Requires strong consensus
 
-### Protocol-Level Proposals
+### Core DAO Proposals
+
+**Scope**: Protocol infrastructure, security, and core systems
 
 ```
-1. Admin creates proposal + specifies voter group
+1. Admin creates Core DAO proposal + specifies voter group (FM_ONLY or BOTH)
    ↓
 2. Eligible voters notified
    ↓
@@ -351,18 +397,47 @@ Different governance levels have different proposal flows optimized for their co
    ↓
 5. Quorum check (varies by voter group)
    ↓
-6. Approval check (>66% for critical changes)
+6. Approval check (>50% standard, >75% critical)
    ↓
 7. Guardian veto window (24 hours)
    ↓
 8. Timelock (48-72 hours)
    ↓
-9. Execution via DAO
+9. Execution via Core DAO
 ```
 
 **Key Characteristics**:
 - **Deliberate**: Longer periods for critical changes
-- **Flexible Voter Groups**: Admin specifies who votes
+- **Domain-Specific**: Manages Core domain only, not FM/Investor parameters
+- **High Security**: Guardian oversight, long timelocks
+
+### Investor DAO Proposals
+
+**Scope**: Investor standards, class definitions, and investor-specific parameters
+
+```
+1. Admin creates Investor DAO proposal (always INVESTOR_ONLY)
+   ↓
+2. Investors notified
+   ↓
+3. Community discussion (7 days minimum)
+   ↓
+4. Voting period (7-14 days)
+   ↓
+5. Quorum check (10% of Investor VP)
+   ↓
+6. Approval check (>50% standard, >66% critical)
+   ↓
+7. Guardian veto window (24 hours)
+   ↓
+8. Timelock (48-72 hours)
+   ↓
+9. Execution via Investor DAO
+```
+
+**Key Characteristics**:
+- **Investor-Only**: Only investors vote (investors manage their own domain)
+- **Domain-Specific**: Manages Investor domain only, not Core/FM parameters
 - **High Security**: Guardian oversight, long timelocks
 
 ## Voting Power Calculation by Level
@@ -397,11 +472,11 @@ FM A: $10M AUM, 80 reputation → VP = 6M + 3.2M = 9.2M
 FM B: $5M AUM, 95 reputation → VP = 3M + 1.9M = 4.9M
 ```
 
-### Protocol-Level Voting Power
+### Core DAO Voting Power
 
-**TOSS-Staked with Bonuses**:
+**TOSS-Staked with Bonuses** (for Core DAO proposals):
 ```
-VP_Protocol = TOSS_Staked × (1 + LockBonus) × RoleMultiplier
+VP_Core = TOSS_Staked × (1 + LockBonus) × RoleMultiplier
 
 Lock Time Bonus:
 - No lock: 0% bonus (1.0x)
@@ -410,14 +485,38 @@ Lock Time Bonus:
 - 2 years: 150% bonus (2.5x)
 - 4 years: 200% bonus (3.0x)
 
-Role Multiplier:
+Role Multiplier (for BOTH proposals):
 - Regular Investor: 1.0x
 - Fund Manager: 1.5x (higher stake in ecosystem)
 - Strategic Investor: 2.0x (large TOSS holder)
 
-Example:
+Role Multiplier (for FM_ONLY proposals):
+- Fund Manager: 1.5x
+
+Example (Core DAO BOTH proposal):
 Investor: 10,000 TOSS staked, 1-year lock, Strategic class
 VP = 10,000 × 2.0 (lock) × 2.0 (role) = 40,000 voting power
+```
+
+### Investor DAO Voting Power
+
+**TOSS-Staked with Bonuses** (for Investor DAO proposals):
+```
+VP_Investor = TOSS_Staked × (1 + LockBonus) × ClassMultiplier
+
+Lock Time Bonus: Same as Core DAO
+
+Class Multiplier:
+- RETAIL: 1.0x
+- PREMIUM: 1.2x
+- INSTITUTIONAL: 1.5x
+- STRATEGIC: 2.0x
+
+Example:
+Investor: 10,000 TOSS staked, 1-year lock, INSTITUTIONAL class
+VP = 10,000 × 2.0 (lock) × 1.5 (class) = 30,000 voting power
+
+**Key Principle**: Investor DAO voting power uses investor class, not FM role.
 ```
 
 ## Governance Examples

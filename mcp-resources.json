@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2025-11-18T11:58:00.724Z",
-  "documentationHash": "ee92bc258c7e833c0e21d1dda0322e46786518ed30a4f8b682b92d4c8401b405",
-  "resourceCount": 130,
+  "generatedAt": "2025-11-18T12:25:58.474Z",
+  "documentationHash": "7448d05578bc496a5069a93c47725190f06610a0715ee9dc5b318d915e2a04f3",
+  "resourceCount": 138,
   "toolCount": 10,
   "resources": [
     {
@@ -628,6 +628,37 @@
       ]
     },
     {
+      "uri": "toss://docs/protocol/architecture/execution-priority-layer",
+      "name": "Execution Priority Layer",
+      "description": "Documentation for Execution Priority Layer",
+      "mimeType": "text/markdown",
+      "contentHash": "2f3d64bc600e33284f5f01031de6391355c2b55ec8ff151706b941afc01517f1",
+      "lastModified": "2025-11-18T12:12:51.900Z",
+      "size": 14248,
+      "category": "architecture",
+      "tags": [
+        "architecture",
+        "risk",
+        "slashing",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/architecture/investor-state-machine",
+      "name": "Investor State Machine",
+      "description": "Documentation for Investor State Machine",
+      "mimeType": "text/markdown",
+      "contentHash": "f145832a41f47a08acb3f4c01e2c5c69c93d034b077697dc40af0ac96556702d",
+      "lastModified": "2025-11-18T12:12:15.187Z",
+      "size": 18261,
+      "category": "architecture",
+      "tags": [
+        "architecture",
+        "governance",
+        "fund"
+      ]
+    },
+    {
       "uri": "toss://docs/protocol/architecture/l1-l2-communication",
       "name": "L1-L2 Communication",
       "description": "Documentation for L1-L2 Communication",
@@ -675,6 +706,23 @@
         "risk",
         "slashing",
         "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/architecture/rbac-domain-diagram",
+      "name": "RBAC Domain Diagram",
+      "description": "Documentation for RBAC Domain Diagram",
+      "mimeType": "text/markdown",
+      "contentHash": "0b70e0466c18f9e1a34f0c3455a6b2066993c15e9b170017aa2d212d7add2ea5",
+      "lastModified": "2025-11-18T12:13:42.882Z",
+      "size": 14556,
+      "category": "architecture",
+      "tags": [
+        "architecture",
+        "risk",
+        "slashing",
+        "governance",
         "fund"
       ]
     },
@@ -1222,9 +1270,9 @@
       "name": "DAO Structure",
       "description": "Documentation for DAO Structure",
       "mimeType": "text/markdown",
-      "contentHash": "2de795c8556cc8264046904251f9f2a64bbdbed5ea7ad44038e46e954e454420",
-      "lastModified": "2025-11-18T07:21:03.276Z",
-      "size": 20014,
+      "contentHash": "fe9925ff6288371536c8d86e25e51424db80506ea0aa786bb35f5b875baf9b95",
+      "lastModified": "2025-11-18T12:18:28.593Z",
+      "size": 24105,
       "category": "governance",
       "tags": [
         "governance",
@@ -1239,9 +1287,9 @@
       "name": "Governance Overview",
       "description": "Documentation for Governance Overview",
       "mimeType": "text/markdown",
-      "contentHash": "f3b6c619f207bcded42af5dde619f102811cbb4157efa4c59f1f0b263dd00606",
-      "lastModified": "2025-11-18T07:21:03.275Z",
-      "size": 19679,
+      "contentHash": "5388ac0cef194c83ba649c10b4bf9bfae1f1d6ec17ffa44f0acd2456fd28ce92",
+      "lastModified": "2025-11-18T12:18:28.593Z",
+      "size": 23001,
       "category": "governance",
       "tags": [
         "governance",
@@ -1286,7 +1334,7 @@
       "description": "Documentation for Protocol Documentation",
       "mimeType": "text/markdown",
       "contentHash": "d25574ad08a57f6d5711e4bfa43453c16ae5208eedeb2ed803db51b17592235a",
-      "lastModified": "2025-11-18T11:57:58.348Z",
+      "lastModified": "2025-11-18T11:58:11.669Z",
       "size": 14160,
       "category": "general",
       "tags": [
@@ -1294,6 +1342,22 @@
         "risk",
         "slashing",
         "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/end-to-end-flow",
+      "name": "End-to-End Flow Documentation",
+      "description": "Documentation for End-to-End Flow Documentation",
+      "mimeType": "text/markdown",
+      "contentHash": "014c5576328847c3e7389eba372504f158f7b8984db8dbe74391c8ded89f7752",
+      "lastModified": "2025-11-18T12:25:40.643Z",
+      "size": 18221,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "risk",
         "zksync",
         "fund"
       ]
@@ -1373,6 +1437,23 @@
       "category": "processes",
       "tags": [
         "processes",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/processes/fund-manager/trade-authorization-flow",
+      "name": "Trade Authorization Flow",
+      "description": "Documentation for Trade Authorization Flow",
+      "mimeType": "text/markdown",
+      "contentHash": "12557ef8946718d5962790075329fd825fce81a0d28584f783c8ca2a14b291c3",
+      "lastModified": "2025-11-18T12:24:11.310Z",
+      "size": 22136,
+      "category": "processes",
+      "tags": [
+        "processes",
+        "risk",
+        "slashing",
+        "zksync",
         "fund"
       ]
     },
@@ -1779,6 +1860,34 @@
       ]
     },
     {
+      "uri": "toss://docs/protocol/tokenomics/detailed-nav-engine",
+      "name": "Detailed NAV Engine (Volume 5)",
+      "description": "Documentation for Detailed NAV Engine (Volume 5)",
+      "mimeType": "text/markdown",
+      "contentHash": "93d70df790ce2cd216bea416152c50950900a1df70d43da859a9abef54d3ac28",
+      "lastModified": "2025-11-18T12:21:27.736Z",
+      "size": 15602,
+      "category": "tokenomics",
+      "tags": [
+        "tokenomics",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/tokenomics/fundclass-investorclass-models",
+      "name": "FundClass & InvestorClass Mathematical Models",
+      "description": "Documentation for FundClass & InvestorClass Mathematical Models",
+      "mimeType": "text/markdown",
+      "contentHash": "0856dda3d45e6a6923738740f00776e1a08bd1c60420b8f9f4b8291ce4c5e8f1",
+      "lastModified": "2025-11-18T12:15:00.592Z",
+      "size": 15275,
+      "category": "tokenomics",
+      "tags": [
+        "tokenomics",
+        "fund"
+      ]
+    },
+    {
       "uri": "toss://docs/protocol/tokenomics/immutable-layer",
       "name": "Immutable Layer",
       "description": "Documentation for Immutable Layer",
@@ -1826,6 +1935,22 @@
         "risk",
         "slashing",
         "governance",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/protocol/tokenomics/slashing-mathematical-tables",
+      "name": "Slashing Mathematical Tables (Volume 3)",
+      "description": "Documentation for Slashing Mathematical Tables (Volume 3)",
+      "mimeType": "text/markdown",
+      "contentHash": "b3d44401535bc40588057415f7770859a448ea74f18fb1624c454cdba209c274",
+      "lastModified": "2025-11-18T12:24:08.822Z",
+      "size": 13456,
+      "category": "tokenomics",
+      "tags": [
+        "tokenomics",
+        "risk",
+        "slashing",
         "fund"
       ]
     },

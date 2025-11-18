@@ -121,11 +121,29 @@ npm install
 
 ## 🤝 Contributing
 
-1. Fork repository
-2. Create feature branch
-3. Add/update documentation
-4. Commit (MCP auto-updates)
-5. Push and create PR
+### Quick Start
+
+1. **Create GitHub Issue**: Open issue for new features or significant changes
+2. Fork repository
+3. Create feature branch: `git checkout -b docs/feature-name`
+4. Add/update documentation
+5. **Update CHANGELOG.md**: Add entry for your changes
+6. Commit (MCP auto-updates): `git commit -m "docs: description"`
+7. Push and create PR
+8. Link PR to issue
+
+### Documentation Rules
+
+- ✅ **Always create GitHub issue** for new documentation or significant changes
+- ✅ **Update CHANGELOG.md** before deploying (includes change, reason, date, issue link)
+- ✅ **Follow conventional commits** format
+- ✅ **Link PRs to issues** for traceability
+
+**See**: [Development Workflow](/mcp-integration/development-workflow) for complete guidelines
+
+## 📝 Changelog
+
+All notable changes to documentation are documented in [CHANGELOG.md](/CHANGELOG.md).
 
 ## 📄 License
 

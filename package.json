@@ -8,6 +8,8 @@
     "start": "docusaurus start",
     "prebuild": "npm run validate-mcp-sync",
     "build": "docusaurus build",
+    "postbuild": "npm run copy-mcp-files",
+    "copy-mcp-files": "cp mcp-resources.json mcp-version.json build/ 2>/dev/null || true",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",

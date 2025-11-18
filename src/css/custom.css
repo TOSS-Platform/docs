@@ -16,13 +16,16 @@
   --ifm-navbar-item-padding-vertical: 0.5rem;
 
   /* Primary Brand Colors */
-  --ifm-color-primary: #6366f1;
-  --ifm-color-primary-dark: #4f46e5;
-  --ifm-color-primary-darker: #4338ca;
-  --ifm-color-primary-darkest: #3730a3;
+  --ifm-color-primary: #5bc0be;
+  --ifm-color-primary-dark: #5bc0be;
+  --ifm-color-primary-darker: #5bc0be;
+  --ifm-color-primary-darkest: #5bc0be;
   --ifm-color-primary-light: #818cf8;
   --ifm-color-primary-lighter: #a5b4fc;
   --ifm-color-primary-lightest: #c7d2fe;
+
+
+
 
   /* Crypto accent colors */
   --ifm-color-success: #10b981;
@@ -51,12 +54,12 @@
 
 /* Dark theme overrides */
 [data-theme='dark'] {
-  --ifm-background-color: #0f1117;
-  --ifm-background-surface-color: #16181d;
-  --ifm-color-primary: #818cf8;
-  --ifm-color-primary-dark: #6366f1;
-  --ifm-color-primary-darker: #4f46e5;
-  --ifm-color-primary-darkest: #4338ca;
+  --ifm-background-color: #0b132b;
+  --ifm-background-surface-color: #1c2541;
+  --ifm-color-primary: #5bc0be;
+  --ifm-color-primary-dark: #5bc0be;
+  --ifm-color-primary-darker: #5bc0be;
+  --ifm-color-primary-darkest: #5bc0be;
   --ifm-color-primary-light: #a5b4fc;
   --ifm-color-primary-lighter: #c7d2fe;
   --ifm-color-primary-lightest: #e0e7ff;
@@ -64,10 +67,16 @@
   --ifm-navbar-background-color: #16181d;
   --ifm-footer-background-color: #0a0b0f;
 
+  --ifm-breadcrumb-color-active: #ffffff;
+
   /* Code blocks */
   --ifm-code-background: #1a1b26;
 }
 
+
+ .navbar__toggle {
+  color: white!important;
+ }
 /* Custom navbar styling */
 .navbar {
   backdrop-filter: blur(10px);
@@ -83,6 +92,7 @@
   font-size: 13px;
   font-weight: 600;
 }
+
 .navbar__title {
   font-weight: 700;
   font-size: 13px;
@@ -90,6 +100,37 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Mobile menu improvements */
+@media (max-width: 996px) {
+  .navbar-sidebar {
+    height: 100vh !important;
+    height: 100dvh !important; /* Dynamic viewport height for mobile */
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    background-color: var(--toss-color-primary);
+
+      .navbar-sidebar__back {
+        color: white;
+      }
+    .menu__link {
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .menu__link:hover {
+      background-color: var(--toss-menu-hover);
+      color: var(--toss-color-secondary);
+    }
+    
+    .menu__link--active {
+      color: var(--toss-color-secondary);
+    }
+  }
 }
 
 /* Hero section styling */

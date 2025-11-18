@@ -27,7 +27,7 @@ Conservative market capture assumptions:
 
 ---
 
-**Next**: [Target Segments](/docs/investor-deck/target-segments)
+**Next**: [Target Segments](/investor-deck/target-segments)
 
-**Back**: [Solution Overview](/docs/investor-deck/solution-overview)
+**Back**: [Solution Overview](/investor-deck/solution-overview)
 

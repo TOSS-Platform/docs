@@ -71,7 +71,7 @@ AI: [Retrieves trade execution process docs]
 - Governance participation
 - Protocol queries
 
-[View All Tools →](/docs/mcp-integration/tools/overview)
+[View All Tools →](/mcp-integration/tools/overview)
 
 ### 2. Resources
 
@@ -81,7 +81,7 @@ AI: [Retrieves trade execution process docs]
 - Governance guides
 - Code examples
 
-[View Resources →](/docs/mcp-integration/resources/overview)
+[View Resources →](/mcp-integration/resources/overview)
 
 ### 3. Schemas
 
@@ -91,7 +91,7 @@ AI: [Retrieves trade execution process docs]
 - Configuration objects
 - Validation rules
 
-[View Schemas →](/docs/mcp-integration/schemas/overview)
+[View Schemas →](/mcp-integration/schemas/overview)
 
 ### 4. Examples
 
@@ -101,7 +101,7 @@ AI: [Retrieves trade execution process docs]
 - Error handling
 - Best practices
 
-[View Examples →](/docs/mcp-integration/examples/overview)
+[View Examples →](/mcp-integration/examples/overview)
 
 ## Quick Start for AI
 
@@ -110,22 +110,22 @@ AI: [Retrieves trade execution process docs]
 **Production**:
 - Manifest: `https://docs.toss.fi/mcp-version.json`
 - Resources: `https://docs.toss.fi/mcp-resources.json`
-- Resource Base: `https://docs.toss.fi/docs/`
+- Resource Base: `https://docs.toss.fi/`
 
 **Staging**:
 - Manifest: `https://staging.docs.toss.fi/mcp-version.json`
 - Resources: `https://staging.docs.toss.fi/mcp-resources.json`
-- Resource Base: `https://staging.docs.toss.fi/docs/`
+- Resource Base: `https://staging.docs.toss.fi/`
 
 ### Accessing TOSS Documentation
 
 ```typescript
 // AI can request any documentation page
-// URI format: toss://docs/{path}
-// Resolves to: https://docs.toss.fi/docs/{path}.md
+// URI format: toss://{path}
+// Resolves to: https://docs.toss.fi/{path}.md
 
-const riskEngineDoc = await mcp.getResource("toss://docs/protocol/contracts/risk/RiskEngine");
-// Resolves to: https://docs.toss.fi/docs/protocol/contracts/risk/RiskEngine.md
+const riskEngineDoc = await mcp.getResource("toss://protocol/contracts/risk/RiskEngine");
+// Resolves to: https://docs.toss.fi/protocol/contracts/risk/RiskEngine.md
 // Returns complete RiskEngine.md markdown
 
 // AI can now answer questions about RiskEngine
@@ -311,10 +311,10 @@ AI Process:
 
 ### For AI Developers
 
-1. **[MCP Tools](/docs/mcp-integration/tools/overview)**: Available operations
-2. **[MCP Resources](/docs/mcp-integration/resources/overview)**: Accessible documentation
-3. **[Integration Guide](/docs/mcp-integration/integration-guide)**: How to integrate
-4. **[Examples](/docs/mcp-integration/examples/overview)**: Working examples
+1. **[MCP Tools](/mcp-integration/tools/overview)**: Available operations
+2. **[MCP Resources](/mcp-integration/resources/overview)**: Accessible documentation
+3. **[Integration Guide](/mcp-integration/integration-guide)**: How to integrate
+4. **[Examples](/mcp-integration/examples/overview)**: Working examples
 
 ### For End Users
 
@@ -373,12 +373,12 @@ AI: "⚠️ Creating a Tier 3 fund requires:
 
 ## Next Steps
 
-- **[View MCP Tools](/docs/mcp-integration/tools/overview)**: See all available tools
-- **[MCP Resources](/docs/mcp-integration/resources/overview)**: Accessible documentation
-- **[Integration Guide](/docs/mcp-integration/integration-guide)**: Build with TOSS MCP
-- **[Examples](/docs/mcp-integration/examples/overview)**: AI interaction examples
+- **[View MCP Tools](/mcp-integration/tools/overview)**: See all available tools
+- **[MCP Resources](/mcp-integration/resources/overview)**: Accessible documentation
+- **[Integration Guide](/mcp-integration/integration-guide)**: Build with TOSS MCP
+- **[Examples](/mcp-integration/examples/overview)**: AI interaction examples
 
 ---
 
-**Start exploring**: [MCP Tools Overview](/docs/mcp-integration/tools/overview)
+**Start exploring**: [MCP Tools Overview](/mcp-integration/tools/overview)
 

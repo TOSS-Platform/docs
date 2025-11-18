@@ -81,40 +81,40 @@ All contracts follow security best practices:
 
 Essential infrastructure contracts powering the TOSS Protocol:
 
-- **[TOSS.sol](/docs/protocol/contracts/core/TOSS)**: ERC20 governance token with snapshot voting, permit, and controlled burn
-- **[TOSSTreasury.sol](/docs/protocol/contracts/core/TOSSTreasury)**: Protocol treasury collecting fees and funding operations
-- **[RewardDistributor.sol](/docs/protocol/contracts/core/RewardDistributor)**: Distributes staking and governance rewards
-- **[BridgeGateway.sol](/docs/protocol/contracts/core/BridgeGateway)**: L1/L2 bridge coordination for deposits and withdrawals
-- **[TOSSChainState.sol](/docs/protocol/contracts/core/TOSSChainState)**: Global protocol state and parameters
+- **[TOSS.sol](/protocol/contracts/core/TOSS)**: ERC20 governance token with snapshot voting, permit, and controlled burn
+- **[TOSSTreasury.sol](/protocol/contracts/core/TOSSTreasury)**: Protocol treasury collecting fees and funding operations
+- **[RewardDistributor.sol](/protocol/contracts/core/RewardDistributor)**: Distributes staking and governance rewards
+- **[BridgeGateway.sol](/protocol/contracts/core/BridgeGateway)**: L1/L2 bridge coordination for deposits and withdrawals
+- **[TOSSChainState.sol](/protocol/contracts/core/TOSSChainState)**: Global protocol state and parameters
 
-[→ View Core Contracts Details](/docs/protocol/contracts/core/TOSS)
+[→ View Core Contracts Details](/protocol/contracts/core/TOSS)
 
 ## Fund Layer Contracts
 
 Fund creation, management, and trade execution contracts:
 
-- **[FundFactory.sol](/docs/protocol/contracts/fund/FundFactory)**: Deploys funds via minimal proxy, validates FM eligibility, locks stakes
-- **[FundRegistry.sol](/docs/protocol/contracts/fund/FundRegistry)**: Central index of all funds with filtering and metadata
-- **[FundManagerVault.sol](/docs/protocol/contracts/fund/FundManagerVault)**: Secure multi-asset custody with share accounting
-- **[FundConfig.sol](/docs/protocol/contracts/fund/FundConfig)**: Stores risk limits, fees, and operational parameters
-- **[FundTradeExecutor.sol](/docs/protocol/contracts/fund/FundTradeExecutor)**: Only contract authorized to execute trades
+- **[FundFactory.sol](/protocol/contracts/fund/FundFactory)**: Deploys funds via minimal proxy, validates FM eligibility, locks stakes
+- **[FundRegistry.sol](/protocol/contracts/fund/FundRegistry)**: Central index of all funds with filtering and metadata
+- **[FundManagerVault.sol](/protocol/contracts/fund/FundManagerVault)**: Secure multi-asset custody with share accounting
+- **[FundConfig.sol](/protocol/contracts/fund/FundConfig)**: Stores risk limits, fees, and operational parameters
+- **[FundTradeExecutor.sol](/protocol/contracts/fund/FundTradeExecutor)**: Only contract authorized to execute trades
 
-[→ View Fund Layer Details](/docs/protocol/contracts/fund/FundFactory)
+[→ View Fund Layer Details](/protocol/contracts/fund/FundFactory)
 
 ## Risk Layer Contracts
 
 Risk validation, monitoring, and slashing enforcement:
 
-- **[RiskEngine.sol](/docs/protocol/contracts/risk/RiskEngine)**: Central validator coordinating all risk domains
-- **[ProtocolRiskDomain.sol](/docs/protocol/contracts/risk/ProtocolRiskDomain)**: Protocol-wide risk monitoring (oracle, sequencer)
-- **[FundRiskDomain.sol](/docs/protocol/contracts/risk/FundRiskDomain)**: Fund-specific limits (PSL, PCL, AEL, volatility, drawdown)
-- **[InvestorRiskDomain.sol](/docs/protocol/contracts/risk/InvestorRiskDomain)**: Investor behavior monitoring and anomaly detection
-- **[SlashingEngine.sol](/docs/protocol/contracts/risk/SlashingEngine)**: Calculates and executes slashing with burn/compensation split
-- **[PenaltyEngine.sol](/docs/protocol/contracts/risk/PenaltyEngine)**: Non-slashing penalties (freezes, restrictions, warnings)
-- **[IntentDetection.sol](/docs/protocol/contracts/risk/IntentDetection)**: Detects malicious intent through pattern analysis
-- **[RiskMathLib.sol](/docs/protocol/contracts/risk/RiskMathLib)**: Mathematical library for risk calculations
+- **[RiskEngine.sol](/protocol/contracts/risk/RiskEngine)**: Central validator coordinating all risk domains
+- **[ProtocolRiskDomain.sol](/protocol/contracts/risk/ProtocolRiskDomain)**: Protocol-wide risk monitoring (oracle, sequencer)
+- **[FundRiskDomain.sol](/protocol/contracts/risk/FundRiskDomain)**: Fund-specific limits (PSL, PCL, AEL, volatility, drawdown)
+- **[InvestorRiskDomain.sol](/protocol/contracts/risk/InvestorRiskDomain)**: Investor behavior monitoring and anomaly detection
+- **[SlashingEngine.sol](/protocol/contracts/risk/SlashingEngine)**: Calculates and executes slashing with burn/compensation split
+- **[PenaltyEngine.sol](/protocol/contracts/risk/PenaltyEngine)**: Non-slashing penalties (freezes, restrictions, warnings)
+- **[IntentDetection.sol](/protocol/contracts/risk/IntentDetection)**: Detects malicious intent through pattern analysis
+- **[RiskMathLib.sol](/protocol/contracts/risk/RiskMathLib)**: Mathematical library for risk calculations
 
-[→ View Risk Layer Details](/docs/protocol/contracts/risk/RiskEngine)
+[→ View Risk Layer Details](/protocol/contracts/risk/RiskEngine)
 
 ## Governance Layer Contracts
 
@@ -144,24 +144,24 @@ Level-specific governance implementations:
 
 Investor identity, scoring, lifecycle, and reward management:
 
-- **[InvestorRegistry.sol](/docs/protocol/contracts/investor/InvestorRegistry)**: Central registry tracking investor identity, class, and ICS score
-- **[InvestorScoreCalculator.sol](/docs/protocol/contracts/investor/InvestorScoreCalculator)**: Calculates ICS (Investor Composite Score) from multiple factors
-- **[InvestorStateMachine.sol](/docs/protocol/contracts/investor/InvestorStateMachine)**: Manages state transitions (ACTIVE → LIMITED → HIGH_RISK → FROZEN → BANNED)
-- **[InvestorPenaltyEngine.sol](/docs/protocol/contracts/investor/InvestorPenaltyEngine)**: Applies penalties for investor violations
-- **[InvestorRewardEngine.sol](/docs/protocol/contracts/investor/InvestorRewardEngine)**: Rewards good investor behavior and governance participation
+- **[InvestorRegistry.sol](/protocol/contracts/investor/InvestorRegistry)**: Central registry tracking investor identity, class, and ICS score
+- **[InvestorScoreCalculator.sol](/protocol/contracts/investor/InvestorScoreCalculator)**: Calculates ICS (Investor Composite Score) from multiple factors
+- **[InvestorStateMachine.sol](/protocol/contracts/investor/InvestorStateMachine)**: Manages state transitions (ACTIVE → LIMITED → HIGH_RISK → FROZEN → BANNED)
+- **[InvestorPenaltyEngine.sol](/protocol/contracts/investor/InvestorPenaltyEngine)**: Applies penalties for investor violations
+- **[InvestorRewardEngine.sol](/protocol/contracts/investor/InvestorRewardEngine)**: Rewards good investor behavior and governance participation
 
-[→ View Investor Layer Details](/docs/protocol/contracts/investor/InvestorRegistry)
+[→ View Investor Layer Details](/protocol/contracts/investor/InvestorRegistry)
 
 ## Utility Contracts
 
 Supporting infrastructure for oracles, analytics, compliance, and gas management:
 
-- **[PriceOracleRouter.sol](/docs/protocol/contracts/utilities/PriceOracleRouter)**: Multi-source price aggregation with deviation detection and circuit breakers
-- **[AnalyticsHub.sol](/docs/protocol/contracts/utilities/AnalyticsHub)**: On-chain historical data storage for NAV, trades, and events
-- **[AMLGuard.sol](/docs/protocol/contracts/utilities/AMLGuard)**: Compliance screening against sanctions lists and risk scoring
-- **[GasVault.sol](/docs/protocol/contracts/utilities/GasVault)**: Manages Paymaster gas reserves for sponsored transactions
+- **[PriceOracleRouter.sol](/protocol/contracts/utilities/PriceOracleRouter)**: Multi-source price aggregation with deviation detection and circuit breakers
+- **[AnalyticsHub.sol](/protocol/contracts/utilities/AnalyticsHub)**: On-chain historical data storage for NAV, trades, and events
+- **[AMLGuard.sol](/protocol/contracts/utilities/AMLGuard)**: Compliance screening against sanctions lists and risk scoring
+- **[GasVault.sol](/protocol/contracts/utilities/GasVault)**: Manages Paymaster gas reserves for sponsored transactions
 
-[→ View Utilities Details](/docs/protocol/contracts/utilities/PriceOracleRouter)
+[→ View Utilities Details](/protocol/contracts/utilities/PriceOracleRouter)
 
 ## Contract Deployment
 
@@ -204,12 +204,12 @@ Supporting infrastructure for oracles, analytics, compliance, and gas management
 
 ## Next Steps
 
-- **[Core Contracts](/docs/protocol/contracts/core)**: Detailed specifications
-- **[Fund Layer](/docs/protocol/contracts/fund-layer)**: Fund system deep dive
-- **[Risk Layer](/docs/protocol/contracts/risk-layer)**: Risk engine documentation
-- **[Governance Layer](/docs/protocol/contracts/governance-layer)**: DAO contracts
+- **[Core Contracts](/protocol/contracts/core)**: Detailed specifications
+- **[Fund Layer](/protocol/contracts/fund-layer)**: Fund system deep dive
+- **[Risk Layer](/protocol/contracts/risk-layer)**: Risk engine documentation
+- **[Governance Layer](/protocol/contracts/governance-layer)**: DAO contracts
 
 ---
 
-*For contract development guides, see [Technical Documentation - Smart Contracts](/docs/technical/smart-contracts/zksync-safe-contracts).*
+*For contract development guides, see [Technical Documentation - Smart Contracts](/technical/smart-contracts/zksync-safe-contracts).*
 

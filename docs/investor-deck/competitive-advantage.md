@@ -38,5 +38,5 @@ Self-reinforcing growth loop
 
 ---
 
-**Back**: [Solution Overview](/docs/investor-deck/solution-overview)
+**Back**: [Solution Overview](/investor-deck/solution-overview)
 

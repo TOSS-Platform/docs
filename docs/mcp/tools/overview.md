@@ -16,7 +16,7 @@ Complete reference of available MCP tools in TOSS.
 - `update_fund` - Modify fund settings
 - `close_fund` - Close and liquidate funds
 
-[View Fund Tools Details →](/docs/mcp/tools/fund-operations)
+[View Fund Tools Details →](/mcp/tools/fund-operations)
 
 ### Transaction Tools
 
@@ -25,7 +25,7 @@ Complete reference of available MCP tools in TOSS.
 - `list_transactions` - Query transaction history
 - `cancel_transaction` - Cancel pending transactions
 
-[View Transaction Tools Details →](/docs/mcp/tools/transaction-management)
+[View Transaction Tools Details →](/mcp/tools/transaction-management)
 
 ### Portfolio Tools
 
@@ -34,7 +34,7 @@ Complete reference of available MCP tools in TOSS.
 - `get_asset_allocation` - Check allocation
 - `rebalance_portfolio` - Rebalance to targets
 
-[View Portfolio Tools Details →](/docs/mcp/tools/portfolio-queries)
+[View Portfolio Tools Details →](/mcp/tools/portfolio-queries)
 
 ### Analytics Tools
 
@@ -43,7 +43,7 @@ Complete reference of available MCP tools in TOSS.
 - `compare_funds` - Compare multiple funds
 - `generate_report` - Create detailed reports
 
-[View Analytics Tools Details →](/docs/mcp/tools/analytics)
+[View Analytics Tools Details →](/mcp/tools/analytics)
 
 ## Using Tools
 
@@ -70,13 +70,13 @@ AI internally calls:
 
 Each tool has a JSON schema defining its inputs and outputs. View the complete schemas:
 
-- [Fund Operations Schema](/docs/mcp/schemas/fund-schema)
-- [Transaction Schema](/docs/mcp/schemas/transaction-schema)
-- [Portfolio Schema](/docs/mcp/schemas/portfolio-schema)
+- [Fund Operations Schema](/mcp/schemas/fund-schema)
+- [Transaction Schema](/mcp/schemas/transaction-schema)
+- [Portfolio Schema](/mcp/schemas/portfolio-schema)
 
 ## Next Steps
 
-- [Fund Operations](/docs/mcp/tools/fund-operations)
-- [Example Prompts](/docs/mcp/examples/ai-prompts)
-- [JSON Schemas](/docs/mcp/schemas/overview)
+- [Fund Operations](/mcp/tools/fund-operations)
+- [Example Prompts](/mcp/examples/ai-prompts)
+- [JSON Schemas](/mcp/schemas/overview)
 

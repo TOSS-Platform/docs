@@ -50,5 +50,5 @@ Else:
 
 ---
 
-**Related**: [Slashing Process](/docs/protocol/processes/risk-compliance/slashing-execution)
+**Related**: [Slashing Process](/protocol/processes/risk-compliance/slashing-execution)
 

@@ -59,5 +59,5 @@ Withdrawal fee applied (if configured): 0-2%
 
 ---
 
-**Related**: [Emergency Exit](/docs/protocol/processes/investor/emergency-exit)
+**Related**: [Emergency Exit](/protocol/processes/investor/emergency-exit)
 

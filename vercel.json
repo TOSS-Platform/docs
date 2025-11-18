@@ -28,9 +28,6 @@
       ]
     }
   ],
-  "env": {
-    "NODE_VERSION": "20.18.0"
-  },
   "build": {
     "env": {
       "NODE_VERSION": "20.18.0"
@@ -40,10 +37,5 @@
     "enabled": true,
     "autoAlias": true
   },
-  "regions": ["iad1"],
-  "functions": {
-    "api/**": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "regions": ["iad1"]
 }

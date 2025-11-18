@@ -40,5 +40,5 @@ Team profiles will be shared in direct investor conversations to maintain privac
 
 For investor meetings and detailed team bios, contact: investors@toss.finance
 
-**Back**: [Competitive Analysis](/docs/investor-deck/competitive-analysis)
+**Back**: [Competitive Analysis](/investor-deck/competitive-analysis)
 

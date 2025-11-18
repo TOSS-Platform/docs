@@ -37,5 +37,5 @@ sequenceDiagram
 
 ---
 
-**Related**: [Fund Governance](/docs/protocol/processes/governance/fund-proposal)
+**Related**: [Fund Governance](/protocol/processes/governance/fund-proposal)
 

@@ -930,11 +930,11 @@ const oracleProposal = {
 
 ## Next Steps
 
-- **[Voting Mechanism](/docs/protocol/governance/voting-mechanism)**: Detailed voting power calculations
-- **[Governance Contracts](/docs/protocol/contracts/governance-layer)**: Smart contract implementations
-- **[DAO Structure](/docs/protocol/governance/dao-structure)**: Governance level specifications
+- **[Voting Mechanism](/protocol/governance/voting-mechanism)**: Detailed voting power calculations
+- **[Governance Contracts](/protocol/contracts/governance-layer)**: Smart contract implementations
+- **[DAO Structure](/protocol/governance/dao-structure)**: Governance level specifications
 
 ---
 
-*Back to [Governance Overview](/docs/protocol/governance/overview)*
+*Back to [Governance Overview](/protocol/governance/overview)*
 

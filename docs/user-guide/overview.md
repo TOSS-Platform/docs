@@ -28,24 +28,24 @@ This guide is designed for:
 ## Quick Navigation
 
 ### Getting Started
-- [Installation](/docs/getting-started/installation)
-- [Quick Start](/docs/getting-started/quick-start)
-- [First Fund](/docs/getting-started/first-fund)
+- [Installation](/getting-started/installation)
+- [Quick Start](/getting-started/quick-start)
+- [First Fund](/getting-started/first-fund)
 
 ### Core Features
-- [Fund Management](/docs/user-guide/fund-management)
-- [Portfolio Tracking](/docs/user-guide/portfolio-tracking)
-- [Transactions](/docs/user-guide/transactions)
+- [Fund Management](/user-guide/fund-management)
+- [Portfolio Tracking](/user-guide/portfolio-tracking)
+- [Transactions](/user-guide/transactions)
 
 ### Advanced Topics
-- [Security](/docs/user-guide/security)
-- [Best Practices](/docs/user-guide/best-practices)
+- [Security](/user-guide/security)
+- [Best Practices](/user-guide/best-practices)
 
 ## Support
 
 Need help? Check these resources:
 
-- [FAQ](/docs/faq)
+- [FAQ](/faq)
 - [Discord Community](https://discord.gg/toss)
 - [Email Support](mailto:support@toss.finance)
 

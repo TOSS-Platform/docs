@@ -759,21 +759,21 @@ Final State:
 ## Related Processes
 
 **Next Steps**:
-- **[Investor Deposit](/docs/protocol/processes/investor/deposit)**: How investors join the fund
-- **[Execute Trade](/docs/protocol/processes/fund-manager/execute-trade)**: How FM trades fund assets
-- **[Update Configuration](/docs/protocol/processes/fund-manager/update-config)**: Modify fund parameters
+- **[Investor Deposit](/protocol/processes/investor/deposit)**: How investors join the fund
+- **[Execute Trade](/protocol/processes/fund-manager/execute-trade)**: How FM trades fund assets
+- **[Update Configuration](/protocol/processes/fund-manager/update-config)**: Modify fund parameters
 
 **Related Contracts**:
-- **[FundFactory](/docs/protocol/contracts/fund/FundFactory)**: Contract specification
-- **[FundRegistry](/docs/protocol/contracts/fund/FundRegistry)**: Registry details
-- **[TOSS Token](/docs/protocol/contracts/core/TOSS)**: Token operations
+- **[FundFactory](/protocol/contracts/fund/FundFactory)**: Contract specification
+- **[FundRegistry](/protocol/contracts/fund/FundRegistry)**: Registry details
+- **[TOSS Token](/protocol/contracts/core/TOSS)**: Token operations
 
 **Governance**:
-- **[FM-Level Governance](/docs/protocol/governance/dao-structure)**: How FMs govern minimum stake
+- **[FM-Level Governance](/protocol/governance/dao-structure)**: How FMs govern minimum stake
 
 ---
 
-**Back**: [Processes Overview](/docs/protocol/processes/overview)
+**Back**: [Processes Overview](/protocol/processes/overview)
 
-**Next**: [Update Fund Configuration](/docs/protocol/processes/fund-manager/update-config)
+**Next**: [Update Fund Configuration](/protocol/processes/fund-manager/update-config)
 

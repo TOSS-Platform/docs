@@ -278,7 +278,7 @@ Investor Benefits:
 
 ---
 
-**Next**: [Market Opportunity](/docs/investor-deck/market-size) | [Platform Overview](/docs/investor-deck/platform-overview)
+**Next**: [Market Opportunity](/investor-deck/market-size) | [Platform Overview](/investor-deck/platform-overview)
 
-**Back**: [Problem Statement](/docs/investor-deck/problem-statement) | [Executive Summary](/docs/investor-deck/executive-summary)
+**Back**: [Problem Statement](/investor-deck/problem-statement) | [Executive Summary](/investor-deck/executive-summary)
 

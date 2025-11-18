@@ -28,5 +28,5 @@ RETAIL (100 TOSS) → PREMIUM (1k TOSS) → INSTITUTIONAL (10k TOSS) → STRATEG
 
 ---
 
-**Next**: [Deposit Process](/docs/protocol/processes/investor/deposit)
+**Next**: [Deposit Process](/protocol/processes/investor/deposit)
 

@@ -14,7 +14,7 @@ Create new funds for different investment strategies:
 toss fund:create --name "My Fund" --currency USD --strategy balanced
 ```
 
-See [Creating Your First Fund](/docs/getting-started/first-fund) for detailed instructions.
+See [Creating Your First Fund](/getting-started/first-fund) for detailed instructions.
 
 ## Managing Funds
 
@@ -52,6 +52,6 @@ toss fund:close FUND_ID --reason "End of investment period"
 
 ## Next Steps
 
-- [Portfolio Tracking](/docs/user-guide/portfolio-tracking)
-- [Transactions](/docs/user-guide/transactions)
+- [Portfolio Tracking](/user-guide/portfolio-tracking)
+- [Transactions](/user-guide/transactions)
 

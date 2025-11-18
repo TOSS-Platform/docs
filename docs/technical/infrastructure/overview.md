@@ -499,12 +499,12 @@ Total: ~$2,375/month
 
 Explore specific infrastructure components:
 
-- **[AWS Architecture](/docs/technical/infrastructure/aws-architecture)**: Detailed AWS setup
-- **[ECS Deployment](/docs/technical/infrastructure/ecs-deployment)**: Container orchestration
-- **[Database Config](/docs/technical/infrastructure/database-config)**: Database setup
-- **[Monitoring](/docs/technical/infrastructure/monitoring)**: Observability setup
+- **[AWS Architecture](/technical/infrastructure/aws-architecture)**: Detailed AWS setup
+- **[ECS Deployment](/technical/infrastructure/ecs-deployment)**: Container orchestration
+- **[Database Config](/technical/infrastructure/database-config)**: Database setup
+- **[Monitoring](/technical/infrastructure/monitoring)**: Observability setup
 
 ---
 
-*For deployment procedures, see [Deployment Workflow](/docs/technical/deployment/workflow).*
+*For deployment procedures, see [Deployment Workflow](/technical/deployment/workflow).*
 

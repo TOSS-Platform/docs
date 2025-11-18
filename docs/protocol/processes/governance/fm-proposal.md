@@ -35,5 +35,5 @@ VP = (AUM × 0.6) + (AUM × Reputation/100 × 0.4)
 
 ---
 
-**Related**: [FMGovernance](/docs/protocol/contracts/governance/FMGovernance)
+**Related**: [FMGovernance](/protocol/contracts/governance/FMGovernance)
 

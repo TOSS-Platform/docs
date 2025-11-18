@@ -283,7 +283,7 @@ function canChangeParameter(
 
 All parameters in this contract ARE configurable (that's the point!).
 
-See [Config Layer Documentation](/docs/protocol/tokenomics/config-layer) for complete list with ranges.
+See [Config Layer Documentation](/protocol/tokenomics/config-layer) for complete list with ranges.
 
 ## Deployment
 
@@ -438,72 +438,107 @@ event ParameterChangeCanceled(bytes32 indexed parameter, uint256 proposalId);
 
 ## Test Scenarios
 
-```typescript
-describe("DAOConfigCore", () => {
-  it("should initialize with default config", async () => {
-    expect(await config.getGamma()).to.equal(8000);  // 80%
-    expect(await config.getMinSlashingFI()).to.equal(30);
-  });
-  
-  it("should enforce parameter bounds", async () => {
-    await expect(
-      config.connect(governance).setGamma(4000)  // Below 50% min
-    ).to.be.revertedWith("Out of range");
-    
-    await expect(
-      config.connect(governance).setGamma(9500)  // Above 90% max
-    ).to.be.revertedWith("Out of range");
-  });
-  
-  it("should enforce change magnitude limits", async () => {
-    await config.connect(governance).setGamma(8000);  // Set to 80%
-    
-    // Try to change by 20% (max is 10%)
-    await expect(
-      config.connect(governance).setGamma(6400)  // 64%, -20%
-    ).to.be.revertedWith("Change too large");
-    
-    // 5% change should work
-    await config.connect(governance).setGamma(7600);  // 76%, -5%
-    expect(await config.getGamma()).to.equal(7600);
-  });
-  
-  it("should enforce cooldown periods", async () => {
-    await config.connect(governance).setGamma(8000);
-    
-    // Try to change again immediately
-    await expect(
-      config.connect(governance).setGamma(8100)
-    ).to.be.revertedWith("Cooldown active");
-    
-    // Fast forward 90 days
-    await time.increase(90 * 86400);
-    
-    // Now should work
-    await config.connect(governance).setGamma(8100);
-  });
-  
-  it("should enforce FI weights sum to 100", async () => {
-    await expect(
-      config.connect(governance).setFIWeights(40, 30, 20, 15)  // Sums to 105
-    ).to.be.revertedWith("Must sum to 100");
-    
-    // Correct sum
-    await config.connect(governance).setFIWeights(45, 30, 20, 5);  // Sums to 100
-  });
-  
-  it("should track parameter history", async () => {
-    await config.connect(governance).setGamma(8000);
-    await time.increase(90 * 86400);
-    await config.connect(governance).setGamma(8500);
-    
-    const history = await config.getParameterHistory(ethers.utils.id("gamma"));
-    expect(history.length).to.equal(2);
-    expect(history[0].newValue).to.equal(8000);
-    expect(history[1].newValue).to.equal(8500);
-  });
-});
-```
+### Happy Path Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Initialize with default config | Contract deployed with default parameter values | All parameters set to defaults (gamma=8000, alpha=10000, minSlashingFI=30, etc.) |
+| Get parameter value | Query current value of gamma parameter | Returns current gamma value (8000 = 80%) |
+| Get FI weights | Query all FaultIndex weights | Returns weightL, weightB, weightD, weightI (must sum to 100) |
+| Get FM stake requirements | Query FM staking parameters | Returns baseStake and stakePerAUMRatio |
+| Set gamma within bounds | Governance updates gamma within allowed range (5000-9000) | Gamma updated, GammaUpdated event emitted, change history recorded |
+| Set FI weights correctly | Governance updates FI weights that sum to 100 | Weights updated, FIWeightsUpdated event emitted |
+| Update multiple parameters | Governance updates multiple parameters atomically | All parameters updated in single transaction, events emitted for each |
+| Get parameter bounds | Query min, max, change limits for a parameter | Returns ParameterBounds struct with all bounds |
+| Get parameter history | Query historical changes for gamma parameter | Returns array of ParameterChange with timestamps and proposal IDs |
+| Check parameter change validity | Check if parameter change would be valid | Returns can (bool) and reason (string) explaining why change allowed/rejected |
+
+### Edge Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Set parameter to minimum bound | Governance sets gamma to minimum allowed value (5000) | Transaction succeeds, parameter set to minimum |
+| Set parameter to maximum bound | Governance sets gamma to maximum allowed value (9000) | Transaction succeeds, parameter set to maximum |
+| Set FI weights to extreme values | Governance sets FI weights at allowed bounds (weightL=40-50, etc.) | Transaction succeeds if within bounds and sum equals 100 |
+| Change parameter exactly at limit | Governance changes parameter by exactly max allowed change (10%) | Transaction succeeds, change at boundary accepted |
+| Update parameter after cooldown | Governance updates parameter exactly when cooldown expires | Transaction succeeds, cooldown period respected |
+| Query parameter that doesn't exist | Query bounds or history for non-existent parameter | Returns default bounds or empty history |
+| Set same parameter value | Governance sets parameter to its current value | Transaction may succeed (no-op) or revert depending on implementation |
+| Update multiple parameters with one invalid | Governance attempts batch update with one invalid parameter | Entire batch reverts, no parameters updated (atomic operation) |
+
+### Failure Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Set parameter below minimum | Governance attempts to set gamma below 5000 (e.g., 4000) | Transaction reverts with "Out of range" error |
+| Set parameter above maximum | Governance attempts to set gamma above 9000 (e.g., 9500) | Transaction reverts with "Out of range" error |
+| Set parameter from non-governance | Non-governance address attempts to set gamma | Transaction reverts with "Not governance" error |
+| Change parameter too large | Governance attempts to change gamma by more than 10% (max change limit) | Transaction reverts with "Change too large" error |
+| Change parameter during cooldown | Governance attempts to change parameter before cooldown period expires | Transaction reverts with "Cooldown active" error |
+| Set FI weights not summing to 100 | Governance sets weights that sum to 105 | Transaction reverts with "Must sum to 100" error |
+| Set FI weights below minimum | Governance sets weightL below 40% (allowed minimum) | Transaction reverts with "Weight out of range" error |
+| Set FI weights above maximum | Governance sets weightL above 50% (allowed maximum) | Transaction reverts with "Weight out of range" error |
+| Update parameter with invalid proposal ID | Governance updates parameter with proposal ID 0 or invalid | Transaction may revert or proceed (depends on proposal validation) |
+| Batch update with mismatched arrays | Governance attempts batch update with mismatched parameter/value arrays | Transaction reverts with "Array length mismatch" error |
+
+### Security Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Prevent unauthorized parameter changes | Attacker attempts to change gamma | Transaction reverts, only governance can change parameters |
+| Enforce parameter bounds | Attacker gains governance control, attempts to set extreme gamma | Even with governance, bounds enforced, extreme values rejected |
+| Prevent cooldown bypass | Multiple proposals attempt to change parameter rapidly | Cooldown prevents rapid changes, must wait full period |
+| Enforce change magnitude limits | Governance attempts sudden extreme parameter shift | Change limits prevent sudden shifts, protects against manipulation |
+| FI weights sum validation | Attempt to set weights that don't sum to 100 | Atomic check prevents invalid weights, must sum exactly to 100 |
+| Parameter history immutability | Verify parameter history cannot be modified | History array append-only, past changes cannot be altered |
+| Bounds immutability | Verify parameter bounds cannot be changed after initialization | Bounds set in constructor or immutable, cannot be modified |
+| Change history tracking accuracy | Multiple parameter changes tracked correctly | Each change recorded with timestamp and proposal ID, history accurate |
+| Proposal ID validation | Verify proposal IDs linked to valid governance proposals | Proposal ID validation ensures changes tied to legitimate proposals |
+| Batch update atomicity | Batch update with one invalid parameter reverts all | All or nothing: either all parameters updated or none |
+
+### Access Control Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Set parameter by governance | Governance sets gamma | Transaction succeeds |
+| Set parameter by non-governance | Non-governance attempts to set gamma | Transaction reverts with "Not governance" |
+| Get parameters by any address | Any address queries parameter values | Queries succeed, read-only functions are public |
+| Get bounds by any address | Any address queries parameter bounds | Queries succeed, bounds are publicly readable |
+| Get history by any address | Any address queries parameter history | Queries succeed, history is publicly accessible |
+| Update multiple parameters by governance | Governance performs batch update | Transaction succeeds |
+| Update multiple parameters by non-governance | Non-governance attempts batch update | Transaction reverts with "Not governance" |
+| Guardian freeze parameters | Guardian freezes parameter changes (if supported) | Parameter updates blocked, governance cannot change |
+
+### Integration Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| SlashingEngine reads gamma | SlashingEngine queries gamma for slashing calculation | Gamma value read correctly, slashing calculations use correct value |
+| RiskEngine reads FI weights | RiskEngine queries FI weights for FaultIndex calculation | Weights read correctly, FI calculation uses correct weights |
+| FundFactory reads stake requirements | FundFactory queries FM stake requirements | Stake requirements read correctly, fund creation uses correct values |
+| Multiple contracts read config | Multiple contracts simultaneously query different parameters | All queries succeed, read operations don't interfere |
+| Parameter change affects contracts | Governance changes gamma, SlashingEngine uses new value | Contracts read updated value, calculations use new parameter |
+| Proposal integration | Governance proposal passes, config updated via proposal ID | Proposal ID linked correctly, change tracked with proposal |
+| Timelock integration | Parameter change proposal, timelock delay, then execution | Timelock enforced, execution only after delay |
+| History tracking for audits | Off-chain systems query parameter history for auditing | History provides complete audit trail of all parameter changes |
+
+### State Transition Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Parameter change state | Parameter value changes from old to new | Value updated correctly, history recorded, event emitted |
+| Cooldown state tracking | Parameter changed, cooldown active, then expires | Cooldown tracked correctly, changes blocked then allowed |
+| Multiple parameter changes | Sequential parameter changes with cooldowns | Each change tracked independently, cooldowns respected |
+| Batch parameter update | Multiple parameters updated atomically | All parameters updated simultaneously, single transaction |
+
+### Gas Optimization Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Single parameter update gas | Governance updates single parameter | Gas usage reasonable for parameter update |
+| Batch parameter update gas | Governance updates 5 parameters via batch vs individual | Batch update uses less gas than 5 separate transactions |
+| Query operations gas | Multiple queries for parameters, bounds, history | View functions consume no gas (read-only) |
+| Get parameter gas | Contracts frequently query parameter values | Gas-efficient reads, parameters cached or optimized |
 
 ## Upgrade Strategy
 
@@ -567,12 +602,12 @@ contract RiskEngine {
 
 ## Related Documentation
 
-- **[Immutable Layer](/docs/protocol/tokenomics/immutable-layer)**: What cannot change
-- **[Config Layer](/docs/protocol/tokenomics/config-layer)**: Parameter details
-- **[Logic Layer](/docs/protocol/tokenomics/logic-layer)**: How contracts use config
-- **[Protocol Governance](/docs/protocol/governance/protocol-proposal)**: How to change parameters
+- **[Immutable Layer](/protocol/tokenomics/immutable-layer)**: What cannot change
+- **[Config Layer](/protocol/tokenomics/config-layer)**: Parameter details
+- **[Logic Layer](/protocol/tokenomics/logic-layer)**: How contracts use config
+- **[Protocol Governance](/protocol/governance/protocol-proposal)**: How to change parameters
 
 ---
 
-**Back**: [Core Contracts](/docs/protocol/contracts/overview)
+**Back**: [Core Contracts](/protocol/contracts/overview)
 

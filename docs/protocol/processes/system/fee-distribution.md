@@ -47,5 +47,5 @@ await treasury.distributeProtocolFees({
 
 ---
 
-**Related**: [Treasury](/docs/protocol/contracts/core/TOSSTreasury)
+**Related**: [Treasury](/protocol/contracts/core/TOSSTreasury)
 

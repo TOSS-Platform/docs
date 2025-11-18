@@ -373,9 +373,9 @@ Finds all documentation recursively.
 
 ```typescript
 // File: docs/protocol/contracts/RiskEngine.md
-// URI: toss://docs/protocol/contracts/RiskEngine
+// URI: toss://protocol/contracts/RiskEngine
 
-uri = 'toss://docs/' + relativePath.replace('.md', '')
+uri = 'toss://' + relativePath.replace('.md', '')
 ```
 
 ### Category Detection
@@ -408,9 +408,9 @@ Adds ~10 seconds to CI pipeline - minimal overhead for guaranteed sync.
 
 ## Related Documentation
 
-- **[MCP Overview](/docs/mcp-integration/overview)**: What MCP provides
-- **[Development Workflow](/docs/mcp-integration/development-workflow)**: Day-to-day usage
-- **[Troubleshooting](/docs/mcp-integration/troubleshooting)**: Common issues
+- **[MCP Overview](/mcp-integration/overview)**: What MCP provides
+- **[Development Workflow](/mcp-integration/development-workflow)**: Day-to-day usage
+- **[Troubleshooting](/mcp-integration/troubleshooting)**: Common issues
 
 ---
 

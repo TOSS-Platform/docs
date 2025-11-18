@@ -7,12 +7,12 @@ MCP Resources expose TOSS documentation and protocol state for AI model consumpt
 ### Production (`docs.toss.fi`)
 - **Manifest**: `https://docs.toss.fi/mcp-version.json`
 - **Resources**: `https://docs.toss.fi/mcp-resources.json`
-- **Base URL**: `https://docs.toss.fi/docs/`
+- **Base URL**: `https://docs.toss.fi/`
 
 ### Staging (`staging.docs.toss.fi`)
 - **Manifest**: `https://staging.docs.toss.fi/mcp-version.json`
 - **Resources**: `https://staging.docs.toss.fi/mcp-resources.json`
-- **Base URL**: `https://staging.docs.toss.fi/docs/`
+- **Base URL**: `https://staging.docs.toss.fi/`
 
 ## Resource Types
 
@@ -21,29 +21,29 @@ MCP Resources expose TOSS documentation and protocol state for AI model consumpt
 **All 110+ documentation pages** available as MCP resources:
 
 ```
-URI Pattern: toss://docs/{category}/{page}
+URI Pattern: toss://{category}/{page}
 
 Examples:
-- toss://docs/protocol/contracts/RiskEngine
-- toss://docs/protocol/processes/fund-manager/create-fund
-- toss://docs/protocol/governance/overview
-- toss://docs/protocol/tokenomics/immutable-layer
+- toss://protocol/contracts/RiskEngine
+- toss://protocol/processes/fund-manager/create-fund
+- toss://protocol/governance/overview
+- toss://protocol/tokenomics/immutable-layer
 ```
 
 **URI Resolution**:
-- `toss://docs/{path}` → `{baseUrl}{path}.md`
-- Example: `toss://docs/protocol/contracts/RiskEngine`
-  - Production: `https://docs.toss.fi/docs/protocol/contracts/RiskEngine.md`
-  - Staging: `https://staging.docs.toss.fi/docs/protocol/contracts/RiskEngine.md`
+- `toss://{path}` → `{baseUrl}{path}.md`
+- Example: `toss://protocol/contracts/RiskEngine`
+  - Production: `https://docs.toss.fi/protocol/contracts/RiskEngine.md`
+  - Staging: `https://staging.docs.toss.fi/protocol/contracts/RiskEngine.md`
 
 **Format**: Markdown (text/markdown)
 
 **AI Usage**:
 ```typescript
 // AI retrieves documentation
-// URI: toss://docs/protocol/contracts/RiskEngine
-// Resolves to: https://docs.toss.fi/docs/protocol/contracts/RiskEngine.md
-const docUri = resolveResourceUri("toss://docs/protocol/contracts/RiskEngine");
+// URI: toss://protocol/contracts/RiskEngine
+// Resolves to: https://docs.toss.fi/protocol/contracts/RiskEngine.md
+const docUri = resolveResourceUri("toss://protocol/contracts/RiskEngine");
 const doc = await fetch(docUri).then(r => r.text());
 // AI can now answer questions about RiskEngine
 ```
@@ -93,5 +93,5 @@ toss://templates/trade-params - Trade parameters template
 
 ---
 
-**Back**: [MCP Overview](/docs/mcp-integration/overview)
+**Back**: [MCP Overview](/mcp-integration/overview)
 

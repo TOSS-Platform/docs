@@ -38,5 +38,5 @@ await fundFactory.increaseStake(fundId, additionalAmount);
 
 ---
 
-**Related**: [Fund Closure](/docs/protocol/processes/fund-manager/close-fund)
+**Related**: [Fund Closure](/protocol/processes/fund-manager/close-fund)
 

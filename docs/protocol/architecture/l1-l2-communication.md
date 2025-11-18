@@ -288,11 +288,11 @@ zkSync must include within 24 hours or enter recovery mode.
 
 ## Next Steps
 
-- **[Security Model](/docs/protocol/architecture/security-model)**: Comprehensive security analysis
-- **[zkSync Integration](/docs/protocol/zksync/overview)**: Deep dive into zkSync specifics
-- **[Smart Contracts - Bridge](/docs/protocol/contracts/core)**: Bridge contract specifications
+- **[Security Model](/protocol/architecture/security-model)**: Comprehensive security analysis
+- **[zkSync Integration](/protocol/zksync/overview)**: Deep dive into zkSync specifics
+- **[Smart Contracts - Bridge](/protocol/contracts/core)**: Bridge contract specifications
 
 ---
 
-*For bridge implementation details, see [Technical Documentation - Off-Chain Services](/docs/technical/offchain/overview).*
+*For bridge implementation details, see [Technical Documentation - Off-Chain Services](/technical/offchain/overview).*
 

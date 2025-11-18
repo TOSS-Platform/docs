@@ -7,7 +7,7 @@ How to integrate TOSS MCP into your AI application.
 ## Setup
 
 :::tip Using Cursor IDE?
-See the dedicated setup guide: [Cursor Setup Guide](/docs/mcp-integration/cursor-setup)
+See the dedicated setup guide: [Cursor Setup Guide](/mcp-integration/cursor-setup)
 :::
 
 ### 1. Install MCP Client
@@ -23,7 +23,7 @@ npm install @modelcontextprotocol/sdk
 const MCP_CONFIG = {
   manifestUrl: 'https://docs.toss.fi/mcp-version.json',
   resourcesUrl: 'https://docs.toss.fi/mcp-resources.json',
-  baseUrl: 'https://docs.toss.fi/docs/'
+  baseUrl: 'https://docs.toss.fi/'
 };
 ```
 
@@ -32,7 +32,7 @@ const MCP_CONFIG = {
 const MCP_CONFIG = {
   manifestUrl: 'https://staging.docs.toss.fi/mcp-version.json',
   resourcesUrl: 'https://staging.docs.toss.fi/mcp-resources.json',
-  baseUrl: 'https://staging.docs.toss.fi/docs/'
+  baseUrl: 'https://staging.docs.toss.fi/'
 };
 ```
 
@@ -57,10 +57,10 @@ const manifest = await fetch(MCP_CONFIG.manifestUrl).then(r => r.json());
 const resources = await fetch(MCP_CONFIG.resourcesUrl).then(r => r.json());
 
 // Resource URI resolution:
-// toss://docs/{path} → {baseUrl}{path}.md
+// toss://{path} → {baseUrl}{path}.md
 const resolveResourceUri = (uri: string) => {
-  if (uri.startsWith('toss://docs/')) {
-    const path = uri.replace('toss://docs/', '');
+  if (uri.startsWith('toss://')) {
+    const path = uri.replace('toss://', '');
     return `${MCP_CONFIG.baseUrl}${path}.md`;
   }
   return uri;
@@ -112,9 +112,9 @@ Use MCP tools to:
 async function handleUserQuery(query: string) {
   if (query.includes("create fund")) {
     // 1. Get documentation
-    // URI: toss://docs/protocol/processes/fund-manager/create-fund
-    // Resolves to: https://docs.toss.fi/docs/protocol/processes/fund-manager/create-fund.md
-    const docUri = resolveResourceUri("toss://docs/protocol/processes/fund-manager/create-fund");
+    // URI: toss://protocol/processes/fund-manager/create-fund
+    // Resolves to: https://docs.toss.fi/protocol/processes/fund-manager/create-fund.md
+    const docUri = resolveResourceUri("toss://protocol/processes/fund-manager/create-fund");
     const doc = await fetch(docUri).then(r => r.text());
     
     // 2. Check eligibility
@@ -131,18 +131,18 @@ async function handleUserQuery(query: string) {
 ### Production (`docs.toss.fi`)
 - **Manifest**: `https://docs.toss.fi/mcp-version.json`
 - **Resources**: `https://docs.toss.fi/mcp-resources.json`
-- **Documentation Base**: `https://docs.toss.fi/docs/`
-- **Resource Resolution**: `toss://docs/{path}` → `https://docs.toss.fi/docs/{path}.md`
+- **Documentation Base**: `https://docs.toss.fi/`
+- **Resource Resolution**: `toss://{path}` → `https://docs.toss.fi/{path}.md`
 
 ### Staging (`staging.docs.toss.fi`)
 - **Manifest**: `https://staging.docs.toss.fi/mcp-version.json`
 - **Resources**: `https://staging.docs.toss.fi/mcp-resources.json`
-- **Documentation Base**: `https://staging.docs.toss.fi/docs/`
-- **Resource Resolution**: `toss://docs/{path}` → `https://staging.docs.toss.fi/docs/{path}.md`
+- **Documentation Base**: `https://staging.docs.toss.fi/`
+- **Resource Resolution**: `toss://{path}` → `https://staging.docs.toss.fi/{path}.md`
 
 ### URI Format
-- **Documentation**: `toss://docs/{category}/{subcategory}/{page}`
-  - Example: `toss://docs/protocol/contracts/risk/RiskEngine`
+- **Documentation**: `toss://{category}/{subcategory}/{page}`
+  - Example: `toss://protocol/contracts/risk/RiskEngine`
   - Resolves to: `{baseUrl}protocol/contracts/risk/RiskEngine.md`
   
 - **State**: `toss://state/{resource}/{id}`
@@ -155,5 +155,5 @@ async function handleUserQuery(query: string) {
 
 ---
 
-**Back**: [MCP Overview](/docs/mcp-integration/overview)
+**Back**: [MCP Overview](/mcp-integration/overview)
 

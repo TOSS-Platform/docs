@@ -758,11 +758,11 @@ Compensation:
 
 ## Next Steps
 
-- **[Proposal Lifecycle](/docs/protocol/governance/proposal-lifecycle)**: Detailed proposal flows
-- **[Voting Mechanism](/docs/protocol/governance/voting-mechanism)**: Voting power calculations
-- **[Governance Contracts](/docs/protocol/contracts/governance-layer)**: Contract specifications
+- **[Proposal Lifecycle](/protocol/governance/proposal-lifecycle)**: Detailed proposal flows
+- **[Voting Mechanism](/protocol/governance/voting-mechanism)**: Voting power calculations
+- **[Governance Contracts](/protocol/contracts/governance-layer)**: Contract specifications
 
 ---
 
-*Back to [Governance Overview](/docs/protocol/governance/overview)*
+*Back to [Governance Overview](/protocol/governance/overview)*
 

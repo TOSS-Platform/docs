@@ -368,11 +368,11 @@ Automatic triggers:
 
 ## Next Steps
 
-- **[Smart Contracts](/docs/protocol/contracts/overview)**: Review contract specifications
-- **[Security Deep Dive](/docs/protocol/security/overview)**: Detailed security analysis
-- **[Governance](/docs/protocol/governance/overview)**: Governance security model
+- **[Smart Contracts](/protocol/contracts/overview)**: Review contract specifications
+- **[Security Deep Dive](/protocol/security/overview)**: Detailed security analysis
+- **[Governance](/protocol/governance/overview)**: Governance security model
 
 ---
 
-*For operational security procedures, see [Technical Documentation - Deployment](/docs/technical/deployment/workflow).*
+*For operational security procedures, see [Technical Documentation - Deployment](/technical/deployment/workflow).*
 

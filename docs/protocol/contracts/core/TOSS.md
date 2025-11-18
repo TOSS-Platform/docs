@@ -483,185 +483,117 @@ TOSS.sol does not call external contracts (pure token logic).
 
 ### Happy Path Tests
 
-```typescript
-describe("TOSS Token - Happy Path", () => {
-  it("should transfer tokens correctly", async () => {
-    await toss.transfer(recipient.address, 1000);
-    expect(await toss.balanceOf(recipient.address)).to.equal(1000);
-  });
-  
-  it("should approve and transferFrom correctly", async () => {
-    await toss.approve(spender.address, 1000);
-    await toss.connect(spender).transferFrom(owner.address, recipient.address, 1000);
-    expect(await toss.balanceOf(recipient.address)).to.equal(1000);
-  });
-  
-  it("should create snapshots correctly", async () => {
-    await toss.transfer(account1.address, 1000);
-    const snapshotId = await toss.connect(governance).snapshot();
-    await toss.transfer(account2.address, 500);
-    
-    expect(await toss.balanceOfAt(account1.address, snapshotId)).to.equal(1000);
-    expect(await toss.balanceOfAt(account2.address, snapshotId)).to.equal(0);
-  });
-  
-  it("should permit gasless approval", async () => {
-    const deadline = Math.floor(Date.now() / 1000) + 3600;
-    const { v, r, s } = await signPermit(owner, spender.address, 1000, deadline);
-    
-    await toss.permit(owner.address, spender.address, 1000, deadline, v, r, s);
-    expect(await toss.allowance(owner.address, spender.address)).to.equal(1000);
-  });
-});
-```
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Transfer tokens | User transfers 1000 tokens to a valid recipient address | Recipient balance increases by 1000, sender balance decreases by 1000, Transfer event emitted |
+| Approve spender | User approves spender to transfer 1000 tokens on their behalf | Allowance for spender increases to 1000, Approval event emitted |
+| TransferFrom with allowance | Spender transfers 1000 tokens from owner to recipient using valid allowance | Tokens transferred successfully, allowance decreased by 1000 (unless infinite), recipient balance increases |
+| Create snapshot | Governance creates a new snapshot when protocol needs historical balance for voting | New snapshot ID generated, current total supply and all balances captured at that moment, Snapshot event emitted |
+| Query historical balance | Query balance of an address at a specific snapshot ID | Returns balance at that snapshot moment, unaffected by subsequent transfers |
+| Permit gasless approval | User signs EIP-2612 permit off-chain, relayer submits permit with valid signature before deadline | Allowance set without user paying gas, nonce incremented, Approval event emitted |
+| Burn tokens (authorized) | Authorized burner (SlashingEngine) burns 1000 tokens from an account | Account balance decreases by 1000, total supply decreases by 1000, Transfer event to zero address emitted |
+| Set authorized burner | Governance authorizes SlashingEngine as a burner | Burner added to authorizedBurners mapping, BurnerAuthorized event emitted |
+| Set governance address | Governance updates the governance contract address | New governance address set, GovernanceUpdated event emitted |
+| Transfer entire balance | User transfers their entire token balance to recipient | All tokens transferred, sender balance becomes zero, recipient balance equals full amount |
 
 ### Edge Cases
 
-```typescript
-describe("TOSS Token - Edge Cases", () => {
-  it("should handle zero transfers", async () => {
-    await expect(toss.transfer(recipient.address, 0)).to.not.be.reverted;
-  });
-  
-  it("should handle max uint256 allowance (infinite approval)", async () => {
-    const maxUint = ethers.constants.MaxUint256;
-    await toss.approve(spender.address, maxUint);
-    await toss.connect(spender).transferFrom(owner.address, recipient.address, 1000);
-    
-    // Allowance should remain MaxUint256
-    expect(await toss.allowance(owner.address, spender.address)).to.equal(maxUint);
-  });
-  
-  it("should handle snapshot queries for non-existent IDs", async () => {
-    await expect(toss.balanceOfAt(account.address, 999)).to.be.revertedWith("Invalid snapshot");
-  });
-});
-```
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Zero amount transfer | User attempts to transfer 0 tokens | Transaction succeeds (zero is valid ERC20 amount), no state change, event still emitted |
+| Max uint256 allowance | User approves max uint256 (infinite approval) and spender transfers tokens | Allowance remains max uint256 after transfer, no need to re-approve |
+| Transfer to self | User transfers tokens to their own address | Transaction succeeds, balance unchanged, Transfer event still emitted |
+| Snapshot at deployment | Query balance at snapshot ID 0 (initial snapshot) | Returns initial balance at deployment |
+| Query non-existent snapshot | Query balance at snapshot ID that doesn't exist | Transaction reverts with "Invalid snapshot" error |
+| Permit at deadline boundary | User submits permit exactly at deadline timestamp | Transaction succeeds if submitted in same block, fails if deadline passed |
+| Burn zero amount | Authorized burner attempts to burn 0 tokens | Transaction succeeds, no state change |
+| Transfer max uint256 amount | User attempts to transfer max uint256 tokens (boundary test) | Transaction succeeds if balance sufficient, otherwise reverts with insufficient balance |
+| Multiple snapshots | Governance creates multiple snapshots, query different IDs | Each snapshot correctly returns balance at that specific moment |
+| Permit with zero allowance | User permits 0 allowance | Transaction succeeds, allowance set to 0, nonce incremented |
 
 ### Failure Cases
 
-```typescript
-describe("TOSS Token - Failure Cases", () => {
-  it("should reject transfer to zero address", async () => {
-    await expect(
-      toss.transfer(ethers.constants.AddressZero, 1000)
-    ).to.be.revertedWith("ERC20: transfer to the zero address");
-  });
-  
-  it("should reject transfer exceeding balance", async () => {
-    const balance = await toss.balanceOf(owner.address);
-    await expect(
-      toss.transfer(recipient.address, balance.add(1))
-    ).to.be.revertedWith("ERC20: transfer amount exceeds balance");
-  });
-  
-  it("should reject transferFrom exceeding allowance", async () => {
-    await toss.approve(spender.address, 1000);
-    await expect(
-      toss.connect(spender).transferFrom(owner.address, recipient.address, 1001)
-    ).to.be.revertedWith("ERC20: insufficient allowance");
-  });
-  
-  it("should reject snapshot from non-governance", async () => {
-    await expect(
-      toss.connect(attacker).snapshot()
-    ).to.be.revertedWith("Not governance");
-  });
-  
-  it("should reject burn from unauthorized address", async () => {
-    await expect(
-      toss.connect(attacker).burn(victim.address, 1000)
-    ).to.be.revertedWith("Not authorized burner");
-  });
-  
-  it("should reject expired permit", async () => {
-    const deadline = Math.floor(Date.now() / 1000) - 3600;  // 1 hour ago
-    const { v, r, s } = await signPermit(owner, spender.address, 1000, deadline);
-    
-    await expect(
-      toss.permit(owner.address, spender.address, 1000, deadline, v, r, s)
-    ).to.be.revertedWith("ERC20Permit: expired deadline");
-  });
-});
-```
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Transfer to zero address | User attempts to transfer tokens to address(0) | Transaction reverts with "ERC20: transfer to the zero address" error |
+| Transfer exceeds balance | User attempts to transfer more tokens than they own | Transaction reverts with "ERC20: transfer amount exceeds balance" error |
+| TransferFrom exceeds allowance | Spender attempts to transfer more than approved allowance | Transaction reverts with "ERC20: insufficient allowance" error |
+| TransferFrom insufficient balance | Spender has sufficient allowance but owner has insufficient balance | Transaction reverts with "ERC20: transfer amount exceeds balance" error |
+| Snapshot from non-governance | Non-governance address attempts to create snapshot | Transaction reverts with "Not governance" error |
+| Burn from unauthorized address | Unauthorized address attempts to burn tokens | Transaction reverts with "Not authorized burner" error |
+| Burn exceeds balance | Authorized burner attempts to burn more than account owns | Transaction reverts with "ERC20: burn amount exceeds balance" error |
+| Expired permit | User submits permit with deadline that has already passed | Transaction reverts with "ERC20Permit: expired deadline" error |
+| Invalid permit signature | User submits permit with invalid ECDSA signature | Transaction reverts with signature validation error |
+| Set governance from non-governance | Non-governance address attempts to change governance | Transaction reverts with "Not governance" error |
+| Permit wrong owner | User submits permit with signature for different owner address | Transaction reverts with signature validation error |
+| Permit wrong spender | User submits permit with signature for different spender address | Transaction reverts with signature validation error |
+| Permit wrong amount | User submits permit with signature for different amount | Transaction reverts with signature validation error |
+| Permit wrong nonce | User submits permit with signature using wrong nonce | Transaction reverts with signature validation error |
+| Set burner from non-governance | Non-governance address attempts to authorize/deauthorize burner | Transaction reverts with "Not governance" error |
 
 ### Security Tests
 
-```typescript
-describe("TOSS Token - Security", () => {
-  it("should prevent unauthorized minting", async () => {
-    // Verify no mint function exists
-    expect(toss.mint).to.be.undefined;
-  });
-  
-  it("should only allow SlashingEngine to burn", async () => {
-    // Authorize SlashingEngine
-    await toss.connect(governance).setAuthorizedBurner(slashingEngine.address, true);
-    
-    // SlashingEngine can burn
-    await toss.connect(slashingEngine).burn(fmAddress, 1000);
-    
-    // Others cannot
-    await expect(
-      toss.connect(attacker).burn(victim.address, 1000)
-    ).to.be.reverted;
-  });
-  
-  it("should track total supply correctly after burns", async () => {
-    const initialSupply = await toss.totalSupply();
-    const burnAmount = 1000;
-    
-    await toss.connect(slashingEngine).burn(account.address, burnAmount);
-    
-    const finalSupply = await toss.totalSupply();
-    expect(finalSupply).to.equal(initialSupply.sub(burnAmount));
-  });
-  
-  it("should prevent replay attacks on permit", async () => {
-    const deadline = Math.floor(Date.now() / 1000) + 3600;
-    const { v, r, s } = await signPermit(owner, spender.address, 1000, deadline);
-    
-    // First permit succeeds
-    await toss.permit(owner.address, spender.address, 1000, deadline, v, r, s);
-    
-    // Second permit with same signature fails (nonce incremented)
-    await expect(
-      toss.permit(owner.address, spender.address, 1000, deadline, v, r, s)
-    ).to.be.reverted;
-  });
-});
-```
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| No mint function | Verify that contract has no mint function to prevent supply inflation | Contract interface shows no mint function exists, no way to increase supply |
+| Only SlashingEngine can burn | Verify only authorized burners in mapping can burn tokens | Unauthorized addresses cannot burn, only SlashingEngine (after authorization) can burn |
+| Total supply decreases on burn | After burning tokens, verify total supply is correctly reduced | Total supply decreases by burn amount, accounting remains accurate |
+| Prevent permit replay attacks | User attempts to reuse same permit signature twice | First permit succeeds, second attempt reverts (nonce prevents replay) |
+| Prevent cross-chain permit replay | User attempts to use permit signature on different chain | Transaction reverts (DOMAIN_SEPARATOR includes chainId, prevents cross-chain replay) |
+| Snapshot immutability | After snapshot created, verify historical balances cannot change | Historical balances at snapshot remain constant even after new transfers |
+| Governance transfer requires current governance | Attempt to change governance without being current governance | Transaction reverts, governance can only be changed by current governance |
+| Burner list controlled by governance | Verify only governance can modify authorizedBurners mapping | Unauthorized modifications to burner list revert, governance maintains control |
+| Supply cap enforcement | Verify total supply cannot exceed initial 1B tokens | All burns reduce supply, no mint function exists, supply only decreases |
+| Nonce increment on permit | Verify nonce increments after each permit to prevent replay | Nonce increases by 1 after permit, prevents signature reuse |
+| Domain separator includes chainId | Verify DOMAIN_SEPARATOR includes chainId to prevent cross-chain attacks | Permit signatures are chain-specific, cannot be reused on different chain |
+| Snapshot prevents flash loan manipulation | Verify snapshots taken before voting prevent flash loan voting power manipulation | Voting uses historical snapshot, flash loans cannot affect past snapshots |
+| Burn event emission | Verify all burns emit Transfer event for transparency | Every burn emits Transfer(from, address(0), amount) for full audit trail |
+| Permit signature includes all parameters | Verify permit signature validation includes all parameters to prevent parameter substitution | Changing any parameter (owner, spender, value, deadline, nonce) invalidates signature |
+| Reentrancy protection on transfers | Verify contract is protected against reentrancy attacks during transfers | Reentrancy guards prevent recursive calls, safe from external callback attacks |
+
+### Access Control Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Transfer from any address | Any token holder attempts to transfer their tokens | Transaction succeeds, no access control restriction |
+| Approve from any address | Any token holder attempts to approve spender | Transaction succeeds, token holder controls their allowances |
+| Snapshot only by governance | Various addresses attempt to create snapshot | Only governance address succeeds, all others revert |
+| Burn only by authorized burners | Various addresses attempt to burn tokens | Only authorized burners succeed, all others revert |
+| Set governance only by governance | Various addresses attempt to change governance | Only current governance succeeds, all others revert |
+| Set burner only by governance | Various addresses attempt to authorize/deauthorize burners | Only governance succeeds, all others revert |
+| Permit from any address | Any address attempts to submit permit (as relayer) | Transaction succeeds if signature valid, permit is permissionless (anyone can relay) |
+| TransferFrom by approved spender | Spender attempts to transferFrom after receiving approval | Transaction succeeds if allowance sufficient |
+| TransferFrom by non-approved spender | Spender attempts to transferFrom without approval | Transaction reverts with insufficient allowance |
+
+### Integration Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| FundFactory stakes TOSS | FundManager approves FundFactory and creates fund requiring stake | TOSS transferred from FM to FundFactory, stake locked successfully |
+| SlashingEngine burns TOSS | SlashingEngine burns slashed TOSS after slashing event | TOSS burned from FM's balance, total supply decreases, event emitted |
+| Governance uses snapshot for voting | Governance creates snapshot, calculates voting power from snapshot | Voting power calculated from historical balances, prevents manipulation |
+| RewardDistributor transfers rewards | RewardDistributor transfers TOSS rewards to stakers | Tokens transferred successfully, balances updated correctly |
+| Multiple contracts interact | FundFactory, SlashingEngine, and Governance all interact with TOSS | All interactions succeed, state remains consistent across all contracts |
+| Permit integration with FundFactory | User permits FundFactory to stake TOSS, relayer executes fund creation | Gasless approval enables seamless fund creation flow |
+| Snapshot integration with voting | Multiple snapshots created for different governance proposals | Each proposal uses correct snapshot, voting power calculated accurately |
+| Burn integration with slashing | Multiple slashing events trigger multiple burns | Each burn reduces supply correctly, accounting remains accurate |
+| Cross-contract allowance checks | FundFactory checks allowance before pulling stake | Pull operation succeeds only if allowance sufficient |
+| Event indexing integration | Off-chain indexer listens to Transfer, Approval, Snapshot events | All events captured correctly, blockchain state matches indexed state |
 
 ### Gas Optimization Tests
 
-```typescript
-describe("TOSS Token - Gas Optimization", () => {
-  it("should use reasonable gas for transfer", async () => {
-    const tx = await toss.transfer(recipient.address, 1000);
-    const receipt = await tx.wait();
-    expect(receipt.gasUsed).to.be.lt(65000);  // Typical ERC20 transfer
-  });
-  
-  it("should use reasonable gas for approve", async () => {
-    const tx = await toss.approve(spender.address, 1000);
-    const receipt = await tx.wait();
-    expect(receipt.gasUsed).to.be.lt(50000);
-  });
-  
-  it("should batch transfers efficiently", async () => {
-    // Single transaction with multiple transfers via multicall
-    const tx = await toss.multicall([
-      toss.interface.encodeFunctionData("transfer", [addr1, 100]),
-      toss.interface.encodeFunctionData("transfer", [addr2, 200]),
-      toss.interface.encodeFunctionData("transfer", [addr3, 300]),
-    ]);
-    const receipt = await tx.wait();
-    
-    // Should be cheaper than 3 separate transactions
-    expect(receipt.gasUsed).to.be.lt(180000);
-  });
-});
-```
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Standard transfer gas usage | User performs standard ERC20 transfer | Gas usage remains below 65,000 gas (typical ERC20 transfer) |
+| Approve gas usage | User performs standard ERC20 approve | Gas usage remains below 50,000 gas (typical approve operation) |
+| Batch transfers efficiency | User performs batch transfers via multicall | Total gas for batch transfer less than sum of individual transfers |
+| Snapshot creation gas usage | Governance creates snapshot with many token holders | Gas usage scales efficiently, snapshot creation remains cost-effective |
+| Permit gas savings | User uses permit instead of approve + separate transaction | Permit saves gas compared to two separate transactions |
+| TransferFrom gas usage | Spender performs transferFrom with sufficient allowance | Gas usage comparable to standard transfer |
+| Burn gas usage | Authorized burner performs burn operation | Gas usage remains reasonable, burn operation efficient |
+| Zero balance transfer gas | User transfers 0 tokens (edge case) | Gas usage similar to non-zero transfer (state changes minimal) |
+| Infinite approval efficiency | User approves max uint256 once, uses multiple times | Subsequent transfers don't require re-approval, gas saved |
+| Query operations gas usage | Multiple view function calls (balanceOf, allowance, balanceOfAt) | View functions consume no gas (read-only operations) |
 
 ## Upgrade Strategy
 
@@ -737,20 +669,20 @@ await governance.castVote(proposalId, support, votingPower);
 
 ## Related Contracts
 
-- **[SlashingEngine](/docs/protocol/contracts/risk/SlashingEngine)**: Only authorized burner
-- **[FundFactory](/docs/protocol/contracts/fund/FundFactory)**: Requires TOSS staking
-- **[ProtocolGovernance](/docs/protocol/contracts/governance/ProtocolGovernance)**: Uses snapshots for voting
-- **[InvestorRegistry](/docs/protocol/contracts/investor/InvestorRegistry)**: Tracks TOSS staking for classes
+- **[SlashingEngine](/protocol/contracts/risk/SlashingEngine)**: Only authorized burner
+- **[FundFactory](/protocol/contracts/fund/FundFactory)**: Requires TOSS staking
+- **[ProtocolGovernance](/protocol/contracts/governance/ProtocolGovernance)**: Uses snapshots for voting
+- **[InvestorRegistry](/protocol/contracts/investor/InvestorRegistry)**: Tracks TOSS staking for classes
 
 ## References
 
 - **ERC20 Standard**: [EIP-20](https://eips.ethereum.org/EIPS/eip-20)
 - **EIP-2612 Permit**: [EIP-2612](https://eips.ethereum.org/EIPS/eip-2612)
 - **Snapshot Pattern**: OpenZeppelin ERC20Snapshot
-- **zkSync Considerations**: [zkSync ERC20](https://era.zksync.io/docs/dev/building-on-zksync/contracts/differences-with-ethereum.html)
+- **zkSync Considerations**: [zkSync ERC20](https://era.zksync.io/dev/building-on-zksync/contracts/differences-with-ethereum.html)
 
 ---
 
-**Next Contract**: [TOSSTreasury](/docs/protocol/contracts/core/TOSSTreasury)
+**Next Contract**: [TOSSTreasury](/protocol/contracts/core/TOSSTreasury)
 
-**Back**: [Smart Contracts Overview](/docs/protocol/contracts/overview)
+**Back**: [Smart Contracts Overview](/protocol/contracts/overview)

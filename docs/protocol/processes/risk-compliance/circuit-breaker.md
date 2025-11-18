@@ -33,5 +33,5 @@ If conditions persist:
 
 ---
 
-**Related**: [Emergency Procedures](/docs/protocol/processes/system/emergency-procedures)
+**Related**: [Emergency Procedures](/protocol/processes/system/emergency-procedures)
 

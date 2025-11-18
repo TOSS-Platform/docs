@@ -39,5 +39,5 @@ if (buyAndSellSameAsset && lowVolume) {
 
 ---
 
-**Related**: [IntentDetection Contract](/docs/protocol/contracts/risk/IntentDetection)
+**Related**: [IntentDetection Contract](/protocol/contracts/risk/IntentDetection)
 

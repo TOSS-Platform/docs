@@ -38,5 +38,5 @@ Total: $3,000/fund/year
 
 ---
 
-**Back**: [Revenue Streams](/docs/investor-deck/revenue-streams)
+**Back**: [Revenue Streams](/investor-deck/revenue-streams)
 

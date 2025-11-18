@@ -172,30 +172,80 @@ function isAssetAllowed(
 
 ## Test Scenarios
 
-```typescript
-describe("FundConfig", () => {
-  it("should enforce RiskTier limits", async () => {
-    const config = { ...baseConfig, maxDrawdown: 60 };  // 60% DD
-    
-    await expect(
-      fundConfig.setConfiguration(tier1FundId, config)
-    ).to.be.revertedWith("Exceeds Tier 1 max drawdown (15%)");
-  });
-  
-  it("should allow governance to update fees", async () => {
-    await fundGovernance.proposeAndPass(
-      fundId,
-      ProposalType.FEE_CHANGE,
-      { managementFee: 150 }  // 1.5%
-    );
-    
-    const fees = await fundConfig.getFees(fundId);
-    expect(fees.managementFee).to.equal(150);
-  });
-});
-```
+### Happy Path Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Set fund configuration | Fund Governance sets new configuration after proposal passes | Configuration updated, ConfigurationUpdated event emitted, all parameters set correctly |
+| Update single risk parameter | Fund Governance updates specific risk parameter (e.g., maxDrawdown) | Parameter updated, event emitted, other parameters unchanged |
+| Query risk parameters | Query all risk parameters for fund | Returns PSL, PCL, AEL, maxDrawdown, maxVolatility values |
+| Query fees | Query all fees for fund | Returns managementFee, performanceFee, depositFee, withdrawalFee |
+| Check asset allowed | Query if specific asset is allowed for fund | Returns bool indicating if asset can be traded |
+| Get configuration | Query complete fund configuration | Returns FundConfiguration struct with all parameters |
+| Update fees via governance | Governance proposal passes, fees updated | Fees updated correctly, change tracked with proposal ID |
+| Update risk limits within tier | Governance updates risk limits within RiskTier bounds | Limits updated successfully, validated against tier constraints |
+
+### Edge Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Set config at tier minimum | Governance sets risk parameters at tier minimum values | Transaction succeeds, parameters set to minimum allowed |
+| Set config at tier maximum | Governance sets risk parameters at tier maximum values | Transaction succeeds, parameters set to maximum allowed |
+| Update to same value | Governance attempts to update parameter to its current value | Transaction may succeed (no-op) or revert depending on implementation |
+| Query non-existent fund | Query configuration for fund that doesn't exist | Returns default configuration or reverts |
+| Add new asset to allowed list | Governance adds new asset within tier constraints | Asset added to allowedAssets array, fund can trade asset |
+| Remove asset from allowed list | Governance removes asset from allowed list | Asset removed, fund cannot trade asset anymore |
+
+### Failure Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Set config exceeding tier limits | Governance attempts to set maxDrawdown above tier maximum | Transaction reverts with "Exceeds Tier X max drawdown" error |
+| Set config from non-governance | Non-governance address attempts to set configuration | Transaction reverts with "Only Fund Governance" error |
+| Set fees exceeding protocol limits | Governance attempts to set fees above protocol maximum | Transaction reverts with "Fee exceeds maximum" error |
+| Set invalid risk parameters | Governance attempts to set invalid parameter combinations | Transaction reverts with validation error |
+| Update parameter with invalid proposal | Attempt to update config without valid governance proposal | Transaction reverts with "Invalid proposal" error |
+| Add disallowed asset | Governance attempts to add asset not allowed for fund's tier | Transaction reverts with "Asset not allowed for tier" error |
+
+### Security Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Prevent unauthorized config changes | Attacker attempts to modify fund configuration | Transaction reverts, only Fund Governance can update |
+| Enforce tier constraints | Attempt to set parameters outside tier limits | Tier limits enforced, invalid parameters rejected |
+| Parameter validation | Verify all parameters validated before update | All parameters checked against protocol and tier limits |
+| Asset list validation | Verify assets validated against tier allowed list | Only tier-allowed assets can be added, validation enforced |
+| Fee limit enforcement | Verify fees cannot exceed protocol maximums | Fee limits enforced per tier, excess fees rejected |
+| Configuration immutability after set | Verify configuration cannot be arbitrarily changed | Configuration changes only via governance, no direct modifications |
+
+### Access Control Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Set configuration by Fund Governance | Fund Governance sets configuration | Transaction succeeds |
+| Set configuration by non-governance | Non-governance attempts to set configuration | Transaction reverts with "Only Fund Governance" |
+| Update parameter by Fund Governance | Fund Governance updates single parameter | Transaction succeeds |
+| Query functions by any address | Any address queries configuration, fees, risk parameters | Queries succeed, read-only functions are public |
+
+### Integration Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Governance proposal flow | Fund proposal created, voted on, executed, config updated | Complete flow succeeds, configuration reflects proposal outcome |
+| RiskEngine uses config | RiskEngine queries fund config for trade validation | Config values read correctly, validation uses correct limits |
+| FundTradeExecutor uses config | TradeExecutor checks asset allowed status before execution | Asset validation works correctly, trades validated against config |
+| Multi-parameter update | Governance updates multiple parameters in single proposal | All parameters updated atomically, configuration consistent |
+| Tier-based limits | Fund config respects tier constraints, updates validated | Tier limits enforced, updates within tier succeed |
+
+### Gas Optimization Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Configuration update gas | Fund Governance updates configuration | Gas usage reasonable for configuration update |
+| Parameter update gas | Fund Governance updates single parameter | Gas usage reasonable for parameter update |
+| Query operations gas | Multiple queries for config, fees, risk parameters | View functions consume no gas (read-only) |
 
 ---
 
-**Next**: [FundTradeExecutor](/docs/protocol/contracts/fund/FundTradeExecutor)
+**Next**: [FundTradeExecutor](/protocol/contracts/fund/FundTradeExecutor)
 

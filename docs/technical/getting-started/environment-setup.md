@@ -407,17 +407,17 @@ curl -X POST https://sepolia.era.zksync.dev \
 
 Your environment is now configured! Continue with:
 
-1. **[Smart Contract Development](/docs/technical/smart-contracts/zksync-safe-contracts)**: Start building
-2. **[Testing Guide](/docs/technical/testing/overview)**: Write comprehensive tests
-3. **[Deployment](/docs/technical/deployment/workflow)**: Deploy to testnet/mainnet
+1. **[Smart Contract Development](/technical/smart-contracts/zksync-safe-contracts)**: Start building
+2. **[Testing Guide](/technical/testing/overview)**: Write comprehensive tests
+3. **[Deployment](/technical/deployment/workflow)**: Deploy to testnet/mainnet
 
 ## Additional Resources
 
 - [Hardhat Configuration](https://hardhat.org/config/)
-- [zkSync Development](https://era.zksync.io/docs/dev/)
+- [zkSync Development](https://era.zksync.io/dev/)
 - [TypeScript Configuration](https://www.typescriptlang.org/tsconfig)
 
 ---
 
-*Ready to build? Start with [Smart Contract Development](/docs/technical/smart-contracts/zksync-safe-contracts).*
+*Ready to build? Start with [Smart Contract Development](/technical/smart-contracts/zksync-safe-contracts).*
 

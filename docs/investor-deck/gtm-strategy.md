@@ -42,5 +42,5 @@
 
 ---
 
-**Back**: [Revenue Streams](/docs/investor-deck/revenue-streams)
+**Back**: [Revenue Streams](/investor-deck/revenue-streams)
 

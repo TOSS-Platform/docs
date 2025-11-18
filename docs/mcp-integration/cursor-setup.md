@@ -43,7 +43,7 @@ Add the following configuration to your `settings.json` file:
       "endpoints": {
         "manifest": "https://docs.toss.fi/mcp-version.json",
         "resources": "https://docs.toss.fi/mcp-resources.json",
-        "baseUrl": "https://docs.toss.fi/docs/"
+        "baseUrl": "https://docs.toss.fi/"
       },
       "enabled": true
     }
@@ -64,7 +64,7 @@ Add the following configuration to your `settings.json` file:
       "endpoints": {
         "manifest": "https://staging.docs.toss.fi/mcp-version.json",
         "resources": "https://staging.docs.toss.fi/mcp-resources.json",
-        "baseUrl": "https://staging.docs.toss.fi/docs/"
+        "baseUrl": "https://staging.docs.toss.fi/"
       },
       "enabled": true
     }
@@ -85,7 +85,7 @@ Add the following configuration to your `settings.json` file:
       "endpoints": {
         "manifest": "https://docs.toss.fi/mcp-version.json",
         "resources": "https://docs.toss.fi/mcp-resources.json",
-        "baseUrl": "https://docs.toss.fi/docs/"
+        "baseUrl": "https://docs.toss.fi/"
       },
       "enabled": true
     },
@@ -97,7 +97,7 @@ Add the following configuration to your `settings.json` file:
       "endpoints": {
         "manifest": "https://staging.docs.toss.fi/mcp-version.json",
         "resources": "https://staging.docs.toss.fi/mcp-resources.json",
-        "baseUrl": "https://staging.docs.toss.fi/docs/"
+        "baseUrl": "https://staging.docs.toss.fi/"
       },
       "enabled": false
     }
@@ -205,14 +205,14 @@ Cursor can access the following TOSS MCP resources:
 ### URI Format
 
 ```
-toss://docs/{category}/{subcategory}/{page}
+toss://{category}/{subcategory}/{page}
 ```
 
 Examples:
-- `toss://docs/protocol/contracts/risk/RiskEngine`
-- `toss://docs/protocol/processes/fund-manager/create-fund`
-- `toss://docs/protocol/governance/overview`
-- `toss://docs/protocol/tokenomics/immutable-layer`
+- `toss://protocol/contracts/risk/RiskEngine`
+- `toss://protocol/processes/fund-manager/create-fund`
+- `toss://protocol/governance/overview`
+- `toss://protocol/tokenomics/immutable-layer`
 
 ## Troubleshooting
 
@@ -235,18 +235,18 @@ Examples:
 ### Resources Not Accessible
 
 1. **Check Base URL**
-   - Production: `https://docs.toss.fi/docs/`
-   - Staging: `https://staging.docs.toss.fi/docs/`
+   - Production: `https://docs.toss.fi/`
+   - Staging: `https://staging.docs.toss.fi/`
 
 2. **Example URI resolution**
    ```
-   toss://docs/protocol/contracts/risk/RiskEngine
-   → https://docs.toss.fi/docs/protocol/contracts/risk/RiskEngine.md
+   toss://protocol/contracts/risk/RiskEngine
+   → https://docs.toss.fi/protocol/contracts/risk/RiskEngine.md
    ```
 
 3. **Manual test**
    ```bash
-   curl https://docs.toss.fi/docs/protocol/contracts/risk/RiskEngine.md
+   curl https://docs.toss.fi/protocol/contracts/risk/RiskEngine.md
    ```
 
 ### AI Not Providing TOSS Information
@@ -277,11 +277,11 @@ Examples:
 
 ## Additional Resources
 
-- [MCP Overview](/docs/mcp-integration/overview)
-- [MCP Integration Guide](/docs/mcp-integration/integration-guide)
-- [MCP Resources](/docs/mcp-integration/resources/overview)
-- [MCP Tools](/docs/mcp-integration/tools/overview)
+- [MCP Overview](/mcp-integration/overview)
+- [MCP Integration Guide](/mcp-integration/integration-guide)
+- [MCP Resources](/mcp-integration/resources/overview)
+- [MCP Tools](/mcp-integration/tools/overview)
 
 ---
 
-**Next Step**: [MCP Usage Examples](/docs/mcp-integration/examples/overview)
+**Next Step**: [MCP Usage Examples](/mcp-integration/examples/overview)

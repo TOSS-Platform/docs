@@ -174,5 +174,5 @@ await analyticsHub.recordNAV(fundId, nav, block.timestamp);
 
 ---
 
-**Related**: [PriceOracleRouter](/docs/protocol/contracts/utilities/PriceOracleRouter)
+**Related**: [PriceOracleRouter](/protocol/contracts/utilities/PriceOracleRouter)
 

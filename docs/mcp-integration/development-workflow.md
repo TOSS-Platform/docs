@@ -294,7 +294,7 @@ git pull origin main
 git branch -d feature/add-slashing-process-doc
 
 # Verify your changes live
-curl https://docs.toss.fi/docs/protocol/processes/risk-compliance/slashing-execution
+curl https://docs.toss.fi/protocol/processes/risk-compliance/slashing-execution
 ```
 
 ---
@@ -581,8 +581,8 @@ Worth it for guaranteed sync
 
 ## Related Documentation
 
-- **[MCP Sync System](/docs/mcp-integration/sync-system)**: Technical details
-- **[Troubleshooting](/docs/mcp-integration/troubleshooting)**: Common issues
+- **[MCP Sync System](/mcp-integration/sync-system)**: Technical details
+- **[Troubleshooting](/mcp-integration/troubleshooting)**: Common issues
 
 ---
 
@@ -710,7 +710,7 @@ git push origin main
 - **MCP Endpoints**:
   - Manifest: `https://docs.toss.fi/mcp-version.json`
   - Resources: `https://docs.toss.fi/mcp-resources.json`
-  - Base URL: `https://docs.toss.fi/docs/`
+  - Base URL: `https://docs.toss.fi/`
 
 ### Staging Domain: `staging.docs.toss.fi`
 - **Vercel Project Settings**: Add custom domain `staging.docs.toss.fi`
@@ -720,7 +720,7 @@ git push origin main
 - **MCP Endpoints**:
   - Manifest: `https://staging.docs.toss.fi/mcp-version.json`
   - Resources: `https://staging.docs.toss.fi/mcp-resources.json`
-  - Base URL: `https://staging.docs.toss.fi/docs/`
+  - Base URL: `https://staging.docs.toss.fi/`
 
 ### Domain Setup in Vercel Dashboard
 

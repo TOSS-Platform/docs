@@ -30,5 +30,5 @@ const balance = await contract.balanceOf(address);
 
 ---
 
-[Back to API Overview](/docs/api/overview)
+[Back to API Overview](/api/overview)
 

@@ -765,12 +765,12 @@ This ensures:
 
 ## Next Steps
 
-- **[DAO Structure](/docs/protocol/governance/dao-structure)**: Detailed specifications for each governance level
-- **[Proposal Lifecycle](/docs/protocol/governance/proposal-lifecycle)**: Complete flows for fund, FM, and protocol proposals
-- **[Voting Mechanism](/docs/protocol/governance/voting-mechanism)**: Voter eligibility and power calculations
-- **[Governance Contracts](/docs/protocol/contracts/governance-layer)**: Smart contract implementations
+- **[DAO Structure](/protocol/governance/dao-structure)**: Detailed specifications for each governance level
+- **[Proposal Lifecycle](/protocol/governance/proposal-lifecycle)**: Complete flows for fund, FM, and protocol proposals
+- **[Voting Mechanism](/protocol/governance/voting-mechanism)**: Voter eligibility and power calculations
+- **[Governance Contracts](/protocol/contracts/governance-layer)**: Smart contract implementations
 
 ---
 
-*For practical examples, see [Proposal Lifecycle](/docs/protocol/governance/proposal-lifecycle).*
+*For practical examples, see [Proposal Lifecycle](/protocol/governance/proposal-lifecycle).*
 

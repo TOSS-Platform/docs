@@ -407,12 +407,12 @@ Regulatory Risk:
 
 ## Next Steps
 
-- **[Threat Model](/docs/protocol/security/threat-model)**: Detailed attack analysis
-- **[Smart Contract Security](/docs/protocol/security/smart-contract-security)**: Contract-specific security
-- **[Economic Security](/docs/protocol/security/economic-security)**: Game theory and incentives
-- **[Oracle Security](/docs/protocol/security/oracle-security)**: Price feed protection
+- **[Threat Model](/protocol/security/threat-model)**: Detailed attack analysis
+- **[Smart Contract Security](/protocol/security/smart-contract-security)**: Contract-specific security
+- **[Economic Security](/protocol/security/economic-security)**: Game theory and incentives
+- **[Oracle Security](/protocol/security/oracle-security)**: Price feed protection
 
 ---
 
-*For operational security procedures, see [Technical Documentation - Deployment](/docs/technical/deployment/workflow).*
+*For operational security procedures, see [Technical Documentation - Deployment](/technical/deployment/workflow).*
 

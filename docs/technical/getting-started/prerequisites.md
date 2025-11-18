@@ -357,8 +357,8 @@ wsl --install -d Ubuntu-22.04
 
 Once all prerequisites are installed and verified:
 
-1. **[Quick Start](/docs/technical/getting-started/quick-start)**: Get the project running
-2. **[Environment Setup](/docs/technical/getting-started/environment-setup)**: Configure your development environment
+1. **[Quick Start](/technical/getting-started/quick-start)**: Get the project running
+2. **[Environment Setup](/technical/getting-started/environment-setup)**: Configure your development environment
 
 ## Additional Resources
 

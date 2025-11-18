@@ -439,96 +439,122 @@ event FundsReceived(address indexed asset, uint256 amount, address indexed sende
 
 ## Test Scenarios
 
-```typescript
-describe("TOSSTreasury", () => {
-  describe("Fee Collection", () => {
-    it("should collect fees from fund vaults", async () => {
-      const feeAmount = ethers.utils.parseUnits("100", 6);
-      await usdc.mint(vault.address, feeAmount);
-      await usdc.connect(vault).approve(treasury.address, feeAmount);
-      
-      await treasury.connect(vault).collectProtocolFee(usdc.address, feeAmount);
-      
-      expect(await usdc.balanceOf(treasury.address)).to.equal(feeAmount);
-      expect(await treasury.collectedFees(usdc.address)).to.equal(feeAmount);
-    });
-    
-    it("should reject fee collection from unauthorized source", async () => {
-      await expect(
-        treasury.connect(attacker).collectProtocolFee(usdc.address, 1000)
-      ).to.be.revertedWith("Not registered vault");
-    });
-  });
-  
-  describe("Allocation", () => {
-    it("should propose and execute allocation", async () => {
-      const allocationId = await treasury.connect(governance).proposeAllocation(
-        developer.address,
-        ethers.utils.parseUnits("10000", 6),
-        usdc.address,
-        "Developer grant"
-      );
-      
-      // Wait for timelock
-      await time.increase(48 * 3600);
-      
-      await treasury.connect(governance).executeAllocation(allocationId);
-      
-      expect(await usdc.balanceOf(developer.address)).to.equal(
-        ethers.utils.parseUnits("10000", 6)
-      );
-    });
-    
-    it("should enforce daily spend limit", async () => {
-      const limit = await treasury.dailySpendLimit();
-      
-      // Spend up to limit
-      await treasury.connect(governance).proposeAllocation(...);
-      await treasury.connect(governance).executeAllocation(0);
-      
-      // Second allocation exceeding limit should fail
-      await expect(
-        treasury.connect(governance).proposeAllocation(...)
-      ).to.be.revertedWith("Daily limit exceeded");
-    });
-    
-    it("should maintain emergency reserve", async () => {
-      const currentReserves = await usdc.balanceOf(treasury.address);
-      const emergencyReserve = await treasury.emergencyReserve();
-      const maxAllocation = currentReserves.sub(emergencyReserve);
-      
-      await expect(
-        treasury.connect(governance).proposeAllocation(
-          recipient.address,
-          maxAllocation.add(1),
-          usdc.address,
-          "Test"
-        )
-      ).to.be.revertedWith("Would violate emergency reserve");
-    });
-  });
-  
-  describe("Emergency", () => {
-    it("should allow guardian emergency withdrawal when paused", async () => {
-      await protocol.pause();  // Protocol must be paused
-      
-      await treasury.connect(guardian).emergencyWithdraw(
-        usdc.address,
-        ethers.utils.parseUnits("100000", 6),
-        safeAddress.address
-      );
-      
-      expect(await usdc.balanceOf(safeAddress.address)).to.be.gt(0);
-    });
-    
-    it("should reject emergency withdrawal when not paused", async () => {
-      await expect(
-        treasury.connect(guardian).emergencyWithdraw(...)
-      ).to.be.revertedWith("Protocol not paused");
-    });
-  });
-});
-```
+### Happy Path Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Collect protocol fee | Registered fund vault collects and deposits protocol fee in USDC | Fee transferred to treasury, reserves updated, collectedFees tracking incremented, FeeCollected event emitted |
+| Receive external funds | External address donates funds to treasury | Funds transferred to treasury, reserves updated, FundsReceived event emitted |
+| Propose allocation | Governance proposes allocation for developer grant | Allocation created with pending status, AllocationProposed event emitted, daily limit checked |
+| Execute allocation | Governance executes approved allocation after timelock period | Funds transferred to recipient, allocation marked as executed, AllocationExecuted event emitted |
+| Batch allocation | Governance allocates funds to multiple recipients in one transaction | All recipients receive funds, batch operation completes atomically, events emitted for each |
+| Query reserve ratio | Query current reserve health ratio | Returns ratio percentage, calculated as (currentReserves / targetReserves) × 100 |
+| Query asset balance | Query balance of specific asset in treasury | Returns current balance of asset |
+| Query total value USD | Query total treasury value in USD equivalent | Returns USD value calculated using oracle prices for all assets |
+| Update daily spend limit | Governance updates daily spending limit | New limit set, DailySpendLimitUpdated event emitted |
+| Update emergency reserve | Governance updates minimum emergency reserve | New reserve threshold set, EmergencyReserveUpdated event emitted |
+
+### Edge Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Collect zero fee | Fund vault attempts to collect 0 fee | Transaction succeeds (zero is valid), no state change except event emission |
+| Allocate exact daily limit | Governance allocates exactly the daily spending limit | Transaction succeeds, daily spent tracking updated, no violation |
+| Allocate exact emergency reserve | Governance allocates amount that leaves exactly emergency reserve | Transaction succeeds, reserves at minimum threshold |
+| Batch allocation with empty arrays | Governance attempts batch allocation with empty recipient/amount arrays | Transaction reverts with validation error |
+| Query non-existent asset balance | Query balance for asset treasury doesn't hold | Returns 0 (asset not in reserves) |
+| Allocate when reserves equal emergency reserve | Attempt allocation when reserves exactly equal emergency reserve | Transaction reverts, cannot allocate below emergency reserve |
+| Daily limit reset at midnight | Allocate at limit, wait for new day, allocate again | Daily tracking resets, new allocations allowed |
+| Multiple allocations same day | Governance makes multiple allocations within daily limit | All allocations succeed if total within limit |
+| Receive funds in unsupported asset | External address sends asset not previously held by treasury | Asset added to supportedAssets list, reserves updated |
+| Allocate to zero address | Governance attempts to allocate to address(0) | Transaction reverts with zero address validation error |
+
+### Failure Cases
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Collect fee from unauthorized source | Unregistered address attempts to collect protocol fee | Transaction reverts with "Not registered vault" error |
+| Propose allocation from non-governance | Non-governance address attempts to propose allocation | Transaction reverts with "Not governance" error |
+| Execute allocation from non-governance | Non-governance address attempts to execute allocation | Transaction reverts with "Not governance" error |
+| Execute allocation before timelock | Governance attempts to execute allocation before timelock period | Transaction reverts with "Timelock not passed" error |
+| Execute already executed allocation | Governance attempts to execute allocation that was already executed | Transaction reverts with "Already executed" error |
+| Propose allocation exceeding daily limit | Governance proposes allocation that would exceed daily spending limit | Transaction reverts with "Daily limit exceeded" error |
+| Propose allocation violating emergency reserve | Governance proposes allocation that would leave reserves below emergency threshold | Transaction reverts with "Would violate emergency reserve" error |
+| Execute allocation exceeding daily limit | Governance executes allocation that would exceed remaining daily limit | Transaction reverts with "Daily limit exceeded" error |
+| Emergency withdraw from non-guardian | Non-guardian address attempts emergency withdrawal | Transaction reverts with "Not guardian" error |
+| Emergency withdraw when not paused | Guardian attempts emergency withdrawal when protocol is active | Transaction reverts with "Protocol not paused" error |
+| Emergency withdraw exceeding reserve | Guardian attempts to withdraw more than emergency reserve allows | Transaction reverts with "Exceeds emergency reserve limit" error |
+| Update parameters from non-governance | Non-governance address attempts to update daily limit or emergency reserve | Transaction reverts with "Not governance" error |
+| Allocate to invalid recipient | Governance attempts to allocate to contract that doesn't accept tokens | Transaction may succeed but funds may be locked (depends on recipient contract) |
+
+### Security Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Prevent unauthorized fee collection | Attacker attempts to collect fees by calling collectProtocolFee directly | Transaction reverts, only registered vaults can collect fees |
+| Prevent unauthorized allocation | Attacker attempts to propose or execute allocations | Transaction reverts, only governance can allocate funds |
+| Prevent emergency abuse | Guardian attempts to withdraw when protocol is active | Transaction reverts, emergency withdrawal only when paused |
+| Daily limit tracking accuracy | Multiple allocations made, verify daily spent tracked correctly | Daily spent accurately reflects total allocations, prevents bypass via multiple small allocations |
+| Emergency reserve enforcement | Attempt allocations that would violate emergency reserve | All attempts revert, emergency reserve always maintained |
+| Reentrancy protection | Malicious contract attempts reentrancy during allocation execution | Reentrancy guard prevents recursive calls, funds secure |
+| Timelock enforcement | Attempt to execute allocation immediately after proposal | Transaction reverts, timelock period must pass |
+| Batch allocation atomicity | Batch allocation with invalid recipient, verify atomic rollback | Entire batch reverts if any allocation invalid, no partial execution |
+| Reserve calculation accuracy | Collect fees, allocate funds, verify reserve tracking remains accurate | Reserves accurately reflect all inflows and outflows |
+| Access control on parameter updates | Verify only governance can update daily limit and emergency reserve | Unauthorized parameter updates revert, governance maintains control |
+| Emergency withdrawal limits | Guardian attempts to withdraw more than emergency reserve allows | Transaction reverts, withdrawal limited to emergency reserve amount |
+| Allocation execution idempotency | Attempt to execute same allocation multiple times | Only first execution succeeds, subsequent attempts revert |
+
+### Access Control Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Collect fee from registered vault | Registered fund vault collects protocol fee | Transaction succeeds, fee collected |
+| Collect fee from non-registered address | Unregistered address attempts to collect fee | Transaction reverts with "Not registered vault" |
+| Propose allocation by governance | Governance proposes allocation | Transaction succeeds, allocation created |
+| Propose allocation by non-governance | Non-governance address proposes allocation | Transaction reverts with "Not governance" |
+| Execute allocation by governance | Governance executes allocation after timelock | Transaction succeeds, funds transferred |
+| Execute allocation by non-governance | Non-governance address attempts to execute | Transaction reverts with "Not governance" |
+| Emergency withdraw by guardian | Guardian performs emergency withdrawal when paused | Transaction succeeds, funds withdrawn |
+| Emergency withdraw by non-guardian | Non-guardian attempts emergency withdrawal | Transaction reverts with "Not guardian" |
+| Update daily limit by governance | Governance updates daily spend limit | Transaction succeeds, limit updated |
+| Update daily limit by non-governance | Non-governance attempts to update limit | Transaction reverts with "Not governance" |
+| Receive funds from any address | Any address sends funds to treasury | Transaction succeeds, treasury accepts funds from anyone |
+| Query functions from any address | Any address queries reserve ratio, balances, etc. | Queries succeed, read-only functions are public |
+
+### Integration Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Fund vault collects and deposits fee | FundManagerVault collects management fee, sends protocol fee to treasury | Fee flows from vault to treasury, tracking updated correctly |
+| Governance proposes and executes flow | Complete flow: proposal creation, timelock wait, execution | All steps succeed, funds allocated as intended |
+| Daily limit reset integration | Allocations made, new day starts, verify daily tracking resets | Daily tracking resets correctly, new allocations allowed |
+| Emergency withdrawal during pause | Protocol paused, guardian performs emergency withdrawal | Withdrawal succeeds, funds moved to safe address |
+| Multiple asset fee collection | Treasury receives fees in multiple assets (USDC, TOSS, ETH) | All assets tracked correctly, reserves updated for each |
+| Batch allocation to multiple recipients | Governance allocates to 10 recipients in single batch | All recipients receive funds, transaction atomic |
+| Oracle price integration | Query total value USD requires price oracle for multiple assets | Total value calculated correctly using current prices |
+| Timelock integration | Allocation proposal creates timelock, execution respects delay | Timelock enforced, execution only after delay period |
+| Reserve health monitoring | Off-chain system monitors reserve ratio via events | Reserve ratio queries and events enable proper monitoring |
+| Treasury upgrade with preserved state | Treasury upgraded via proxy, state preserved | All reserves and tracking remain intact after upgrade |
+
+### State Transition Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Allocation state: pending → executed | Allocation created as pending, executed after timelock | State transitions correctly, executed flag set |
+| Daily spent tracking reset | Daily spent at limit, new day begins | Daily spent resets to zero, new allocations allowed |
+| Emergency reserve violation prevention | Reserves at emergency level, attempt allocation | Allocation rejected, reserves remain at emergency level |
+| Multiple allocations state tracking | Multiple allocations proposed and executed in sequence | Each allocation tracked independently, state transitions correctly |
+| Guardian emergency state | Protocol paused, guardian performs emergency withdrawal | Emergency state allows guardian action, protocol state checked |
+
+### Gas Optimization Tests
+
+| Test Name | Scenario | Expected Result |
+|-----------|----------|-----------------|
+| Single allocation gas usage | Governance proposes and executes single allocation | Gas usage reasonable for standard allocation |
+| Batch allocation gas efficiency | Governance allocates to 5 recipients via batch vs individual | Batch allocation uses less gas than 5 separate transactions |
+| Fee collection gas usage | Fund vault collects fee | Gas usage efficient for fee collection operation |
+| Query operations gas usage | Multiple queries for reserve ratio, balances | View functions consume no gas (read-only) |
+| Emergency withdrawal gas | Guardian performs emergency withdrawal | Gas usage reasonable for emergency operation |
 
 ## Upgrade Strategy
 
@@ -567,4 +593,4 @@ await treasury.connect(dao).executeAllocation(allocationId);
 
 ---
 
-**Next**: [RewardDistributor](/docs/protocol/contracts/core/RewardDistributor)
+**Next**: [RewardDistributor](/protocol/contracts/core/RewardDistributor)

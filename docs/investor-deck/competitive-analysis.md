@@ -34,5 +34,5 @@
 
 ---
 
-**Back**: [Competitive Advantage](/docs/investor-deck/competitive-advantage)
+**Back**: [Competitive Advantage](/investor-deck/competitive-advantage)
 

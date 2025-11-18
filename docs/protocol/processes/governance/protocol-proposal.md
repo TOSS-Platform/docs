@@ -43,5 +43,5 @@ if (emergency) voterGroup = VoterGroup.GUARDIAN_ONLY;
 
 ---
 
-**Related**: [ProtocolGovernance](/docs/protocol/contracts/governance/ProtocolGovernance)
+**Related**: [ProtocolGovernance](/protocol/contracts/governance/ProtocolGovernance)
 

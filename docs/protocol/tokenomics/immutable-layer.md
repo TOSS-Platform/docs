@@ -416,14 +416,14 @@ Mutable (DAO-optimized):
 
 ## Related Documentation
 
-- **[Config Layer](/docs/protocol/tokenomics/config-layer)**: Adjustable parameters
-- **[Logic Layer](/docs/protocol/tokenomics/logic-layer)**: Implementation contracts
-- **[TOSS Token Contract](/docs/protocol/contracts/core/TOSS)**: Token implementation
-- **[Security Model](/docs/protocol/security/overview)**: Overall security architecture
+- **[Config Layer](/protocol/tokenomics/config-layer)**: Adjustable parameters
+- **[Logic Layer](/protocol/tokenomics/logic-layer)**: Implementation contracts
+- **[TOSS Token Contract](/protocol/contracts/core/TOSS)**: Token implementation
+- **[Security Model](/protocol/security/overview)**: Overall security architecture
 
 ---
 
-**Back**: [Tokenomics Overview](/docs/protocol/tokenomics/overview)
+**Back**: [Tokenomics Overview](/protocol/tokenomics/overview)
 
-**Next**: [Config Layer](/docs/protocol/tokenomics/config-layer)
+**Next**: [Config Layer](/protocol/tokenomics/config-layer)
 

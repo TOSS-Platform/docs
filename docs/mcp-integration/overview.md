@@ -91,7 +91,7 @@ AI: [Retrieves trade execution process docs]
 - Configuration objects
 - Validation rules
 
-[View Schemas →](/mcp-integration/schemas/overview)
+[View Schemas →](/mcp/schemas/overview)
 
 ### 4. Examples
 

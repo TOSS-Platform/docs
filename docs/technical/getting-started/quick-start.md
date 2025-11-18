@@ -273,8 +273,7 @@ curl -X POST https://sepolia.era.zksync.dev \
 Now that you have the basics running:
 
 1. **[Environment Setup](/technical/getting-started/environment-setup)**: Complete development environment configuration
-2. **[Smart Contract Development](/technical/smart-contracts/zksync-safe-contracts)**: Start building contracts
-3. **[Testing Guide](/technical/testing/overview)**: Learn comprehensive testing strategies
+2. **[Testing Guide](/technical/testing/overview)**: Learn comprehensive testing strategies
 
 ## Useful Resources
 

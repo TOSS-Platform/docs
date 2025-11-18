@@ -60,7 +60,7 @@ graph TB
 - EventBridge for orchestration
 - Chainlink + CEX price feeds
 
-**[Learn More →](/technical/offchain/nav-engine)**
+**[Learn More →](/protocol/tokenomics/detailed-nav-engine)**
 
 ### 2. Trade Router
 
@@ -78,7 +78,7 @@ graph TB
 - Lambda for serverless execution
 - CEX/DEX API integrations
 
-**[Learn More →](/technical/offchain/trade-router)**
+**[Learn More →](/protocol/contracts/fund/FundTradeExecutor)**
 
 ### 3. Analytics Hub
 
@@ -96,7 +96,7 @@ graph TB
 - Apache Airflow for ETL
 - GraphQL API
 
-**[Learn More →](/technical/offchain/analytics-hub)**
+**[Learn More →](/protocol/contracts/utilities/AnalyticsHub)**
 
 ### 4. Compliance Engine
 
@@ -113,7 +113,7 @@ graph TB
 - Graph database for clustering
 - ML models for pattern detection
 
-**[Learn More →](/technical/offchain/compliance)**
+**[Learn More →](/protocol/contracts/utilities/AMLGuard)**
 
 ## Service Communication
 
@@ -425,10 +425,9 @@ describe('Trade Router Integration', () => {
 
 Explore each service in detail:
 
-- **[NAV Engine](/technical/offchain/nav-engine)**: Fund valuation system
-- **[Trade Router](/technical/offchain/trade-router)**: Order execution
-- **[Analytics Hub](/technical/offchain/analytics-hub)**: Data warehouse
-- **[Compliance](/technical/offchain/compliance)**: AML/KYC systems
+- **[NAV Engine](/protocol/tokenomics/detailed-nav-engine)**: Fund valuation system
+- **[Analytics Hub](/protocol/contracts/utilities/AnalyticsHub)**: Data warehouse
+- **[AML Guard](/protocol/contracts/utilities/AMLGuard)**: AML/KYC systems
 
 ---
 

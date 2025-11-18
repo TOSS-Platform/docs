@@ -483,13 +483,12 @@ ACTIVE (normal operations)
 
 ## Next Steps
 
-- **[Token Economics](/protocol/tokenomics/token-economics)**: Detailed token distribution and utility
-- **[Deflationary Model](/protocol/tokenomics/deflationary-model)**: Burn mechanics and supply dynamics
-- **[Slashing Mechanism](/protocol/tokenomics/slashing-mechanism)**: Complete slashing specifications
-- **[Fault Index](/protocol/tokenomics/fault-index)**: FI calculation methodology
-- **[NAV Recovery](/protocol/tokenomics/nav-recovery)**: Fund recovery procedures
+- **[Immutable Layer](/protocol/tokenomics/immutable-layer)**: Fixed supply and burn mechanics
+- **[Slashing Mathematical Tables](/protocol/tokenomics/slashing-mathematical-tables)**: Complete slashing specifications
+- **[Detailed NAV Engine](/protocol/tokenomics/detailed-nav-engine)**: NAV calculation and recovery procedures
+- **[FundClass & InvestorClass Models](/protocol/tokenomics/fundclass-investorclass-models)**: Mathematical models
 
 ---
 
-*For slashing simulations, see [Technical Documentation - Testing](/technical/testing/overview).*
+*For slashing details, see [Slashing Mathematical Tables](/protocol/tokenomics/slashing-mathematical-tables).*
 

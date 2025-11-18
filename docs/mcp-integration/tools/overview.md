@@ -543,7 +543,7 @@ Each tool documented with:
 
 ## Next Steps
 
-- **[Tool Schemas](/mcp-integration/schemas/overview)**: Detailed JSON schemas
+- **[Tool Schemas](/mcp/schemas/overview)**: Detailed JSON schemas
 - **[Integration Guide](/mcp-integration/integration-guide)**: How to use
 - **[Examples](/mcp-integration/examples/overview)**: Working examples
 

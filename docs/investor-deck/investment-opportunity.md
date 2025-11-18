@@ -113,5 +113,5 @@ Multiple exit scenarios:
 
 **Ready to invest?** Contact us at investors@toss.finance
 
-**Back**: [Financials](/investor-deck/financials) | [Executive Summary](/investor-deck/executive-summary)
+**Back**: [Financials](/investor-deck/financials) | [Overview](/investor-deck/platform-overview)
 

@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2025-11-18T12:25:58.474Z",
-  "documentationHash": "7448d05578bc496a5069a93c47725190f06610a0715ee9dc5b318d915e2a04f3",
-  "resourceCount": 138,
+  "generatedAt": "2025-11-18T18:05:27.702Z",
+  "documentationHash": "2062fb17e25eaeb74d453293f53f6dcc6467c9d2ffded0f1c57cc76dc200b3bc",
+  "resourceCount": 152,
   "toolCount": 10,
   "resources": [
     {
@@ -104,16 +104,34 @@
       ]
     },
     {
+      "uri": "toss://docs/faq",
+      "name": "Frequently Asked Questions",
+      "description": "Documentation for Frequently Asked Questions",
+      "mimeType": "text/markdown",
+      "contentHash": "2497823d5237d5f15b708d1e0819380b39d1a1a2c393f3999d19857a7ec76f5a",
+      "lastModified": "2025-11-18T17:59:30.870Z",
+      "size": 2823,
+      "category": "general",
+      "tags": [
+        "general",
+        "slashing",
+        "governance",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
       "uri": "toss://docs/getting-started/first-fund",
       "name": "Creating Your First Fund",
       "description": "Documentation for Creating Your First Fund",
       "mimeType": "text/markdown",
-      "contentHash": "1072f80a6d8881eeba24339a5cc82fc8043d3ec233f8847c977058b6162605b2",
-      "lastModified": "2025-11-18T07:21:03.280Z",
-      "size": 6496,
+      "contentHash": "f290f5c5a3a8a8749cc20c9c36cf9710e9566759347e925a7a05eae5d24d75df",
+      "lastModified": "2025-11-18T18:00:00.304Z",
+      "size": 6506,
       "category": "general",
       "tags": [
         "general",
+        "risk",
         "fund"
       ]
     },
@@ -136,12 +154,14 @@
       "name": "Quick Start",
       "description": "Documentation for Quick Start",
       "mimeType": "text/markdown",
-      "contentHash": "e09f5262c303ff376b55d466bfe4c6142a1ee2ea8f3145935b76084ff019933e",
-      "lastModified": "2025-11-18T07:21:03.281Z",
-      "size": 4125,
+      "contentHash": "746a9f4c1ecaf683354d92b43cbc1bd981a88fd35691f048a90ade12d9dd75c3",
+      "lastModified": "2025-11-18T17:59:58.320Z",
+      "size": 4139,
       "category": "general",
       "tags": [
         "general",
+        "risk",
+        "zksync",
         "fund"
       ]
     },
@@ -227,9 +247,9 @@
       "name": "Investment Opportunity",
       "description": "Documentation for Investment Opportunity",
       "mimeType": "text/markdown",
-      "contentHash": "9277b000af890df81179ebd97e61379e72b1c937a98e18906c4af9a5c754c191",
-      "lastModified": "2025-11-18T07:21:03.283Z",
-      "size": 2876,
+      "contentHash": "836c8d628b3ac0a19720411a0bb363883cf0384b2e9f5a8a0deb9505ddb902ed",
+      "lastModified": "2025-11-18T17:57:36.308Z",
+      "size": 2867,
       "category": "investor",
       "tags": [
         "investor",
@@ -273,9 +293,9 @@
       "name": "Problem Statement",
       "description": "Documentation for Problem Statement",
       "mimeType": "text/markdown",
-      "contentHash": "48a1ba06ea867f286cd99e6daa6e1995464029902b8f54a3e3759a58aa000237",
-      "lastModified": "2025-11-18T07:21:03.286Z",
-      "size": 6919,
+      "contentHash": "42753cd5700ab17377e4710639e8b170f2cf4bf00b61241c95c28d0f7bbae242",
+      "lastModified": "2025-11-18T17:57:39.735Z",
+      "size": 6910,
       "category": "investor",
       "tags": [
         "investor",
@@ -319,9 +339,9 @@
       "name": "Solution Overview",
       "description": "Documentation for Solution Overview",
       "mimeType": "text/markdown",
-      "contentHash": "03f289bc0839f7530e0995706275a098eb0447bf540442e55ea1e641d8ce701b",
-      "lastModified": "2025-11-18T07:21:03.285Z",
-      "size": 10014,
+      "contentHash": "cbb70c428ce17b0a0c285f128223bc1f3680d24140b0ade2d7ee7eab5b5c3fd6",
+      "lastModified": "2025-11-18T17:57:41.454Z",
+      "size": 10005,
       "category": "investor",
       "tags": [
         "investor",
@@ -380,9 +400,9 @@
       "name": "Tokenomics",
       "description": "Documentation for Tokenomics",
       "mimeType": "text/markdown",
-      "contentHash": "7944828efb5b23146487b74174bf06a95dc15a46f5fc40dac7a91db3009f41c8",
-      "lastModified": "2025-11-18T07:21:03.284Z",
-      "size": 1262,
+      "contentHash": "688899af03e12c795512c7f27848b8fdd04e3b4ce31c3ceda382dc381a87589c",
+      "lastModified": "2025-11-18T17:57:43.487Z",
+      "size": 1253,
       "category": "investor",
       "tags": [
         "investor",
@@ -470,9 +490,9 @@
       "name": "MCP Integration Overview",
       "description": "Documentation for MCP Integration Overview",
       "mimeType": "text/markdown",
-      "contentHash": "272700e8d439b34cc6731a5da9cff8e4b4c0ed347922508ae369e345775507d2",
-      "lastModified": "2025-11-18T07:21:03.290Z",
-      "size": 9818,
+      "contentHash": "d6440b0fcd69a10408eb314981b4af20b97ec879a2e0de2e34e347ba2372c378",
+      "lastModified": "2025-11-18T17:57:48.049Z",
+      "size": 9806,
       "category": "mcp",
       "tags": [
         "mcp",
@@ -518,9 +538,9 @@
       "name": "MCP Tools Overview",
       "description": "Documentation for MCP Tools Overview",
       "mimeType": "text/markdown",
-      "contentHash": "035abac65656efc3e6c98e40cb87e4c5f9020638af25d31130e0623c2c563cab",
-      "lastModified": "2025-11-18T07:21:03.289Z",
-      "size": 11021,
+      "contentHash": "c81275becd4f79d0bdffdc258bdba54b6a0b79e90f59558ffd257f6d4e8c235c",
+      "lastModified": "2025-11-18T17:57:54.324Z",
+      "size": 11009,
       "category": "mcp",
       "tags": [
         "mcp",
@@ -544,6 +564,20 @@
       ]
     },
     {
+      "uri": "toss://docs/mcp/advanced/security",
+      "name": "MCP Security Best Practices",
+      "description": "Documentation for MCP Security Best Practices",
+      "mimeType": "text/markdown",
+      "contentHash": "f2c4100f44343218a509f5d4ca8a027bb4a8d38b2b738cfea4e9b739bfb65301",
+      "lastModified": "2025-11-18T17:58:29.205Z",
+      "size": 3005,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
       "uri": "toss://docs/mcp/ai-integration",
       "name": "AI Integration Guide",
       "description": "Documentation for AI Integration Guide",
@@ -551,6 +585,34 @@
       "contentHash": "b2e2916ad1c8cd7c8b6ef8049ddf8f790487e97fc9af48939bd4af6999d50873",
       "lastModified": "2025-11-18T07:21:03.246Z",
       "size": 1976,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp/examples/ai-prompts",
+      "name": "AI Prompt Examples",
+      "description": "Documentation for AI Prompt Examples",
+      "mimeType": "text/markdown",
+      "contentHash": "308cbaa5dc37756c35e2dcdf6c4b1df4e0934db50468679decf313f18a1a6916",
+      "lastModified": "2025-11-18T17:58:16.758Z",
+      "size": 2697,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp/examples/basic-queries",
+      "name": "Basic Query Examples",
+      "description": "Documentation for Basic Query Examples",
+      "mimeType": "text/markdown",
+      "contentHash": "cd67df384d27980aab369b40d9a8434cd26a27fec56499eb11bd4ab713fb324f",
+      "lastModified": "2025-11-18T17:58:21.079Z",
+      "size": 2236,
       "category": "general",
       "tags": [
         "general",
@@ -590,9 +652,9 @@
       "name": "MCP Schemas Overview",
       "description": "Documentation for MCP Schemas Overview",
       "mimeType": "text/markdown",
-      "contentHash": "d585368329d7665629d085156efa06399f47da7c8005d2757d22092858cea56a",
-      "lastModified": "2025-11-18T07:21:03.246Z",
-      "size": 1707,
+      "contentHash": "7e9a718937c942351a02a35cf1134bd2581b3023a1de252c75f3de54ec92d0c4",
+      "lastModified": "2025-11-18T18:02:07.362Z",
+      "size": 1467,
       "category": "general",
       "tags": [
         "general",
@@ -614,16 +676,74 @@
       ]
     },
     {
+      "uri": "toss://docs/mcp/tools/analytics",
+      "name": "Analytics Tools",
+      "description": "Documentation for Analytics Tools",
+      "mimeType": "text/markdown",
+      "contentHash": "4caeb43f86a24cb2c462bb571badbe26619918376e101a127017a8f5e2d49a9f",
+      "lastModified": "2025-11-18T17:59:01.408Z",
+      "size": 1332,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp/tools/fund-operations",
+      "name": "Fund Operations Tools",
+      "description": "Documentation for Fund Operations Tools",
+      "mimeType": "text/markdown",
+      "contentHash": "b792a51414fa6745414d50356d4ecef53ae00514c0c7581f76291926bce63438",
+      "lastModified": "2025-11-18T17:58:34.407Z",
+      "size": 1346,
+      "category": "general",
+      "tags": [
+        "general",
+        "governance",
+        "fund"
+      ]
+    },
+    {
       "uri": "toss://docs/mcp/tools/overview",
       "name": "MCP Tools Overview",
       "description": "Documentation for MCP Tools Overview",
       "mimeType": "text/markdown",
-      "contentHash": "5e4034f2fbcd77c567e63308849d56f1045ef5e0f5a3f5331a5cfaf4a2743a8d",
-      "lastModified": "2025-11-18T07:21:03.242Z",
-      "size": 2048,
+      "contentHash": "67294e79b0c2b4345ad9ee261f85a920f8dd4d661bfff2977b7b1b8b9399970e",
+      "lastModified": "2025-11-18T18:02:14.119Z",
+      "size": 1955,
       "category": "general",
       "tags": [
         "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp/tools/portfolio-queries",
+      "name": "Portfolio Query Tools",
+      "description": "Documentation for Portfolio Query Tools",
+      "mimeType": "text/markdown",
+      "contentHash": "c745167be11814877d12f736a909695d7faf47d2c50db8ad1b38af9b27fb2aad",
+      "lastModified": "2025-11-18T17:58:44.945Z",
+      "size": 1329,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/mcp/tools/transaction-management",
+      "name": "Transaction Management Tools",
+      "description": "Documentation for Transaction Management Tools",
+      "mimeType": "text/markdown",
+      "contentHash": "f90b73d766b63fa778745eaa9c165f579b06807cb3fb182000c6e31d5617df06",
+      "lastModified": "2025-11-18T17:58:41.530Z",
+      "size": 1379,
+      "category": "general",
+      "tags": [
+        "general",
+        "risk",
         "fund"
       ]
     },
@@ -663,9 +783,9 @@
       "name": "L1-L2 Communication",
       "description": "Documentation for L1-L2 Communication",
       "mimeType": "text/markdown",
-      "contentHash": "8c9392bbe98c04960b36fb26d91d97940b6f947c32f8f229b4812554919a347b",
-      "lastModified": "2025-11-18T07:21:03.273Z",
-      "size": 6931,
+      "contentHash": "6bad4a6e31226d307f623c3f4d38ed862a4e07e7fc51f9fee48553088f13f489",
+      "lastModified": "2025-11-18T18:02:25.300Z",
+      "size": 6945,
       "category": "architecture",
       "tags": [
         "architecture",
@@ -679,9 +799,9 @@
       "name": "Layered System Architecture",
       "description": "Documentation for Layered System Architecture",
       "mimeType": "text/markdown",
-      "contentHash": "2474d87450d6418c66a4a6e81857f2dd45367640718aeea51175f9888d45e780",
-      "lastModified": "2025-11-18T07:21:03.274Z",
-      "size": 8141,
+      "contentHash": "40cff8a23fbfc3471e4a882cdea33a6b844e19b875e384e52affd27ab64d2dd2",
+      "lastModified": "2025-11-18T18:03:49.838Z",
+      "size": 8106,
       "category": "architecture",
       "tags": [
         "architecture",
@@ -731,9 +851,9 @@
       "name": "Security Model",
       "description": "Documentation for Security Model",
       "mimeType": "text/markdown",
-      "contentHash": "a2c265d1f669710c583b1c1b624120c2da746eaa919101e08f758fd124a5ec6b",
-      "lastModified": "2025-11-18T07:21:03.274Z",
-      "size": 9608,
+      "contentHash": "d0b59bb24f0cceaab11ddc55ac392cbc67c27d15e88626362f0beccb90536872",
+      "lastModified": "2025-11-18T18:03:47.949Z",
+      "size": 9581,
       "category": "architecture",
       "tags": [
         "architecture",
@@ -764,9 +884,9 @@
       "name": "DAOConfigCore.sol",
       "description": "Documentation for DAOConfigCore.sol",
       "mimeType": "text/markdown",
-      "contentHash": "85b2acdfa5c9c2fc87086af7977ed27baf9c3113f46d5d349b435a4d6316ef7c",
-      "lastModified": "2025-11-18T07:21:03.262Z",
-      "size": 22285,
+      "contentHash": "97d09fa26f5e32027814147fd8901abafa3faf28b527d8673ea147606fae8a34",
+      "lastModified": "2025-11-18T18:02:51.882Z",
+      "size": 22286,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -922,9 +1042,9 @@
       "name": "Governance Layer Contracts",
       "description": "Documentation for Governance Layer Contracts",
       "mimeType": "text/markdown",
-      "contentHash": "8bd0c39d9ae5d05dc3cf41a1a1474cfa2f889b52f45849fcaa157dce789b7ac8",
-      "lastModified": "2025-11-18T07:21:03.268Z",
-      "size": 35297,
+      "contentHash": "a99e156c0effa49915997eaa61e993d76beaf84aad1830363b37ed0379389e5e",
+      "lastModified": "2025-11-18T18:04:00.823Z",
+      "size": 35263,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -1069,9 +1189,9 @@
       "name": "Smart Contracts Overview",
       "description": "Documentation for Smart Contracts Overview",
       "mimeType": "text/markdown",
-      "contentHash": "54437140fe46c39b89139d0eeadd20cc5252fe6fc444a1f9ff3f72ea40096f95",
-      "lastModified": "2025-11-18T07:21:03.261Z",
-      "size": 8686,
+      "contentHash": "1c01d27c26bc8e91904f8ebdbfdffd211d8d3f08b962648c519f82d890fcada5",
+      "lastModified": "2025-11-18T18:03:42.443Z",
+      "size": 8652,
       "category": "contracts",
       "tags": [
         "contracts",
@@ -1352,7 +1472,7 @@
       "description": "Documentation for End-to-End Flow Documentation",
       "mimeType": "text/markdown",
       "contentHash": "014c5576328847c3e7389eba372504f158f7b8984db8dbe74391c8ded89f7752",
-      "lastModified": "2025-11-18T12:25:40.643Z",
+      "lastModified": "2025-11-18T12:26:21.575Z",
       "size": 18221,
       "category": "processes",
       "tags": [
@@ -1446,7 +1566,7 @@
       "description": "Documentation for Trade Authorization Flow",
       "mimeType": "text/markdown",
       "contentHash": "12557ef8946718d5962790075329fd825fce81a0d28584f783c8ca2a14b291c3",
-      "lastModified": "2025-11-18T12:24:11.310Z",
+      "lastModified": "2025-11-18T12:26:33.393Z",
       "size": 22136,
       "category": "processes",
       "tags": [
@@ -1814,9 +1934,9 @@
       "name": "Security Overview",
       "description": "Documentation for Security Overview",
       "mimeType": "text/markdown",
-      "contentHash": "81f75edc640af407b68f160749aa80f2aaa827e91d2a927745d37ff8ca0cea48",
-      "lastModified": "2025-11-18T07:21:03.247Z",
-      "size": 11376,
+      "contentHash": "21d342cc3e8b6256d58fc9c12990a51a62bea432956c6784d6956866ed271b07",
+      "lastModified": "2025-11-18T18:02:53.776Z",
+      "size": 11387,
       "category": "general",
       "tags": [
         "general",
@@ -1831,9 +1951,9 @@
       "name": "Fund Standards & Compliance Overview",
       "description": "Documentation for Fund Standards & Compliance Overview",
       "mimeType": "text/markdown",
-      "contentHash": "58f6a2561017b960eaf5d10d8b5352117c00c7ba50e7fb083a31e7379ad1866e",
-      "lastModified": "2025-11-18T07:21:03.279Z",
-      "size": 13679,
+      "contentHash": "71eb6ce1279a6a2a0527424c055951cc099bb665515ed99bdb2c369654327827",
+      "lastModified": "2025-11-18T18:02:58.878Z",
+      "size": 13712,
       "category": "general",
       "tags": [
         "general",
@@ -1926,9 +2046,9 @@
       "name": "Tokenomics & Risk Engine Overview",
       "description": "Documentation for Tokenomics & Risk Engine Overview",
       "mimeType": "text/markdown",
-      "contentHash": "21b137b879a9e0080c6857e4e4bb4e996b1cdd67bc9457002887102a79c867a4",
-      "lastModified": "2025-11-18T07:21:03.277Z",
-      "size": 13659,
+      "contentHash": "d53459c43cb27cddc3c03fa0b5c4cf3a8859e511a06aa23a2fd2463dccd6aa93",
+      "lastModified": "2025-11-18T18:03:02.010Z",
+      "size": 13642,
       "category": "tokenomics",
       "tags": [
         "tokenomics",
@@ -1959,9 +2079,9 @@
       "name": "zkSync Integration Overview",
       "description": "Documentation for zkSync Integration Overview",
       "mimeType": "text/markdown",
-      "contentHash": "42a8078093f9b5ea040c524b4b2552d99b709b7242cfeae6b4df1ba80998f0bd",
-      "lastModified": "2025-11-18T07:21:03.274Z",
-      "size": 11598,
+      "contentHash": "418e0495ad15a03a079d63fa0c81a7fa5bf464e16aa702ae44e74020a29de114",
+      "lastModified": "2025-11-18T18:03:39.984Z",
+      "size": 11510,
       "category": "general",
       "tags": [
         "general",
@@ -1975,13 +2095,12 @@
       "name": "Environment Setup",
       "description": "Documentation for Environment Setup",
       "mimeType": "text/markdown",
-      "contentHash": "75ff34755b005fbe9c19994f7f3b2be4cb0c21da1b90aba3259a1c1896590e36",
-      "lastModified": "2025-11-18T07:21:03.294Z",
-      "size": 7611,
+      "contentHash": "f46da3de3c3e52e18e308902b8919b5824ddc51845f5f7b7953d86d8be543122",
+      "lastModified": "2025-11-18T17:59:22.424Z",
+      "size": 1439,
       "category": "technical",
       "tags": [
-        "technical",
-        "zksync"
+        "technical"
       ]
     },
     {
@@ -2003,9 +2122,9 @@
       "name": "Quick Start",
       "description": "Documentation for Quick Start",
       "mimeType": "text/markdown",
-      "contentHash": "7fbb72b2b4205164299122f30a65baf658b3ef2fa79255517ead7e5ca054926d",
-      "lastModified": "2025-11-18T07:21:03.293Z",
-      "size": 5512,
+      "contentHash": "afe0e9ba75e9c546b5f6fbf0115dec3a1980888c192989d4301ce59e9d443044",
+      "lastModified": "2025-11-18T18:04:07.607Z",
+      "size": 5400,
       "category": "technical",
       "tags": [
         "technical",
@@ -2020,9 +2139,9 @@
       "name": "Infrastructure Overview",
       "description": "Documentation for Infrastructure Overview",
       "mimeType": "text/markdown",
-      "contentHash": "12b5f0d85b9034d54b4ac26937a4386599739a1f0690e5dee0dd6ac9c3269b15",
-      "lastModified": "2025-11-18T07:21:03.295Z",
-      "size": 11282,
+      "contentHash": "368e9b075d0c0d8331c2a83fcdb531e6644134971674e3bb5be6fe7ea826e09f",
+      "lastModified": "2025-11-18T18:04:27.647Z",
+      "size": 11105,
       "category": "technical",
       "tags": [
         "technical"
@@ -2033,9 +2152,9 @@
       "name": "Technical Documentation",
       "description": "Documentation for Technical Documentation",
       "mimeType": "text/markdown",
-      "contentHash": "9abb98ae9408843df6e32329e6ac9e76181f53945c1bac20aaee05fea97a5464",
-      "lastModified": "2025-11-18T07:21:03.293Z",
-      "size": 7291,
+      "contentHash": "665ac8a1bc7af7cc0f0121d0d7f3bea13f6ac3c503eb12134943573e1dc6029d",
+      "lastModified": "2025-11-18T18:05:21.783Z",
+      "size": 7037,
       "category": "technical",
       "tags": [
         "technical",
@@ -2048,9 +2167,9 @@
       "name": "Off-Chain Services Overview",
       "description": "Documentation for Off-Chain Services Overview",
       "mimeType": "text/markdown",
-      "contentHash": "516a7cbeedeccad56cabeb1396f7649c1cc7b7360bc26f93529ac8dab63cd6e6",
-      "lastModified": "2025-11-18T07:21:03.294Z",
-      "size": 8722,
+      "contentHash": "1cd50bc3bb95ce9eae1afe504f1bd5973439c1809b42d087bff5f5d2f568f286",
+      "lastModified": "2025-11-18T18:05:25.431Z",
+      "size": 8713,
       "category": "technical",
       "tags": [
         "technical",
@@ -2064,9 +2183,9 @@
       "name": "Testing & QA Overview",
       "description": "Documentation for Testing & QA Overview",
       "mimeType": "text/markdown",
-      "contentHash": "e788dbe7099fc21940d2d88ad2c1443a80a2a28ad1df24189ebb7690344cab2e",
-      "lastModified": "2025-11-18T07:21:03.293Z",
-      "size": 10319,
+      "contentHash": "41e4834634300746e1123071ef2c3acdd744b1897df7d7824b7b9f9a13aae9de",
+      "lastModified": "2025-11-18T18:04:33.422Z",
+      "size": 10178,
       "category": "technical",
       "tags": [
         "technical",
@@ -2074,6 +2193,49 @@
         "slashing",
         "governance",
         "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/troubleshooting",
+      "name": "Troubleshooting",
+      "description": "Documentation for Troubleshooting",
+      "mimeType": "text/markdown",
+      "contentHash": "0da7c914a1372e6ac1aee97f07770e40aabcd099e810641d18aabe2d0f0f14da",
+      "lastModified": "2025-11-18T17:59:56.786Z",
+      "size": 2217,
+      "category": "general",
+      "tags": [
+        "general",
+        "zksync",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/user-guide/analytics",
+      "name": "Analytics & Reporting",
+      "description": "Documentation for Analytics & Reporting",
+      "mimeType": "text/markdown",
+      "contentHash": "88cdd711c01f8ea92bb5f7ce1062edd0f09e77406f575f192cef4b083e449790",
+      "lastModified": "2025-11-18T17:59:11.761Z",
+      "size": 1252,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/user-guide/best-practices",
+      "name": "Best Practices",
+      "description": "Documentation for Best Practices",
+      "mimeType": "text/markdown",
+      "contentHash": "24603138158f1c121adb051da14c2a57a95db299d38d1e1beb60a095fdc45651",
+      "lastModified": "2025-11-18T17:59:19.117Z",
+      "size": 1809,
+      "category": "general",
+      "tags": [
+        "general",
         "fund"
       ]
     },
@@ -2099,6 +2261,48 @@
       "contentHash": "25c77c46fe49c562842b18f4da196792346dc4a01a9c021362ca8f29eb156e55",
       "lastModified": "2025-11-18T07:21:03.241Z",
       "size": 1322,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/user-guide/portfolio-tracking",
+      "name": "Portfolio Tracking",
+      "description": "Documentation for Portfolio Tracking",
+      "mimeType": "text/markdown",
+      "contentHash": "948559a2e4bad43b5694df4a0d158d024c6a0df959673b53fa7add7704529aa9",
+      "lastModified": "2025-11-18T17:59:03.834Z",
+      "size": 1438,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/user-guide/security",
+      "name": "Security Best Practices",
+      "description": "Documentation for Security Best Practices",
+      "mimeType": "text/markdown",
+      "contentHash": "c5e48c4ea47847d03865891b31214127e8759ef6370f83848418466e780c833a",
+      "lastModified": "2025-11-18T17:59:13.911Z",
+      "size": 1407,
+      "category": "general",
+      "tags": [
+        "general",
+        "fund"
+      ]
+    },
+    {
+      "uri": "toss://docs/user-guide/transactions",
+      "name": "Transaction Management",
+      "description": "Documentation for Transaction Management",
+      "mimeType": "text/markdown",
+      "contentHash": "ff255a141f211fbdf2c0b65f2409c8fb00311ae0fc633b6f379182d37aada35d",
+      "lastModified": "2025-11-18T17:59:10.073Z",
+      "size": 1307,
       "category": "general",
       "tags": [
         "general",

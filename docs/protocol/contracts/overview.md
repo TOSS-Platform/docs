@@ -204,12 +204,12 @@ Supporting infrastructure for oracles, analytics, compliance, and gas management
 
 ## Next Steps
 
-- **[Core Contracts](/protocol/contracts/core)**: Detailed specifications
-- **[Fund Layer](/protocol/contracts/fund-layer)**: Fund system deep dive
-- **[Risk Layer](/protocol/contracts/risk-layer)**: Risk engine documentation
+- **[Core Contracts](/protocol/contracts/core/TOSS)**: Detailed specifications
+- **[Fund Layer](/protocol/contracts/fund/FundFactory)**: Fund system deep dive
+- **[Risk Layer](/protocol/contracts/risk/RiskEngine)**: Risk engine documentation
 - **[Governance Layer](/protocol/contracts/governance-layer)**: DAO contracts
 
 ---
 
-*For contract development guides, see [Technical Documentation - Smart Contracts](/technical/smart-contracts/zksync-safe-contracts).*
+*For contract development guides, see [Technical Documentation](/technical/intro).*
 

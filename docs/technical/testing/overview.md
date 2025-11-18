@@ -448,12 +448,10 @@ describe('Load Test', () => {
 
 Explore specific testing topics:
 
-- **[Unit Testing](/technical/testing/unit-testing)**: Detailed unit test guide
-- **[Integration Testing](/technical/testing/integration-testing)**: Component interaction tests
-- **[zkSync Simulation](/technical/testing/zksync-simulation)**: zkSync-specific testing
-- **[Fuzzing](/technical/testing/fuzzing)**: Property-based testing
+- **[Getting Started](/technical/getting-started/prerequisites)**: Setup and prerequisites
+- **[Environment Setup](/technical/getting-started/environment-setup)**: Development environment
 
 ---
 
-*For deployment testing, see [Deployment Workflow](/technical/deployment/workflow).*
+*For deployment guides, see [Getting Started](/technical/getting-started/prerequisites).*
 

@@ -277,5 +277,5 @@ Layer 1 (zkSync) depends on Layer 0 (Ethereum L1)
 
 ---
 
-*For deployment guides, see [Technical Documentation - Infrastructure](/technical/infrastructure/overview).*
+*For deployment guides, see [Technical Documentation](/technical/intro).*
 

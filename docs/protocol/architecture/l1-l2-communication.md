@@ -290,7 +290,7 @@ zkSync must include within 24 hours or enter recovery mode.
 
 - **[Security Model](/protocol/architecture/security-model)**: Comprehensive security analysis
 - **[zkSync Integration](/protocol/zksync/overview)**: Deep dive into zkSync specifics
-- **[Smart Contracts - Bridge](/protocol/contracts/core)**: Bridge contract specifications
+- **[Smart Contracts - Bridge](/protocol/contracts/core/BridgeGateway)**: Bridge contract specifications
 
 ---
 

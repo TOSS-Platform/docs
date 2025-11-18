@@ -30,6 +30,9 @@ const sidebars = {
         'protocol/architecture/layered-system',
         'protocol/architecture/l1-l2-communication',
         'protocol/architecture/security-model',
+        'protocol/architecture/investor-state-machine',
+        'protocol/architecture/execution-priority-layer',
+        'protocol/architecture/rbac-domain-diagram',
       ],
     },
     {
@@ -120,6 +123,9 @@ const sidebars = {
         'protocol/tokenomics/immutable-layer',
         'protocol/tokenomics/config-layer',
         'protocol/tokenomics/logic-layer',
+        'protocol/tokenomics/fundclass-investorclass-models',
+        'protocol/tokenomics/detailed-nav-engine',
+        'protocol/tokenomics/slashing-mathematical-tables',
       ],
     },
     {
@@ -156,12 +162,14 @@ const sidebars = {
       collapsed: true,
       items: [
         'protocol/processes/overview',
+        'protocol/processes/end-to-end-flow',
         {
           type: 'category',
           label: 'Fund Manager Processes',
           items: [
             'protocol/processes/fund-manager/create-fund',
             'protocol/processes/fund-manager/execute-trade',
+            'protocol/processes/fund-manager/trade-authorization-flow',
             'protocol/processes/fund-manager/update-config',
             'protocol/processes/fund-manager/collect-fees',
             'protocol/processes/fund-manager/close-fund',

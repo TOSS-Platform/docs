@@ -160,10 +160,10 @@ Now that you have TOSS running, explore these features:
 
 ### Advanced Features
 
-- [Risk Management](/advanced/risk-management)
-- [Custom Strategies](/advanced/custom-strategies)
-- [Multi-signature Setup](/advanced/multi-sig)
-- [Integrations](/advanced/integrations)
+- [Risk Management](/protocol/contracts/risk/RiskEngine)
+- [Fund Standards](/protocol/standards/overview)
+- [Session Keys](/protocol/zksync/overview)
+- [zkSync Integration](/protocol/zksync/overview)
 
 ### AI Integration
 

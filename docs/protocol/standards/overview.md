@@ -507,12 +507,12 @@ const usCompliance: ComplianceFramework = {
 
 ## Next Steps
 
-- **[Fund Classes](/protocol/standards/fund-classes)**: Detailed FundClass specifications
-- **[Risk Tiers](/protocol/standards/risk-tiers)**: Complete tier definitions
-- **[Compliance](/protocol/standards/compliance)**: Compliance procedures
-- **[FM Eligibility](/protocol/standards/fm-eligibility)**: Certification process
+- **[FundClass & InvestorClass Models](/protocol/tokenomics/fundclass-investorclass-models)**: Detailed specifications
+- **[Fund Factory](/protocol/contracts/fund/FundFactory)**: Fund creation process
+- **[Risk Engine](/protocol/contracts/risk/RiskEngine)**: Risk tier validation
+- **[Fund Manager Processes](/protocol/processes/fund-manager/create-fund)**: Practical fund creation guide
 
 ---
 
-*For practical fund creation guide, see [Technical Documentation - Smart Contracts](/technical/smart-contracts/deployment).*
+*For fund creation, see [Create Fund Process](/protocol/processes/fund-manager/create-fund).*
 

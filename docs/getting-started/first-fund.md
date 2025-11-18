@@ -263,7 +263,7 @@ Your fund is now set up! Continue learning:
 
 - [Portfolio Tracking](/user-guide/portfolio-tracking)
 - [Transaction Management](/user-guide/transactions)
-- [Risk Management](/advanced/risk-management)
+- [Risk Management](/protocol/contracts/risk/RiskEngine)
 - [Analytics & Reporting](/user-guide/analytics)
 
 ## Examples

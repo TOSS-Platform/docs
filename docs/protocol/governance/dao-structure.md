@@ -4,7 +4,7 @@ Detailed specification of the TOSS multi-level governance structure, including f
 
 ## Overview
 
-TOSS governance is organized into **three independent levels**, each with its own proposal mechanisms, voter groups, and execution procedures:
+TOSS governance is organized into **three independent levels** with **domain-specific DAOs** at the protocol level, each managing only its own parameters:
 
 ```
 Level 1: Fund-Level Governance
@@ -13,17 +13,28 @@ Level 1: Fund-Level Governance
 ├─ Voters: Only investors in that fund
 └─ Power: Share-based (% of fund ownership)
 
-Level 2: FM-Level Governance  
+Level 2: FM DAO (Fund Manager Domain)
 ├─ Scope: Fund Manager standards and templates
 ├─ Proposers: Any active Fund Manager
 ├─ Voters: Only Fund Managers
 └─ Power: AUM-weighted with reputation
+└─ Manages: FM stake requirements, FundClass templates, FM standards
 
-Level 3: Protocol-Level Governance
-├─ Scope: Protocol-wide infrastructure
-├─ Proposers: Admin committee
-├─ Voters: Admin-specified group
-└─ Power: TOSS-staked with bonuses
+Level 3: Domain-Specific DAOs
+├─ Core DAO (Protocol Domain)
+│  ├─ Scope: Protocol infrastructure and security
+│  ├─ Proposers: Admin committee
+│  ├─ Voters: FM Only or Both (Admin-specified)
+│  └─ Manages: Oracles, RiskEngine, Protocol fees, Infrastructure
+│
+├─ FM DAO (Fund Manager Domain) - Same as Level 2
+│  └─ Manages: FM domain parameters only
+│
+└─ Investor DAO (Investor Domain)
+   ├─ Scope: Investor standards and class definitions
+   ├─ Proposers: Admin committee
+   ├─ Voters: Investors Only (TOSS-staked, class-weighted)
+   └─ Manages: Investor classes, upgrade thresholds, investor standards
 ```
 
 ## Level 1: Fund-Level Governance
@@ -58,11 +69,11 @@ Operational:
 
 ❌ **Cannot Be Changed at Fund Level**:
 ```yaml
-- RiskTier assignment (protocol-level)
-- FundClass (protocol-level)
-- Slashing formulas (protocol-level)
-- RiskEngine rules (protocol-level)
-- FM stake requirements (FM-level)
+- RiskTier assignment (Core DAO domain)
+- FundClass (FM DAO domain)
+- Slashing formulas (Core DAO domain)
+- RiskEngine rules (Core DAO domain)
+- FM stake requirements (FM DAO domain)
 ```
 
 ### Proposer Requirements
@@ -217,10 +228,10 @@ Dispute Resolution:
 
 ❌ **Cannot Change**:
 ```yaml
-- Core RiskEngine algorithms (protocol-level)
-- Global slashing formulas (protocol-level)
-- Protocol fees (protocol-level)
-- Investor class definitions (protocol-level)
+- Core RiskEngine algorithms (Core DAO domain)
+- Global slashing formulas (Core DAO domain)
+- Protocol fees (Core DAO domain)
+- Investor class definitions (Investor DAO domain)
 ```
 
 ### Proposer Requirements
@@ -319,17 +330,19 @@ const score =
   Math.min(votingParticipation * 10, 10);
 ```
 
-## Level 3: Protocol-Level Governance
+## Level 3: Domain-Specific DAOs
 
-### Purpose
+Protocol governance is split into **three domain-specific DAOs**, each managing only its own parameters to prevent cross-domain control:
 
-Maintain protocol security and infrastructure through carefully controlled, widely-reviewed proposals.
+### Core DAO (Protocol Domain)
 
-### Governance Scope
+#### Purpose
 
-#### What Can Be Changed at Protocol Level
+Maintain protocol infrastructure, security, and core systems through carefully controlled proposals.
 
-✅ **Protocol Parameters**:
+#### Governance Scope
+
+✅ **Core DAO Manages**:
 ```yaml
 Infrastructure:
   - Oracle configuration
@@ -338,39 +351,88 @@ Infrastructure:
   - Paymaster rules
 
 Risk & Security:
-  - Global slashing formulas
   - RiskEngine core algorithms
   - Emergency pause thresholds
   - Circuit breaker triggers
 
-Economics:
+Economics (Core DAO):
   - Protocol fee structure
-  - Reward distribution
-  - Burn mechanisms
   - Treasury management
 
-Investor System:
-  - Investor class definitions
-  - Class upgrade thresholds
-  - Penalty/reward parameters
-
-Governance:
+Governance Infrastructure:
   - Voting rules
   - Quorum requirements
   - Timelock durations
   - Admin committee composition
 ```
 
-### Proposer Requirements
+❌ **Core DAO Cannot Manage**:
+```yaml
+- FM stake requirements (FM DAO domain)
+- FundClass templates (FM DAO domain)
+- Investor class definitions (Investor DAO domain)
+- Investor upgrade thresholds (Investor DAO domain)
+- Investor penalties/rewards (Investor DAO domain)
+```
 
-**Admin Committee Only**:
+### Investor DAO (Investor Domain)
+
+#### Purpose
+
+Manage investor standards, class definitions, and investor-specific parameters.
+
+#### Governance Scope
+
+✅ **Investor DAO Manages**:
+```yaml
+Investor Classes:
+  - Class definitions (Retail, Premium, Institutional, Strategic)
+  - Class upgrade thresholds (TOSS stake, ICS requirements)
+  - Class access rules (which tiers each class can access)
+
+Investor Standards:
+  - Penalty parameters
+  - Reward parameters
+  - Behavior standards
+  - Compliance requirements
+```
+
+❌ **Investor DAO Cannot Manage**:
+```yaml
+- FM stake requirements (FM DAO domain)
+- FundClass templates (FM DAO domain)
+- Protocol infrastructure (Core DAO domain)
+- Oracle configuration (Core DAO domain)
+- RiskEngine algorithms (Core DAO domain)
+```
+
+**Key Principle**: Investor DAO manages investor domain parameters only.
+
+#### Proposer Requirements
+
+**Core DAO**: Admin Committee Only
+**Investor DAO**: Admin Committee Only (for now, may evolve)
 
 ```solidity
-function createProtocolProposal(
+// Core DAO proposals
+function createCoreDAOProposal(
     ProposalType proposalType,
-    VoterGroup voterGroup,  // Admin specifies who votes
+    VoterGroup voterGroup,  // FM_ONLY or BOTH
     bytes calldata proposalData
 ) external onlyAdmin returns (uint256 proposalId);
+
+// Investor DAO proposals
+function createInvestorDAOProposal(
+    ProposalType proposalType,
+    bytes calldata proposalData
+) external onlyAdmin returns (uint256 proposalId) {
+    // Always INVESTOR_ONLY voter group
+    return protocolGovernance.createProposal(
+        proposalType,
+        VoterGroup.INVESTOR_ONLY,
+        proposalData
+    );
+}
 
 // Admin committee (initially core team, later elected)
 modifier onlyAdmin() {
@@ -385,42 +447,50 @@ modifier onlyAdmin() {
 
 **Transition Plan**:
 ```
-Phase 1 (Current): Core team = Admin
+Phase 1 (Current): Core team = Admin for both DAOs
 Phase 2 (Q2 2025): 5-member elected admin committee
 Phase 3 (Q4 2025): Fully DAO-elected rotating committee
-Phase 4 (2026+): Proposal creation open to all (high threshold)
+Phase 4 (2026+): Investor DAO may open proposal creation to investors (high threshold)
 ```
 
-### Voter Group Specification
+#### Voter Group Specification
 
-Admin specifies voter group when creating proposal:
+**Core DAO**:
+- Admin specifies voter group per proposal (FM_ONLY or BOTH)
+- Infrastructure changes: Usually BOTH (affects everyone)
+- RiskEngine/FM-focused changes: Usually FM_ONLY
+
+**Investor DAO**:
+- Always INVESTOR_ONLY (investors manage their own domain)
 
 ```solidity
 enum VoterGroup {
-    FM_ONLY,           // Only Fund Managers can vote
-    INVESTOR_ONLY,     // Only Investors (TOSS holders) can vote
-    BOTH,              // Both FMs and Investors can vote
+    FM_ONLY,           // Only Fund Managers can vote (Core DAO only)
+    INVESTOR_ONLY,     // Only Investors can vote (Investor DAO only)
+    BOTH,              // Both FMs and Investors can vote (Core DAO only)
     GUARDIAN_ONLY      // Only Guardian committee (emergency)
 }
 
-// Example: Oracle change affects everyone
+// Example: Core DAO - Oracle change affects everyone
 protocolGovernance.createProposal(
     proposalType: ProposalType.ORACLE_CONFIG,
-    voterGroup: VoterGroup.BOTH,
+    voterGroup: VoterGroup.BOTH,  // Core DAO: Both vote
     data: encodeOracleConfig(newOracleAddress)
 );
 
-// Example: FM slashing formula affects FMs primarily
+// Example: Investor DAO - Class definition affects investors
 protocolGovernance.createProposal(
-    proposalType: ProposalType.SLASHING_FORMULA,
-    voterGroup: VoterGroup.FM_ONLY,
-    data: encodeSlashingParams(newParams)
+    proposalType: ProposalType.INVESTOR_CLASS,
+    voterGroup: VoterGroup.INVESTOR_ONLY,  // Investor DAO: Investors only
+    data: encodeInvestorClassParams(newParams)
 );
 ```
 
-### Voter Eligibility by Group
+### Voter Eligibility by DAO
 
-#### FM_ONLY Proposals
+#### Core DAO: FM_ONLY Proposals
+
+For Core DAO proposals that primarily affect Fund Managers:
 
 ```solidity
 function canVote(address voter) public view returns (bool) {
@@ -436,10 +506,38 @@ function getVotingPower(address fm) public view returns (uint256) {
 }
 ```
 
-#### INVESTOR_ONLY Proposals
+#### Core DAO: BOTH Proposals
+
+For Core DAO proposals affecting the entire ecosystem:
 
 ```solidity
 function canVote(address voter) public view returns (bool) {
+    return staking.getStake(voter) > 0;  // Any TOSS staker (FM or Investor)
+}
+
+function getVotingPower(address voter) public view returns (uint256) {
+    uint256 tossStaked = staking.getStake(voter);
+    uint256 lockBonus = staking.getLockBonus(voter);
+    
+    // Role multiplier
+    uint256 roleMultiplier = 10; // 1.0x base
+    if (fundRegistry.isActiveFM(voter)) {
+        roleMultiplier = 15; // 1.5x for FMs
+    } else if (investorRegistry.getClass(voter) == InvestorClass.STRATEGIC) {
+        roleMultiplier = 20; // 2.0x for strategic investors
+    }
+    
+    return (tossStaked * (10 + lockBonus) * roleMultiplier) / 100;
+}
+```
+
+#### Investor DAO: INVESTOR_ONLY Proposals
+
+**All Investor DAO proposals use INVESTOR_ONLY voter group**:
+
+```solidity
+function canVote(address voter) public view returns (bool) {
+    // Only investors (non-FMs) can vote in Investor DAO
     return staking.getStake(voter) > 0 && !fundRegistry.isActiveFM(voter);
 }
 
@@ -448,9 +546,14 @@ function getVotingPower(address investor) public view returns (uint256) {
     uint256 lockBonus = staking.getLockBonus(investor);
     uint256 classMultiplier = investorRegistry.getClassMultiplier(investor);
     
+    // Investor class multipliers:
+    // RETAIL: 1.0x, PREMIUM: 1.2x, INSTITUTIONAL: 1.5x, STRATEGIC: 2.0x
+    
     return (tossStaked * (10 + lockBonus) * classMultiplier) / 10;
 }
 ```
+
+**Key Principle**: Investor DAO proposals always use INVESTOR_ONLY—investors manage their own domain.
 
 #### BOTH Proposals
 
@@ -477,11 +580,12 @@ function getVotingPower(address voter) public view returns (uint256) {
 
 ### Quorum & Approval Thresholds
 
-| Voter Group | Quorum | Standard Approval | Critical Approval |
-|-------------|--------|-------------------|-------------------|
-| FM_ONLY | 15% of FM VP | >50% | >75% |
-| INVESTOR_ONLY | 10% of Investor VP | >50% | >66% |
-| BOTH | 10% of Combined VP | >50% | >75% |
+| DAO | Voter Group | Quorum | Standard Approval | Critical Approval |
+|-----|-------------|--------|-------------------|-------------------|
+| **Core DAO** | FM_ONLY | 15% of FM VP | >50% | >75% |
+| **Core DAO** | BOTH | 10% of Combined VP | >50% | >75% |
+| **Investor DAO** | INVESTOR_ONLY | 10% of Investor VP | >50% | >66% |
+| **FM DAO** | FM Only | 20% of FM VP | >60% | >75% |
 
 ## Governance Contracts
 
@@ -652,8 +756,14 @@ contract VoterRegistry {
         view 
         returns (bool);
     
-    // Protocol-level eligibility
-    function isProtocolVoter(address voter, VoterGroup group) 
+    // Core DAO eligibility
+    function isCoreDAOVoter(address voter, VoterGroup group) 
+        external 
+        view 
+        returns (bool);
+    
+    // Investor DAO eligibility
+    function isInvestorDAOVoter(address voter) 
         external 
         view 
         returns (bool);
@@ -675,12 +785,14 @@ contract VoterRegistry {
 | Risk Parameter | Fund | FM or Investor | Fund Investors | Tighten drawdown limit |
 | Strategy Update | Fund | FM | Fund Investors | Change trading approach |
 | FM Replacement | Fund | Investor | Fund Investors | Vote out underperforming FM |
-| Minimum Stake | FM | Any FM | All FMs | Increase FM collateral |
-| FundClass Template | FM | Any FM | All FMs | Modify Balanced fund definition |
-| Oracle Config | Protocol | Admin | Both | Add new oracle source |
-| Slashing Formula | Protocol | Admin | FM Only | Adjust slashing severity |
-| Protocol Fee | Protocol | Admin | Investor Only | Change protocol fee rate |
-| Emergency Pause | Protocol | Admin/Guardian | Guardian | Pause in crisis |
+| Minimum Stake | FM DAO | Any FM | All FMs | Increase FM collateral |
+| FundClass Template | FM DAO | Any FM | All FMs | Modify Balanced fund definition |
+| Oracle Config | Core DAO | Admin | Both | Add new oracle source |
+| Slashing Formula | Core DAO | Admin | FM Only | Adjust slashing severity |
+| Protocol Fee | Core DAO | Admin | Both | Change protocol fee rate |
+| Investor Class | Investor DAO | Admin | Investors Only | Modify class definitions |
+| Investor Upgrade | Investor DAO | Admin | Investors Only | Adjust upgrade thresholds |
+| Emergency Pause | Core DAO | Admin/Guardian | Guardian | Pause in crisis |
 
 ## Governance Interactions
 
@@ -701,8 +813,8 @@ function validateFundProposal(uint256 fundId, ProposalType pType, bytes data)
         require(newFee >= fmGovernance.getMinFee(class), "Below minimum");
         require(newFee <= fmGovernance.getMaxFee(class), "Above maximum");
         
-        // Check against protocol limits (set by protocol governance)
-        require(newFee <= protocolGovernance.getGlobalMaxFee(), "Above global max");
+        // Check against protocol limits (set by Core DAO)
+        require(newFee <= coreDAO.getGlobalMaxFee(), "Above global max");
         
         return true;
     }

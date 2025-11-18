@@ -175,27 +175,23 @@ yarn verify:testnet
 
 ### For Smart Contract Developers
 
-- [zkSync-Safe Contracts](/technical/smart-contracts/zksync-safe-contracts)
-- [Testing Guide](/technical/smart-contracts/testing)
-- [Deployment Scripts](/technical/smart-contracts/deployment)
+- [Protocol Contracts](/protocol/contracts/overview)
+- [Testing Guide](/technical/testing/overview)
+- [Getting Started](/technical/getting-started/prerequisites)
 
 ### For Backend Developers
 
 - [Off-Chain Services Overview](/technical/offchain/overview)
-- [NAV Engine](/technical/offchain/nav-engine)
-- [Trade Router](/technical/offchain/trade-router)
+- [NAV Engine](/protocol/tokenomics/detailed-nav-engine)
 
 ### For DevOps Engineers
 
 - [Infrastructure Overview](/technical/infrastructure/overview)
-- [AWS Architecture](/technical/infrastructure/aws-architecture)
-- [Deployment Workflow](/technical/deployment/workflow)
+- [Getting Started](/technical/getting-started/prerequisites)
 
 ### For QA Engineers
 
 - [Testing Overview](/technical/testing/overview)
-- [Integration Testing](/technical/testing/integration-testing)
-- [zkSync Simulation](/technical/testing/zksync-simulation)
 
 ## Development Principles
 

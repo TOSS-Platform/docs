@@ -374,5 +374,5 @@ Automatic triggers:
 
 ---
 
-*For operational security procedures, see [Technical Documentation - Deployment](/technical/deployment/workflow).*
+*For operational security procedures, see [Technical Documentation](/technical/intro).*
 

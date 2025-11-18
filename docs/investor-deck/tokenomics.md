@@ -55,5 +55,5 @@ Reserve:             10% (Future)
 
 For detailed tokenomics, see [Protocol - Tokenomics](/protocol/tokenomics/overview).
 
-**Back**: [Executive Summary](/investor-deck/executive-summary)
+**Back**: [Overview](/investor-deck/platform-overview)
 

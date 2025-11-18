@@ -10,10 +10,12 @@ JSON schemas defining TOSS MCP tools and resources.
 
 ### Tool Schemas
 
-- [Fund Operations](/mcp/schemas/fund-operations.json) - Fund management tools
-- [Transaction Operations](/mcp/schemas/transaction-operations.json) - Transaction tools
-- [Portfolio Operations](/mcp/schemas/portfolio-operations.json) - Portfolio tools
-- [Analytics Operations](/mcp/schemas/analytics-operations.json) - Analytics tools
+Tool schemas are available as JSON files in the MCP server. Access them via:
+
+- Fund Operations: `fund-operations.json`
+- Transaction Operations: `transaction-operations.json`
+- Portfolio Operations: `portfolio-operations.json`
+- Analytics Operations: `analytics-operations.json`
 
 ### Resource Schemas
 
@@ -64,10 +66,5 @@ Download schemas:
 curl http://localhost:3001/mcp/v1/schemas/fund-operations
 ```
 
-Or view them in the documentation:
-
-- [Fund Schema](/mcp/schemas/fund-operations.json)
-- [Transaction Schema](/mcp/schemas/transaction-operations.json)
-- [Portfolio Schema](/mcp/schemas/portfolio-operations.json)
-- [Analytics Schema](/mcp/schemas/analytics-operations.json)
+Schemas are also available in the [MCP Integration](/mcp-integration/overview) section.
 

@@ -1105,5 +1105,5 @@ contract GovernanceAccessControl {
 
 ---
 
-*For implementation guides, see [Technical Documentation - Governance](/technical/smart-contracts/governance).*
+*For implementation guides, see [Technical Documentation](/technical/intro).*
 

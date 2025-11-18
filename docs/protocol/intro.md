@@ -29,7 +29,7 @@ We envision a future where:
 - **$100B+ in Assets Under Management** across diverse strategies and risk profiles
 - **Millions of Investors** access professional management previously unavailable to them
 - **Zero Trust Required**: All operations cryptographically verified and economically secured
-- **Global Access**: Anyone, anywhere can participate without geographic or regulatory barriers
+- **Global Infrastructure**: TOSS provides protocol infrastructure globally—compliance responsibility remains with Fund Managers per their jurisdiction
 
 ## What We're Changing
 
@@ -58,10 +58,11 @@ TOSS is designed to solve fundamental problems plaguing both traditional finance
 - Accredited investor requirements exclude 98% of population
 
 **TOSS Solution**:
-- **Permissionless**: Anyone can become a fund manager by staking TOSS tokens
-- **Low Minimums**: Funds can launch with minimal capital requirements
-- **No Licensing**: On-chain credentials replace traditional regulatory barriers
-- **Universal Access**: Investors can participate with any amount (subject to fund rules)
+- **Permissionless Infrastructure**: TOSS provides technical infrastructure—anyone can become a fund manager by staking TOSS tokens
+- **Low Minimums**: Funds can launch with minimal capital requirements (technology-wise)
+- **On-Chain Credentials**: On-chain reputation and credentials complement traditional regulatory frameworks
+- **Jurisdiction-Dependent Compliance**: Fund Managers are responsible for regulatory compliance in their respective jurisdictions (MiCA, SEC, MAS, FCA, etc.)
+- **Universal Technical Access**: Investors can participate with any amount technically (subject to fund rules and local regulations)
 
 ### 3. Risk Management Failures
 
@@ -106,12 +107,40 @@ TOSS is designed to solve fundamental problems plaguing both traditional finance
 
 The protocol enables:
 
-- **Permissionless Fund Creation**: Anyone can become a Fund Manager backed by on-chain credentials and mandatory stake—no regulatory licensing or minimum AUM required
+- **Permissionless Fund Creation**: TOSS provides infrastructure—anyone can become a Fund Manager backed by on-chain credentials and mandatory stake. Fund Managers are responsible for regulatory compliance in their jurisdiction.
 - **Transparent Fund Management**: All trades, risk parameters, NAV changes, and fund performance are publicly verifiable on-chain in real-time
 - **Autonomous Risk Validation**: Every action is governed by an autonomous RiskEngine that enforces mathematical risk boundaries before execution
 - **Accountability Through Staking**: Fund Managers stake TOSS tokens as collateral—violations trigger automatic slashing and burning, ensuring economic alignment
+- **Slashing-Backed NAV Recovery**: When a Fund Manager causes damage, part of their slashed TOSS stake is automatically routed to the fund to partially restore NAV, while the rest is burned, enforcing both compensation and long-term deflation
 - **zkSync Integration**: Ultra-low fees (under $0.10 per transaction), high throughput, and native Account Abstraction enable efficient operations at scale
-- **Multi-Level Governance**: Three-level governance system (Fund, FM, Protocol) ensures context-appropriate decision-making with proportional voting power
+- **Multi-Domain Governance**: Protocol / FM / Investor domain governance ensures context-appropriate decision-making with proportional voting power, plus fund-level governance for individual fund parameters
+
+## TOSS Token Economics
+
+The TOSS token is the economic backbone of the protocol, designed with immutable supply guarantees and deflationary mechanics:
+
+### Fixed Supply & No Minting
+
+- **Immutable Supply**: TOSS has a fixed total supply with **no minting function**—the supply can only decrease, never increase
+- **Maximum Transparency**: This immutable property provides investor confidence that token economics cannot be manipulated by protocol governance
+- **Hard Cap**: Total supply is permanently capped at deployment, ensuring long-term value preservation
+
+### Deflationary Model
+
+- **Deflation via Slashing & Burn**: TOSS is a **fixed-supply, deflationary token** where all token burns come exclusively from slashing events
+- **Automatic Burning**: When Fund Managers violate risk parameters, their staked TOSS tokens are automatically slashed and permanently burned
+- **Supply Reduction**: Every slashing event reduces the total supply, creating natural deflationary pressure as the protocol scales
+
+### Token Utility
+
+TOSS serves multiple critical roles across the protocol:
+
+- **Fund Manager Collateral**: FM stake requirement—Fund Managers must stake TOSS tokens as collateral to operate funds, ensuring economic alignment with investors
+- **Governance Voting Power**: Protocol governance—TOSS stakers gain voting power proportional to their stake for protocol-level proposals
+- **Investor Class Staking**: Investor tier system—Investors can stake TOSS to upgrade their investor class (RETAIL → PREMIUM → WHALE) and unlock enhanced benefits
+- **zkSync Paymaster Fuel**: Gas sponsorship—TOSS tokens fund zkSync Paymaster contracts, enabling gasless transactions for users and reducing friction
+
+**Economic Alignment**: All token utility creates positive feedback loops where protocol growth and responsible behavior are economically incentivized, while violations are automatically penalized through token burning.
 
 ## Why TOSS Matters
 
@@ -121,15 +150,15 @@ The protocol enables:
 - **Access to Professional Management**: Invest in strategies previously unavailable without $100K+ minimums
 - **Real-Time Monitoring**: Track your investments with on-chain data
 - **Economic Protection**: Fund managers stake tokens—if they misbehave, you're compensated from slashed stake
-- **Global Access**: Participate from anywhere, with any amount
+- **Technical Accessibility**: Participate from anywhere technically—compliance requirements vary by jurisdiction
 
 ### For Fund Managers
 
-- **Low Barriers to Entry**: Launch a fund with minimal capital—just stake TOSS tokens
+- **Low Technical Barriers**: Launch a fund with minimal capital (technology-wise)—just stake TOSS tokens. Regulatory compliance remains the Fund Manager's responsibility per their jurisdiction
 - **Build On-Chain Reputation**: Transparent track record attracts investors organically
 - **Efficient Operations**: Ultra-low fees enable frequent trading and real-time risk validation
 - **Session Keys**: Trade securely without exposing main wallet
-- **Performance Fees**: Earn 10-20% of profits above high water mark
+- **Performance Fees**: Earn typical performance fees (configurable) of profits above high water mark
 
 ### For the Ecosystem
 
@@ -146,7 +175,7 @@ The TOSS protocol is built on zkSync Era L2, leveraging:
 - **zkSync L2** for execution, validity proofs, and low-cost operations
 - **Smart Contract Layer** for all economic logic and fund operations
 - **Off-Chain Services** for NAV calculation and analytics
-- **Multi-Domain Governance** for decentralized parameter management
+- **Protocol / FM / Investor Domain Governance** for decentralized parameter management, plus fund-level governance for individual fund parameters
 
 ## Documentation Structure
 
@@ -165,7 +194,7 @@ Mathematical definitions of TOSS tokenomics, deflationary model, slashing mechan
 Technical specifications for zkSync integration including Account Abstraction, Paymaster design, L1-L2 bridging, and gas optimizations.
 
 ### Governance
-Multi-level governance system with fund-level, FM-level, and protocol-level proposals, each with context-specific voters and execution mechanisms.
+Protocol / FM / Investor domain governance system with fund-level governance for individual fund parameters—each with context-specific voters and execution mechanisms.
 
 ### Security
 Comprehensive security model covering threat analysis, smart contract security, economic security, and operational safeguards.
@@ -191,6 +220,24 @@ This documentation is designed for:
 
 :::info Developer Implementation Guide
 For practical development guides, deployment procedures, and testing frameworks, see the **[Technical Documentation](/technical/intro)**.
+:::
+
+## Legal & Regulatory Disclaimer
+
+:::important Compliance Responsibility
+
+**TOSS provides protocol infrastructure only.** Fund Managers operating on TOSS are solely responsible for:
+
+- Regulatory compliance in their respective jurisdictions (MiCA, SEC, MAS, FCA, etc.)
+- Obtaining required licenses and registrations where applicable
+- KYC/AML procedures per local requirements
+- Investor accreditation requirements
+- Tax reporting and compliance obligations
+
+The TOSS protocol itself is a technical infrastructure layer—regulatory compliance remains jurisdiction-dependent and is the responsibility of each Fund Manager.
+
+For detailed compliance considerations, see [Fund Standards & Compliance](/protocol/standards/overview).
+
 :::
 
 ## Protocol Status

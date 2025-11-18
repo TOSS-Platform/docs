@@ -605,7 +605,7 @@ contract RiskEngine {
 - **[Immutable Layer](/protocol/tokenomics/immutable-layer)**: What cannot change
 - **[Config Layer](/protocol/tokenomics/config-layer)**: Parameter details
 - **[Logic Layer](/protocol/tokenomics/logic-layer)**: How contracts use config
-- **[Protocol Governance](/protocol/governance/protocol-proposal)**: How to change parameters
+- **[Protocol Governance](/protocol/governance/proposal-lifecycle)**: How to change parameters
 
 ---
 

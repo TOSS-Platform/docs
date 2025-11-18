@@ -70,9 +70,7 @@ AI internally calls:
 
 Each tool has a JSON schema defining its inputs and outputs. View the complete schemas:
 
-- [Fund Operations Schema](/mcp/schemas/fund-schema)
-- [Transaction Schema](/mcp/schemas/transaction-schema)
-- [Portfolio Schema](/mcp/schemas/portfolio-schema)
+- [Schemas Overview](/mcp/schemas/overview) - View all tool schemas
 
 ## Next Steps
 

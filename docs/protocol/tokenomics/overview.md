@@ -38,7 +38,7 @@ TOSS implements a secure three-layer architecture separating immutable economic 
 
 **Security Benefit**: Core economic principles cannot be manipulated, even by governance.
 
-**[Learn More →](/docs/protocol/tokenomics/immutable-layer)**
+**[Learn More →](/protocol/tokenomics/immutable-layer)**
 
 ### Layer 2: Config Layer ⚙️
 
@@ -74,7 +74,7 @@ weightI: Intent weight (range: 5-15%, default: 10%)
 
 **Security Benefit**: DAO can optimize parameters without compromising formula integrity.
 
-**[Learn More →](/docs/protocol/tokenomics/config-layer)**
+**[Learn More →](/protocol/tokenomics/config-layer)**
 
 ### Layer 3: Logic Layer 🔧
 
@@ -108,7 +108,7 @@ function calculateSlashing(uint256 stake, uint256 FI, uint256 loss)
 
 **Security Benefit**: Formulas are immutable code, but parameters can be tuned safely.
 
-**[Learn More →](/docs/protocol/tokenomics/logic-layer)**
+**[Learn More →](/protocol/tokenomics/logic-layer)**
 
 ### Why This Architecture?
 
@@ -483,13 +483,13 @@ ACTIVE (normal operations)
 
 ## Next Steps
 
-- **[Token Economics](/docs/protocol/tokenomics/token-economics)**: Detailed token distribution and utility
-- **[Deflationary Model](/docs/protocol/tokenomics/deflationary-model)**: Burn mechanics and supply dynamics
-- **[Slashing Mechanism](/docs/protocol/tokenomics/slashing-mechanism)**: Complete slashing specifications
-- **[Fault Index](/docs/protocol/tokenomics/fault-index)**: FI calculation methodology
-- **[NAV Recovery](/docs/protocol/tokenomics/nav-recovery)**: Fund recovery procedures
+- **[Token Economics](/protocol/tokenomics/token-economics)**: Detailed token distribution and utility
+- **[Deflationary Model](/protocol/tokenomics/deflationary-model)**: Burn mechanics and supply dynamics
+- **[Slashing Mechanism](/protocol/tokenomics/slashing-mechanism)**: Complete slashing specifications
+- **[Fault Index](/protocol/tokenomics/fault-index)**: FI calculation methodology
+- **[NAV Recovery](/protocol/tokenomics/nav-recovery)**: Fund recovery procedures
 
 ---
 
-*For slashing simulations, see [Technical Documentation - Testing](/docs/technical/testing/overview).*
+*For slashing simulations, see [Technical Documentation - Testing](/technical/testing/overview).*
 

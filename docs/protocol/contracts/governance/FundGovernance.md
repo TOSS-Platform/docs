@@ -28,7 +28,7 @@ Enables fund-level governance where Fund Managers and investors propose and vote
 
 [Complete function list with full details]
 
-For complete implementation, see [Governance Layer Overview](/docs/protocol/contracts/governance-layer).
+For complete implementation, see [Governance Layer Overview](/protocol/contracts/governance-layer).
 
 ## Test Scenarios
 
@@ -134,5 +134,5 @@ For complete implementation, see [Governance Layer Overview](/docs/protocol/cont
 
 ---
 
-[Back to Governance Contracts](/docs/protocol/contracts/governance-layer)
+[Back to Governance Contracts](/protocol/contracts/governance-layer)
 

@@ -126,5 +126,5 @@ score = (economicPower * 35 + behaviorScore * 30 + governanceScore * 20 + riskSc
 
 ---
 
-**Next**: [InvestorStateMachine](/docs/protocol/contracts/investor/InvestorStateMachine)
+**Next**: [InvestorStateMachine](/protocol/contracts/investor/InvestorStateMachine)
 

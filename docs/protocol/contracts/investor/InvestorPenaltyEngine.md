@@ -109,5 +109,5 @@ function applyPenalty(
 
 ---
 
-**Next**: [InvestorRewardEngine](/docs/protocol/contracts/investor/InvestorRewardEngine)
+**Next**: [InvestorRewardEngine](/protocol/contracts/investor/InvestorRewardEngine)
 

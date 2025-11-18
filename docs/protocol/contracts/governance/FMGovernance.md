@@ -122,5 +122,5 @@ Governance system for Fund Managers to collectively manage their professional st
 
 ---
 
-[Back to Governance Contracts](/docs/protocol/contracts/governance-layer)
+[Back to Governance Contracts](/protocol/contracts/governance-layer)
 

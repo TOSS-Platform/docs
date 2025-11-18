@@ -101,5 +101,5 @@ function analyzeIntent(
 
 ---
 
-**Next**: [RiskMathLib](/docs/protocol/contracts/risk/RiskMathLib)
+**Next**: [RiskMathLib](/protocol/contracts/risk/RiskMathLib)
 

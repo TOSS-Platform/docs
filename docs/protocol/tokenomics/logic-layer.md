@@ -614,13 +614,13 @@ const history = await daoConfig.getParameterHistory("gamma");
 
 ## Related Documentation
 
-- **[Immutable Layer](/docs/protocol/tokenomics/immutable-layer)**: Fixed formulas
-- **[Config Layer](/docs/protocol/tokenomics/config-layer)**: Adjustable parameters
-- **[SlashingEngine](/docs/protocol/contracts/risk/SlashingEngine)**: Slashing implementation
-- **[RiskEngine](/docs/protocol/contracts/risk/RiskEngine)**: Risk validation
-- **[DAOConfigCore](/docs/protocol/contracts/core/DAOConfigCore)**: Config contract
+- **[Immutable Layer](/protocol/tokenomics/immutable-layer)**: Fixed formulas
+- **[Config Layer](/protocol/tokenomics/config-layer)**: Adjustable parameters
+- **[SlashingEngine](/protocol/contracts/risk/SlashingEngine)**: Slashing implementation
+- **[RiskEngine](/protocol/contracts/risk/RiskEngine)**: Risk validation
+- **[DAOConfigCore](/protocol/contracts/core/DAOConfigCore)**: Config contract
 
 ---
 
-**Back**: [Tokenomics Overview](/docs/protocol/tokenomics/overview)
+**Back**: [Tokenomics Overview](/protocol/tokenomics/overview)
 

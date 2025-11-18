@@ -499,7 +499,7 @@ function getParameterHistory(bytes32 parameter)
 
 ## Parameter Change Process
 
-Detailed in [Protocol Proposal Process](/docs/protocol/processes/governance/protocol-proposal).
+Detailed in [Protocol Proposal Process](/protocol/processes/governance/protocol-proposal).
 
 **Summary**:
 1. **Proposal**: Admin or FM creates proposal
@@ -590,14 +590,14 @@ async function simulateParameterChange(param, newValue) {
 
 ## Related Documentation
 
-- **[Immutable Layer](/docs/protocol/tokenomics/immutable-layer)**: Fixed formulas
-- **[Logic Layer](/docs/protocol/tokenomics/logic-layer)**: Implementation patterns
-- **[DAOConfigCore Contract](/docs/protocol/contracts/core/DAOConfigCore)**: Contract specification
-- **[Protocol Governance](/docs/protocol/governance/dao-structure)**: How to change parameters
+- **[Immutable Layer](/protocol/tokenomics/immutable-layer)**: Fixed formulas
+- **[Logic Layer](/protocol/tokenomics/logic-layer)**: Implementation patterns
+- **[DAOConfigCore Contract](/protocol/contracts/core/DAOConfigCore)**: Contract specification
+- **[Protocol Governance](/protocol/governance/dao-structure)**: How to change parameters
 
 ---
 
-**Back**: [Tokenomics Overview](/docs/protocol/tokenomics/overview)
+**Back**: [Tokenomics Overview](/protocol/tokenomics/overview)
 
-**Next**: [Logic Layer](/docs/protocol/tokenomics/logic-layer)
+**Next**: [Logic Layer](/protocol/tokenomics/logic-layer)
 

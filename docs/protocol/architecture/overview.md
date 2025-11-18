@@ -175,11 +175,11 @@ The TOSS security model is multi-layered:
 
 ## Next Steps
 
-- **[Layered System](/docs/protocol/architecture/layered-system)**: Deep dive into each architectural layer
-- **[L1-L2 Communication](/docs/protocol/architecture/l1-l2-communication)**: Understanding cross-layer messaging
-- **[Security Model](/docs/protocol/architecture/security-model)**: Comprehensive security analysis
+- **[Layered System](/protocol/architecture/layered-system)**: Deep dive into each architectural layer
+- **[L1-L2 Communication](/protocol/architecture/l1-l2-communication)**: Understanding cross-layer messaging
+- **[Security Model](/protocol/architecture/security-model)**: Comprehensive security analysis
 
 ---
 
-*For practical implementation details, see the [Technical Documentation](/docs/technical/intro).*
+*For practical implementation details, see the [Technical Documentation](/technical/intro).*
 

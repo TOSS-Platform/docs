@@ -156,4 +156,4 @@ function finalizeWithdrawal(
 
 ---
 
-**Next**: [TOSSChainState](/docs/protocol/contracts/core/TOSSChainState)
+**Next**: [TOSSChainState](/protocol/contracts/core/TOSSChainState)

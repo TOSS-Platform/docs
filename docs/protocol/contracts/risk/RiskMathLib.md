@@ -136,5 +136,5 @@ sharpe = (avgReturn - riskFreeRate) / stdDev
 
 ---
 
-**Risk Layer Complete!** [Governance Contracts →](/docs/protocol/contracts/governance/FundGovernance)
+**Risk Layer Complete!** [Governance Contracts →](/protocol/contracts/governance/FundGovernance)
 

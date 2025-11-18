@@ -58,5 +58,5 @@
 
 ---
 
-**Back**: [Team](/docs/investor-deck/team)
+**Back**: [Team](/investor-deck/team)
 

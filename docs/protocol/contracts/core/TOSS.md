@@ -669,20 +669,20 @@ await governance.castVote(proposalId, support, votingPower);
 
 ## Related Contracts
 
-- **[SlashingEngine](/docs/protocol/contracts/risk/SlashingEngine)**: Only authorized burner
-- **[FundFactory](/docs/protocol/contracts/fund/FundFactory)**: Requires TOSS staking
-- **[ProtocolGovernance](/docs/protocol/contracts/governance/ProtocolGovernance)**: Uses snapshots for voting
-- **[InvestorRegistry](/docs/protocol/contracts/investor/InvestorRegistry)**: Tracks TOSS staking for classes
+- **[SlashingEngine](/protocol/contracts/risk/SlashingEngine)**: Only authorized burner
+- **[FundFactory](/protocol/contracts/fund/FundFactory)**: Requires TOSS staking
+- **[ProtocolGovernance](/protocol/contracts/governance/ProtocolGovernance)**: Uses snapshots for voting
+- **[InvestorRegistry](/protocol/contracts/investor/InvestorRegistry)**: Tracks TOSS staking for classes
 
 ## References
 
 - **ERC20 Standard**: [EIP-20](https://eips.ethereum.org/EIPS/eip-20)
 - **EIP-2612 Permit**: [EIP-2612](https://eips.ethereum.org/EIPS/eip-2612)
 - **Snapshot Pattern**: OpenZeppelin ERC20Snapshot
-- **zkSync Considerations**: [zkSync ERC20](https://era.zksync.io/docs/dev/building-on-zksync/contracts/differences-with-ethereum.html)
+- **zkSync Considerations**: [zkSync ERC20](https://era.zksync.io/dev/building-on-zksync/contracts/differences-with-ethereum.html)
 
 ---
 
-**Next Contract**: [TOSSTreasury](/docs/protocol/contracts/core/TOSSTreasury)
+**Next Contract**: [TOSSTreasury](/protocol/contracts/core/TOSSTreasury)
 
-**Back**: [Smart Contracts Overview](/docs/protocol/contracts/overview)
+**Back**: [Smart Contracts Overview](/protocol/contracts/overview)

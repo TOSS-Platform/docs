@@ -34,5 +34,5 @@ await investorRegistry.upgradeClass(InvestorClass.PREMIUM);
 
 ---
 
-**Related**: [ICS Calculation](/docs/protocol/contracts/investor/InvestorScoreCalculator)
+**Related**: [ICS Calculation](/protocol/contracts/investor/InvestorScoreCalculator)
 

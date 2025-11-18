@@ -159,5 +159,5 @@ function updateFundState(
 
 ---
 
-**Next**: [InvestorRiskDomain](/docs/protocol/contracts/risk/InvestorRiskDomain)
+**Next**: [InvestorRiskDomain](/protocol/contracts/risk/InvestorRiskDomain)
 

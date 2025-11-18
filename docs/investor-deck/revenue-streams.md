@@ -36,7 +36,7 @@ FM and investor staking demand drives token value
 
 ---
 
-**Next**: [Unit Economics](/docs/investor-deck/unit-economics)
+**Next**: [Unit Economics](/investor-deck/unit-economics)
 
-**Back**: [Tokenomics](/docs/investor-deck/tokenomics)
+**Back**: [Tokenomics](/investor-deck/tokenomics)
 

@@ -459,13 +459,13 @@ If zkSync censors transaction:
 
 ## Next Steps
 
-- **[zkSync Architecture](/docs/protocol/zksync/architecture)**: Deep technical dive
-- **[L1-L2 Bridge](/docs/protocol/zksync/l1-l2-bridge)**: Bridge specifications
-- **[Account Abstraction](/docs/protocol/zksync/account-abstraction)**: AA implementation
-- **[Paymaster](/docs/protocol/zksync/paymaster)**: Gas sponsorship details
-- **[Optimization](/docs/protocol/zksync/optimization)**: Gas optimization techniques
+- **[zkSync Architecture](/protocol/zksync/architecture)**: Deep technical dive
+- **[L1-L2 Bridge](/protocol/zksync/l1-l2-bridge)**: Bridge specifications
+- **[Account Abstraction](/protocol/zksync/account-abstraction)**: AA implementation
+- **[Paymaster](/protocol/zksync/paymaster)**: Gas sponsorship details
+- **[Optimization](/protocol/zksync/optimization)**: Gas optimization techniques
 
 ---
 
-*For zkSync deployment guides, see [Technical Documentation - Smart Contracts](/docs/technical/smart-contracts/deployment).*
+*For zkSync deployment guides, see [Technical Documentation - Smart Contracts](/technical/smart-contracts/deployment).*
 

@@ -330,10 +330,10 @@ TOSS MCP integration works with:
 
 Ready to enable MCP for your TOSS instance?
 
-1. [Setup Guide](/docs/mcp/setup) - Enable MCP server
-2. [AI Integration](/docs/mcp/ai-integration) - Connect your AI assistant
-3. [Tool Reference](/docs/mcp/tools/overview) - Available tools
-4. [Examples](/docs/mcp/examples/basic-queries) - Common queries
+1. [Setup Guide](/mcp/setup) - Enable MCP server
+2. [AI Integration](/mcp/ai-integration) - Connect your AI assistant
+3. [Tool Reference](/mcp/tools/overview) - Available tools
+4. [Examples](/mcp/examples/basic-queries) - Common queries
 
 ## Technical Specifications
 
@@ -345,8 +345,8 @@ Ready to enable MCP for your TOSS instance?
 
 ## Next Steps
 
-- [Set up MCP](/docs/mcp/setup)
-- [Connect Claude Desktop](/docs/mcp/ai-integration)
-- [Explore example prompts](/docs/mcp/examples/ai-prompts)
-- [View tool schemas](/docs/mcp/schemas/overview)
+- [Set up MCP](/mcp/setup)
+- [Connect Claude Desktop](/mcp/ai-integration)
+- [Explore example prompts](/mcp/examples/ai-prompts)
+- [View tool schemas](/mcp/schemas/overview)
 

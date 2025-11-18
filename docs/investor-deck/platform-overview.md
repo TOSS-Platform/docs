@@ -27,7 +27,7 @@
 
 ---
 
-For technical details, see [Protocol Documentation](/docs/protocol/intro).
+For technical details, see [Protocol Documentation](/protocol/intro).
 
-**Back**: [Solution Overview](/docs/investor-deck/solution-overview)
+**Back**: [Solution Overview](/investor-deck/solution-overview)
 

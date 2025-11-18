@@ -496,5 +496,5 @@ event FeeCollected(FeeType feeType, uint256 amount, uint256 timestamp);
 
 ---
 
-**Next**: [FundConfig](/docs/protocol/contracts/fund/FundConfig)
+**Next**: [FundConfig](/protocol/contracts/fund/FundConfig)
 

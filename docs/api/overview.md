@@ -22,7 +22,7 @@ POST   /api/v1/funds/:id/deposit        # Deposit to fund
 POST   /api/v1/funds/:id/withdraw       # Withdraw from fund
 ```
 
-[Learn More →](/docs/api/rest/introduction)
+[Learn More →](/api/rest/introduction)
 
 ### Smart Contract ABIs
 
@@ -35,7 +35,7 @@ POST   /api/v1/funds/:id/withdraw       # Withdraw from fund
 - RiskEngine
 - DAOGovernance
 
-[Learn More →](/docs/api/abis/overview)
+[Learn More →](/api/abis/overview)
 
 ### SDK Reference
 
@@ -54,7 +54,7 @@ const funds = await client.funds.list();
 await client.funds.deposit(fundId, amount);
 ```
 
-[Learn More →](/docs/api/sdk/overview)
+[Learn More →](/api/sdk/overview)
 
 ### WebSocket Events
 
@@ -73,7 +73,7 @@ client.on('trade-executed', (fundId, trade) => {
 });
 ```
 
-[Learn More →](/docs/api/websocket/overview)
+[Learn More →](/api/websocket/overview)
 
 ## Quick Start (Coming Soon)
 
@@ -135,8 +135,8 @@ Enterprise    Custom          Custom
 
 While API documentation is being developed, you can:
 
-- **Protocol Specs**: [Protocol Documentation](/docs/protocol/intro)
-- **Technical Guide**: [Technical Documentation](/docs/technical/intro)
+- **Protocol Specs**: [Protocol Documentation](/protocol/intro)
+- **Technical Guide**: [Technical Documentation](/technical/intro)
 - **Discord**: [discord.gg/toss](https://discord.gg/toss) #api-dev
 - **GitHub**: [github.com/toss/sdk](https://github.com/toss/sdk)
 

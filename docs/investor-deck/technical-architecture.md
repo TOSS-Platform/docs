@@ -29,7 +29,7 @@ Ethereum L1 (Settlement & Security)
 
 ---
 
-For complete technical specs, see [Protocol Documentation](/docs/protocol/intro) and [Technical Documentation](/docs/technical/intro).
+For complete technical specs, see [Protocol Documentation](/protocol/intro) and [Technical Documentation](/technical/intro).
 
-**Back**: [Platform Overview](/docs/investor-deck/platform-overview)
+**Back**: [Platform Overview](/investor-deck/platform-overview)
 

@@ -60,5 +60,5 @@ To NAV: 700 × 0.8 = 560 TOSS (converted to USDC, added to fund)
 
 ---
 
-**Related**: [RiskEngine](/docs/protocol/contracts/risk/RiskEngine), [SlashingEngine](/docs/protocol/contracts/risk/SlashingEngine)
+**Related**: [RiskEngine](/protocol/contracts/risk/RiskEngine), [SlashingEngine](/protocol/contracts/risk/SlashingEngine)
 

@@ -154,5 +154,5 @@ function getVotingPower(
 
 ---
 
-**Governance Contracts Complete!** [Investor Layer →](/docs/protocol/contracts/investor/InvestorRegistry)
+**Governance Contracts Complete!** [Investor Layer →](/protocol/contracts/investor/InvestorRegistry)
 

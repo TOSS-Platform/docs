@@ -862,11 +862,11 @@ interface ProtocolProposalCard {
 
 ## Next Steps
 
-- **[DAO Structure](/docs/protocol/governance/dao-structure)**: Governance level specifications
-- **[Proposal Lifecycle](/docs/protocol/governance/proposal-lifecycle)**: Detailed flows
-- **[Governance Contracts](/docs/protocol/contracts/governance-layer)**: Smart contract specs
+- **[DAO Structure](/protocol/governance/dao-structure)**: Governance level specifications
+- **[Proposal Lifecycle](/protocol/governance/proposal-lifecycle)**: Detailed flows
+- **[Governance Contracts](/protocol/contracts/governance-layer)**: Smart contract specs
 
 ---
 
-*Back to [Governance Overview](/docs/protocol/governance/overview)*
+*Back to [Governance Overview](/protocol/governance/overview)*
 

@@ -169,5 +169,5 @@ function updateICS(
 
 ---
 
-**Next**: [InvestorScoreCalculator](/docs/protocol/contracts/investor/InvestorScoreCalculator)
+**Next**: [InvestorScoreCalculator](/protocol/contracts/investor/InvestorScoreCalculator)
 

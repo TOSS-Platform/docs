@@ -37,5 +37,5 @@ uint256 amount = vault.emergencyWithdraw(shares);
 
 ---
 
-**Related**: [Emergency Procedures](/docs/protocol/processes/system/emergency-procedures)
+**Related**: [Emergency Procedures](/protocol/processes/system/emergency-procedures)
 

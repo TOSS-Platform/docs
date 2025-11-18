@@ -110,5 +110,5 @@ function claimRewards() external returns (uint256 amount)
 
 ---
 
-**Investor Layer Complete!** [Utility Contracts →](/docs/protocol/contracts/utilities/PriceOracleRouter)
+**Investor Layer Complete!** [Utility Contracts →](/protocol/contracts/utilities/PriceOracleRouter)
 

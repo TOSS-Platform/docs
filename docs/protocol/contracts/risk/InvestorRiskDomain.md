@@ -141,5 +141,5 @@ function recordInvestorAction(
 
 ---
 
-**Next**: [SlashingEngine](/docs/protocol/contracts/risk/SlashingEngine)
+**Next**: [SlashingEngine](/protocol/contracts/risk/SlashingEngine)
 

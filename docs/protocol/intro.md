@@ -184,13 +184,13 @@ This documentation is designed for:
 
 ## Getting Started
 
-1. Begin with **[Architecture Overview](/docs/protocol/architecture/overview)** to understand the system design
-2. Review **[Smart Contracts](/docs/protocol/contracts/overview)** for contract specifications
-3. Study **[Tokenomics & Risk Engine](/docs/protocol/tokenomics/overview)** for economic models
-4. Explore **[zkSync Integration](/docs/protocol/zksync/overview)** for L2-specific details
+1. Begin with **[Architecture Overview](/protocol/architecture/overview)** to understand the system design
+2. Review **[Smart Contracts](/protocol/contracts/overview)** for contract specifications
+3. Study **[Tokenomics & Risk Engine](/protocol/tokenomics/overview)** for economic models
+4. Explore **[zkSync Integration](/protocol/zksync/overview)** for L2-specific details
 
 :::info Developer Implementation Guide
-For practical development guides, deployment procedures, and testing frameworks, see the **[Technical Documentation](/docs/technical/intro)**.
+For practical development guides, deployment procedures, and testing frameworks, see the **[Technical Documentation](/technical/intro)**.
 :::
 
 ## Protocol Status
@@ -209,5 +209,5 @@ The TOSS protocol is being developed openly. For technical discussions and proto
 
 ---
 
-Ready to dive in? Start with the [Architecture Overview](/docs/protocol/architecture/overview) →
+Ready to dive in? Start with the [Architecture Overview](/protocol/architecture/overview) →
 

@@ -28,5 +28,5 @@
 
 ---
 
-**Back**: [Market Opportunity](/docs/investor-deck/market-size)
+**Back**: [Market Opportunity](/investor-deck/market-size)
 

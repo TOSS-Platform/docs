@@ -153,5 +153,5 @@ Total: ~$20-100 (mostly L1 gas)
 
 ---
 
-**Related**: [BridgeGateway](/docs/protocol/contracts/core/BridgeGateway), [L1-L2 Communication](/docs/protocol/architecture/l1-l2-communication)
+**Related**: [BridgeGateway](/protocol/contracts/core/BridgeGateway), [L1-L2 Communication](/protocol/architecture/l1-l2-communication)
 

@@ -172,5 +172,5 @@ function getNAVHistory(
 
 ---
 
-**Next**: [AMLGuard](/docs/protocol/contracts/utilities/AMLGuard)
+**Next**: [AMLGuard](/protocol/contracts/utilities/AMLGuard)
 

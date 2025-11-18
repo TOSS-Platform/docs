@@ -175,27 +175,27 @@ yarn verify:testnet
 
 ### For Smart Contract Developers
 
-- [zkSync-Safe Contracts](/docs/technical/smart-contracts/zksync-safe-contracts)
-- [Testing Guide](/docs/technical/smart-contracts/testing)
-- [Deployment Scripts](/docs/technical/smart-contracts/deployment)
+- [zkSync-Safe Contracts](/technical/smart-contracts/zksync-safe-contracts)
+- [Testing Guide](/technical/smart-contracts/testing)
+- [Deployment Scripts](/technical/smart-contracts/deployment)
 
 ### For Backend Developers
 
-- [Off-Chain Services Overview](/docs/technical/offchain/overview)
-- [NAV Engine](/docs/technical/offchain/nav-engine)
-- [Trade Router](/docs/technical/offchain/trade-router)
+- [Off-Chain Services Overview](/technical/offchain/overview)
+- [NAV Engine](/technical/offchain/nav-engine)
+- [Trade Router](/technical/offchain/trade-router)
 
 ### For DevOps Engineers
 
-- [Infrastructure Overview](/docs/technical/infrastructure/overview)
-- [AWS Architecture](/docs/technical/infrastructure/aws-architecture)
-- [Deployment Workflow](/docs/technical/deployment/workflow)
+- [Infrastructure Overview](/technical/infrastructure/overview)
+- [AWS Architecture](/technical/infrastructure/aws-architecture)
+- [Deployment Workflow](/technical/deployment/workflow)
 
 ### For QA Engineers
 
-- [Testing Overview](/docs/technical/testing/overview)
-- [Integration Testing](/docs/technical/testing/integration-testing)
-- [zkSync Simulation](/docs/technical/testing/zksync-simulation)
+- [Testing Overview](/technical/testing/overview)
+- [Integration Testing](/technical/testing/integration-testing)
+- [zkSync Simulation](/technical/testing/zksync-simulation)
 
 ## Development Principles
 
@@ -270,8 +270,8 @@ Optional but recommended:
 
 ### Documentation
 
-- **Protocol Specs**: [Protocol Documentation](/docs/protocol/intro)
-- **API Reference**: [API Documentation](/docs/api/overview)
+- **Protocol Specs**: [Protocol Documentation](/protocol/intro)
+- **API Reference**: [API Documentation](/api/overview)
 - **Community**: [Discord](https://discord.gg/toss), [Forum](https://forum.toss.finance)
 
 ### Support Channels
@@ -300,11 +300,11 @@ We welcome contributions! See our contributing guidelines:
 
 Ready to start? Begin with:
 
-1. **[Prerequisites](/docs/technical/getting-started/prerequisites)**: Install required tools
-2. **[Quick Start](/docs/technical/getting-started/quick-start)**: Get running in 5 minutes
-3. **[Environment Setup](/docs/technical/getting-started/environment-setup)**: Complete development setup
+1. **[Prerequisites](/technical/getting-started/prerequisites)**: Install required tools
+2. **[Quick Start](/technical/getting-started/quick-start)**: Get running in 5 minutes
+3. **[Environment Setup](/technical/getting-started/environment-setup)**: Complete development setup
 
 ---
 
-*For protocol specifications, see [Protocol Documentation](/docs/protocol/intro).*
+*For protocol specifications, see [Protocol Documentation](/protocol/intro).*
 

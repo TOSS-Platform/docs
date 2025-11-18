@@ -19,5 +19,5 @@ client.on('proposal-created', (proposal) => {});
 
 ---
 
-[Back to API Overview](/docs/api/overview)
+[Back to API Overview](/api/overview)
 

@@ -10,7 +10,7 @@ Enable and configure the MCP server in TOSS.
 
 Before setting up MCP, ensure you have:
 
-- TOSS installed and running (see [Installation Guide](/docs/getting-started/installation))
+- TOSS installed and running (see [Installation Guide](/getting-started/installation))
 - Node.js 18+ installed
 - A MCP-compatible AI assistant (recommended: Claude Desktop)
 
@@ -456,10 +456,10 @@ toss status
 
 MCP server is now configured! Continue with:
 
-1. [Connect Your AI Assistant](/docs/mcp/ai-integration)
-2. [Explore Available Tools](/docs/mcp/tools/overview)
-3. [Try Example Prompts](/docs/mcp/examples/ai-prompts)
-4. [Security Best Practices](/docs/mcp/advanced/security)
+1. [Connect Your AI Assistant](/mcp/ai-integration)
+2. [Explore Available Tools](/mcp/tools/overview)
+3. [Try Example Prompts](/mcp/examples/ai-prompts)
+4. [Security Best Practices](/mcp/advanced/security)
 
 ## Configuration Reference
 

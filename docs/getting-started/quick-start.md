@@ -153,23 +153,23 @@ Now that you have TOSS running, explore these features:
 
 ### Learn More
 
-- [Fund Management Guide](/docs/user-guide/fund-management)
-- [Portfolio Tracking](/docs/user-guide/portfolio-tracking)
-- [Transaction Management](/docs/user-guide/transactions)
-- [API Documentation](/docs/api/overview)
+- [Fund Management Guide](/user-guide/fund-management)
+- [Portfolio Tracking](/user-guide/portfolio-tracking)
+- [Transaction Management](/user-guide/transactions)
+- [API Documentation](/api/overview)
 
 ### Advanced Features
 
-- [Risk Management](/docs/advanced/risk-management)
-- [Custom Strategies](/docs/advanced/custom-strategies)
-- [Multi-signature Setup](/docs/advanced/multi-sig)
-- [Integrations](/docs/advanced/integrations)
+- [Risk Management](/advanced/risk-management)
+- [Custom Strategies](/advanced/custom-strategies)
+- [Multi-signature Setup](/advanced/multi-sig)
+- [Integrations](/advanced/integrations)
 
 ### AI Integration
 
-- [MCP Protocol Overview](/docs/mcp/protocol-overview)
-- [AI Integration Guide](/docs/mcp/ai-integration)
-- [Example Prompts](/docs/mcp/examples/ai-prompts)
+- [MCP Protocol Overview](/mcp/protocol-overview)
+- [AI Integration Guide](/mcp/ai-integration)
+- [Example Prompts](/mcp/examples/ai-prompts)
 
 ## Common Tasks
 
@@ -216,7 +216,7 @@ Regularly backup your database and configuration files.
 
 Need assistance?
 
-- 📚 [User Guide](/docs/user-guide/overview)
+- 📚 [User Guide](/user-guide/overview)
 - 💬 [Discord Community](https://discord.gg/toss)
 - 📧 [Email Support](mailto:support@toss.finance)
 - 🐛 [Report Issues](https://github.com/toss/toss/issues)

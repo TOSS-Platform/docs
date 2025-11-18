@@ -271,11 +271,11 @@ Layer 1 (zkSync) depends on Layer 0 (Ethereum L1)
 
 ## Next Steps
 
-- **[L1-L2 Communication](/docs/protocol/architecture/l1-l2-communication)**: Cross-layer messaging protocols
-- **[Security Model](/docs/protocol/architecture/security-model)**: Security guarantees per layer
-- **[Smart Contracts](/docs/protocol/contracts/overview)**: Contract specifications
+- **[L1-L2 Communication](/protocol/architecture/l1-l2-communication)**: Cross-layer messaging protocols
+- **[Security Model](/protocol/architecture/security-model)**: Security guarantees per layer
+- **[Smart Contracts](/protocol/contracts/overview)**: Contract specifications
 
 ---
 
-*For deployment guides, see [Technical Documentation - Infrastructure](/docs/technical/infrastructure/overview).*
+*For deployment guides, see [Technical Documentation - Infrastructure](/technical/infrastructure/overview).*
 

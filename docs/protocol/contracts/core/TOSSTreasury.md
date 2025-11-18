@@ -593,4 +593,4 @@ await treasury.connect(dao).executeAllocation(allocationId);
 
 ---
 
-**Next**: [RewardDistributor](/docs/protocol/contracts/core/RewardDistributor)
+**Next**: [RewardDistributor](/protocol/contracts/core/RewardDistributor)

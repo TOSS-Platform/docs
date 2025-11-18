@@ -248,9 +248,9 @@ Add TOSS MCP server to your AI assistant configuration.
 
 ### Detailed Guides
 
-- [Setup Guide](/docs/mcp/setup) - Complete setup instructions
-- [AI Integration](/docs/mcp/ai-integration) - Connect specific AI assistants
-- [Security Best Practices](/docs/mcp/advanced/security) - Secure your integration
+- [Setup Guide](/mcp/setup) - Complete setup instructions
+- [AI Integration](/mcp/ai-integration) - Connect specific AI assistants
+- [Security Best Practices](/mcp/advanced/security) - Secure your integration
 
 ## Common Questions
 
@@ -290,15 +290,15 @@ Only if you grant write permissions. You can:
 
 Ready to enable MCP?
 
-1. [Setup MCP Server](/docs/mcp/setup)
-2. [Connect Your AI Assistant](/docs/mcp/ai-integration)
-3. [Explore Example Prompts](/docs/mcp/examples/ai-prompts)
-4. [Learn About Available Tools](/docs/mcp/tools/overview)
+1. [Setup MCP Server](/mcp/setup)
+2. [Connect Your AI Assistant](/mcp/ai-integration)
+3. [Explore Example Prompts](/mcp/examples/ai-prompts)
+4. [Learn About Available Tools](/mcp/tools/overview)
 
 ## Resources
 
 - [MCP Official Specification](https://modelcontextprotocol.org)
-- [TOSS MCP Schema Reference](/docs/mcp/schemas/overview)
-- [MCP Security Guide](/docs/mcp/advanced/security)
+- [TOSS MCP Schema Reference](/mcp/schemas/overview)
+- [MCP Security Guide](/mcp/advanced/security)
 - [Community Examples](https://github.com/toss/mcp-examples)
 

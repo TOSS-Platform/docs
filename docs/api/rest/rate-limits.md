@@ -21,5 +21,5 @@ X-RateLimit-Reset: 1609459200
 
 ---
 
-[Back to API Overview](/docs/api/overview)
+[Back to API Overview](/api/overview)
 

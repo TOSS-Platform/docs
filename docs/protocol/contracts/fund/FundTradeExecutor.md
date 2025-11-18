@@ -210,5 +210,5 @@ function cancelTrade(
 
 ---
 
-**Fund Layer Complete!** [Risk Layer →](/docs/protocol/contracts/risk/RiskEngine)
+**Fund Layer Complete!** [Risk Layer →](/protocol/contracts/risk/RiskEngine)
 

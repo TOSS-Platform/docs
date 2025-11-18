@@ -57,6 +57,8 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
+          routeBasePath: '/',
+          path: 'docs',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl: 'https://github.com/TOSS-Platform/docs/tree/main/',
@@ -178,19 +180,19 @@ const config = {
             items: [
               {
                 label: 'Protocol Documentation',
-                to: '/docs/protocol/intro',
+                to: '/protocol/intro',
               },
               {
                 label: 'Technical Guide',
-                to: '/docs/technical/intro',
+                to: '/technical/intro',
               },
               {
                 label: 'API Reference',
-                to: '/docs/api/overview',
+                to: '/api/overview',
               },
               {
                 label: 'Investor Deck',
-                to: '/docs/investor-deck/problem-statement',
+                to: '/investor-deck/problem-statement',
               },
             ],
           },

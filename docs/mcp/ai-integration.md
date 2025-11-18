@@ -111,7 +111,7 @@ toss mcp:token:view mcp_your_token
 
 ## Next Steps
 
-- [Example Prompts](/docs/mcp/examples/ai-prompts)
-- [Available Tools](/docs/mcp/tools/overview)
-- [Security Best Practices](/docs/mcp/advanced/security)
+- [Example Prompts](/mcp/examples/ai-prompts)
+- [Available Tools](/mcp/tools/overview)
+- [Security Best Practices](/mcp/advanced/security)
 

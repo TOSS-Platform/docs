@@ -124,5 +124,5 @@ function reportSuspicious(
 
 ---
 
-**Next**: [GasVault](/docs/protocol/contracts/utilities/GasVault)
+**Next**: [GasVault](/protocol/contracts/utilities/GasVault)
 

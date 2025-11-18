@@ -33,7 +33,7 @@ Smart contract specifications, architecture, and technical protocol details.
 
 **For**: Auditors, researchers, architects
 
-[Explore Protocol →](/docs/protocol/intro)
+[Explore Protocol →](/protocol/intro)
 
 </div>
 
@@ -50,7 +50,7 @@ Developer guides, deployment procedures, testing frameworks, and infrastructure 
 
 **For**: Developers, DevOps engineers
 
-[Start Building →](/docs/technical/intro)
+[Start Building →](/technical/intro)
 
 </div>
 
@@ -67,7 +67,7 @@ REST API, smart contract ABIs, SDK reference, and WebSocket events (coming soon)
 
 **For**: Integration developers
 
-[View API Docs →](/docs/api/overview)
+[View API Docs →](/api/overview)
 
 </div>
 
@@ -84,7 +84,7 @@ Business overview, market opportunity, and investment details for venture capita
 
 **For**: Investors, partners
 
-[View Deck →](/docs/investor-deck/problem-statement)
+[View Deck →](/investor-deck/problem-statement)
 
 </div>
 
@@ -177,7 +177,7 @@ Business and investment information:
 ---
 
 **Choose your journey**:
-- 🔬 **Technical Deep Dive**: [Protocol Documentation](/docs/protocol/intro)
-- 🛠️ **Start Building**: [Technical Guide](/docs/technical/intro)
-- 💼 **Learn About Investment**: [Investor Deck](/docs/investor-deck/problem-statement)
+- 🔬 **Technical Deep Dive**: [Protocol Documentation](/protocol/intro)
+- 🛠️ **Start Building**: [Technical Guide](/technical/intro)
+- 💼 **Learn About Investment**: [Investor Deck](/investor-deck/problem-statement)
 

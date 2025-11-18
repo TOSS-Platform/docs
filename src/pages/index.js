@@ -5,7 +5,7 @@ export default function Home() {
   const history = useHistory();
   
   useEffect(() => {
-    history.replace('/docs/protocol/intro');
+    history.replace('/protocol/intro');
   }, [history]);
   
   return null;

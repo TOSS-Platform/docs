@@ -191,5 +191,5 @@ function triggerCircuitBreaker(
 
 ---
 
-**Next**: [AnalyticsHub](/docs/protocol/contracts/utilities/AnalyticsHub)
+**Next**: [AnalyticsHub](/protocol/contracts/utilities/AnalyticsHub)
 

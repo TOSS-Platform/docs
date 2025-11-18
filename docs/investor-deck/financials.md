@@ -66,5 +66,5 @@ Treasury (15%):         $450-750K
 
 ---
 
-**Back**: [Roadmap](/docs/investor-deck/roadmap)
+**Back**: [Roadmap](/investor-deck/roadmap)
 

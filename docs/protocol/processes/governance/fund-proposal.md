@@ -68,5 +68,5 @@ Example:
 
 ---
 
-**Related**: [FundGovernance](/docs/protocol/contracts/governance/FundGovernance)
+**Related**: [FundGovernance](/protocol/contracts/governance/FundGovernance)
 

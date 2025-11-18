@@ -185,5 +185,5 @@ npm run typecheck
 
 ---
 
-**Prevention**: Follow [Development Workflow](/docs/mcp-integration/development-workflow) to avoid issues!
+**Prevention**: Follow [Development Workflow](/mcp-integration/development-workflow) to avoid issues!
 

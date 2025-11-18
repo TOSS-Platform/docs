@@ -283,7 +283,7 @@ function canChangeParameter(
 
 All parameters in this contract ARE configurable (that's the point!).
 
-See [Config Layer Documentation](/docs/protocol/tokenomics/config-layer) for complete list with ranges.
+See [Config Layer Documentation](/protocol/tokenomics/config-layer) for complete list with ranges.
 
 ## Deployment
 
@@ -602,12 +602,12 @@ contract RiskEngine {
 
 ## Related Documentation
 
-- **[Immutable Layer](/docs/protocol/tokenomics/immutable-layer)**: What cannot change
-- **[Config Layer](/docs/protocol/tokenomics/config-layer)**: Parameter details
-- **[Logic Layer](/docs/protocol/tokenomics/logic-layer)**: How contracts use config
-- **[Protocol Governance](/docs/protocol/governance/protocol-proposal)**: How to change parameters
+- **[Immutable Layer](/protocol/tokenomics/immutable-layer)**: What cannot change
+- **[Config Layer](/protocol/tokenomics/config-layer)**: Parameter details
+- **[Logic Layer](/protocol/tokenomics/logic-layer)**: How contracts use config
+- **[Protocol Governance](/protocol/governance/protocol-proposal)**: How to change parameters
 
 ---
 
-**Back**: [Core Contracts](/docs/protocol/contracts/overview)
+**Back**: [Core Contracts](/protocol/contracts/overview)
 

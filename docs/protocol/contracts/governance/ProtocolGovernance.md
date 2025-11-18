@@ -140,5 +140,5 @@ Protocol-wide governance where Admin proposes changes and specifies which group 
 
 ---
 
-[Back to Governance Contracts](/docs/protocol/contracts/governance-layer)
+[Back to Governance Contracts](/protocol/contracts/governance-layer)
 

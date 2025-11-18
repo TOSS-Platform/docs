@@ -45,5 +45,5 @@ Performance fee: ~50,000 gas (~$0.025)
 
 ---
 
-**Related**: [Fund Configuration](/docs/protocol/contracts/fund/FundConfig)
+**Related**: [Fund Configuration](/protocol/contracts/fund/FundConfig)
 

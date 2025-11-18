@@ -205,7 +205,7 @@ Problem: No infrastructure to connect them trustlessly
 
 ---
 
-**Next**: [Solution Overview](/docs/investor-deck/solution-overview) | [Market Opportunity](/docs/investor-deck/market-size)
+**Next**: [Solution Overview](/investor-deck/solution-overview) | [Market Opportunity](/investor-deck/market-size)
 
-**Back**: [Executive Summary](/docs/investor-deck/executive-summary)
+**Back**: [Executive Summary](/investor-deck/executive-summary)
 

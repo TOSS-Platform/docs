@@ -140,4 +140,4 @@ function claimRewards() external returns (uint256 amount)
 
 ---
 
-**Next**: [BridgeGateway](/docs/protocol/contracts/core/BridgeGateway)
+**Next**: [BridgeGateway](/protocol/contracts/core/BridgeGateway)

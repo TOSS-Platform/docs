@@ -121,5 +121,5 @@ function checkOracleHealth() external view returns (bool)
 
 ---
 
-**Next**: [FundRiskDomain](/docs/protocol/contracts/risk/FundRiskDomain)
+**Next**: [FundRiskDomain](/protocol/contracts/risk/FundRiskDomain)
 

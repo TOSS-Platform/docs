@@ -247,5 +247,5 @@ function isAssetAllowed(
 
 ---
 
-**Next**: [FundTradeExecutor](/docs/protocol/contracts/fund/FundTradeExecutor)
+**Next**: [FundTradeExecutor](/protocol/contracts/fund/FundTradeExecutor)
 

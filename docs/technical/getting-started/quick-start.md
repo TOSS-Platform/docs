@@ -272,16 +272,16 @@ curl -X POST https://sepolia.era.zksync.dev \
 
 Now that you have the basics running:
 
-1. **[Environment Setup](/docs/technical/getting-started/environment-setup)**: Complete development environment configuration
-2. **[Smart Contract Development](/docs/technical/smart-contracts/zksync-safe-contracts)**: Start building contracts
-3. **[Testing Guide](/docs/technical/testing/overview)**: Learn comprehensive testing strategies
+1. **[Environment Setup](/technical/getting-started/environment-setup)**: Complete development environment configuration
+2. **[Smart Contract Development](/technical/smart-contracts/zksync-safe-contracts)**: Start building contracts
+3. **[Testing Guide](/technical/testing/overview)**: Learn comprehensive testing strategies
 
 ## Useful Resources
 
 - [Hardhat Documentation](https://hardhat.org/docs)
 - [zkSync Era Documentation](https://era.zksync.io/docs)
 - [Ethers.js Documentation](https://docs.ethers.org)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- [TypeScript Handbook](https://www.typescriptlang.org/)
 
 ## Getting Help
 
@@ -291,5 +291,5 @@ Now that you have the basics running:
 
 ---
 
-*Continue to [Environment Setup](/docs/technical/getting-started/environment-setup) for detailed configuration.*
+*Continue to [Environment Setup](/technical/getting-started/environment-setup) for detailed configuration.*
 

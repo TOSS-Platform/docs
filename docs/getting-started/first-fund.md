@@ -261,10 +261,10 @@ Transaction fees add up. Consider them in your strategy.
 
 Your fund is now set up! Continue learning:
 
-- [Portfolio Tracking](/docs/user-guide/portfolio-tracking)
-- [Transaction Management](/docs/user-guide/transactions)
-- [Risk Management](/docs/advanced/risk-management)
-- [Analytics & Reporting](/docs/user-guide/analytics)
+- [Portfolio Tracking](/user-guide/portfolio-tracking)
+- [Transaction Management](/user-guide/transactions)
+- [Risk Management](/advanced/risk-management)
+- [Analytics & Reporting](/user-guide/analytics)
 
 ## Examples
 
@@ -314,7 +314,7 @@ toss portfolio:rebalance \
 
 Questions about fund creation?
 
-- [FAQ](/docs/faq)
+- [FAQ](/faq)
 - [Discord Community](https://discord.gg/toss)
 - [Email Support](mailto:support@toss.finance)
 

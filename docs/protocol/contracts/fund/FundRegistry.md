@@ -220,5 +220,5 @@ function searchFunds(
 
 ---
 
-**Next**: [FundManagerVault](/docs/protocol/contracts/fund/FundManagerVault)
+**Next**: [FundManagerVault](/protocol/contracts/fund/FundManagerVault)
 

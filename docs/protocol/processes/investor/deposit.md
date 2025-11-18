@@ -53,5 +53,5 @@ Investor A now owns 100k / 1.1M = 9.09% of fund
 
 ---
 
-**Next**: [Withdrawal Process](/docs/protocol/processes/investor/withdraw)
+**Next**: [Withdrawal Process](/protocol/processes/investor/withdraw)
 

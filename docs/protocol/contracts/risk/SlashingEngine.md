@@ -256,5 +256,5 @@ slashAmount = min(baseSlash, lossCap, stake)
 
 ---
 
-**Next**: [PenaltyEngine](/docs/protocol/contracts/risk/PenaltyEngine)
+**Next**: [PenaltyEngine](/protocol/contracts/risk/PenaltyEngine)
 

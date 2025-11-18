@@ -1098,12 +1098,12 @@ contract GovernanceAccessControl {
 
 ## Next Steps
 
-- **[Governance Overview](/docs/protocol/governance/overview)**: High-level governance model
-- **[DAO Structure](/docs/protocol/governance/dao-structure)**: Governance level details
-- **[Proposal Lifecycle](/docs/protocol/governance/proposal-lifecycle)**: Proposal flows
-- **[Voting Mechanism](/docs/protocol/governance/voting-mechanism)**: Voting power calculations
+- **[Governance Overview](/protocol/governance/overview)**: High-level governance model
+- **[DAO Structure](/protocol/governance/dao-structure)**: Governance level details
+- **[Proposal Lifecycle](/protocol/governance/proposal-lifecycle)**: Proposal flows
+- **[Voting Mechanism](/protocol/governance/voting-mechanism)**: Voting power calculations
 
 ---
 
-*For implementation guides, see [Technical Documentation - Governance](/docs/technical/smart-contracts/governance).*
+*For implementation guides, see [Technical Documentation - Governance](/technical/smart-contracts/governance).*
 

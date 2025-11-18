@@ -34,5 +34,5 @@ await fundGovernance.castVote(proposalId, 1);  // 1 = for
 
 ---
 
-**Related**: [Voting Mechanism](/docs/protocol/governance/voting-mechanism)
+**Related**: [Voting Mechanism](/protocol/governance/voting-mechanism)
 

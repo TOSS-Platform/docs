@@ -126,5 +126,5 @@ function transition(
 
 ---
 
-**Next**: [InvestorPenaltyEngine](/docs/protocol/contracts/investor/InvestorPenaltyEngine)
+**Next**: [InvestorPenaltyEngine](/protocol/contracts/investor/InvestorPenaltyEngine)
 

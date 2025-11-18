@@ -240,5 +240,5 @@ async function executeTrade(fundId, assetIn, assetOut, amountIn, minAmountOut) {
 
 ---
 
-**Related**: [Risk Validation Process](/docs/protocol/processes/risk-compliance/risk-validation)
+**Related**: [Risk Validation Process](/protocol/processes/risk-compliance/risk-validation)
 

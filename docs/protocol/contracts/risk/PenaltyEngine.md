@@ -107,5 +107,5 @@ function applyPenalty(
 
 ---
 
-**Next**: [IntentDetection](/docs/protocol/contracts/risk/IntentDetection)
+**Next**: [IntentDetection](/protocol/contracts/risk/IntentDetection)
 

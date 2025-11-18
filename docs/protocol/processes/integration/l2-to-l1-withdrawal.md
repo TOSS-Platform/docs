@@ -59,5 +59,5 @@ Liquidity providers can fulfill withdrawal instantly for small fee:
 
 ---
 
-**Related**: [L1-L2 Communication](/docs/protocol/architecture/l1-l2-communication)
+**Related**: [L1-L2 Communication](/protocol/architecture/l1-l2-communication)
 

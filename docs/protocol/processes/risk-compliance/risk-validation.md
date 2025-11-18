@@ -47,5 +47,5 @@ I = Intent Probability (0-100)
 
 ---
 
-**Related**: [Slashing Process](/docs/protocol/processes/risk-compliance/slashing-execution)
+**Related**: [Slashing Process](/protocol/processes/risk-compliance/slashing-execution)
 

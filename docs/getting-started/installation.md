@@ -248,15 +248,15 @@ sudo npm install -g @toss/cli
 
 Now that TOSS is installed, you're ready to:
 
-- [Create your first fund](/docs/getting-started/first-fund)
-- [Explore the API](/docs/api/overview)
-- [Set up MCP integration](/docs/mcp/setup)
+- [Create your first fund](/getting-started/first-fund)
+- [Explore the API](/api/overview)
+- [Set up MCP integration](/mcp/setup)
 
 ## Getting Help
 
 If you encounter issues:
 
-- Check our [Troubleshooting Guide](/docs/troubleshooting)
+- Check our [Troubleshooting Guide](/troubleshooting)
 - Join our [Discord Community](https://discord.gg/toss)
 - Email support: support@toss.finance
 

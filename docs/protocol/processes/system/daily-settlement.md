@@ -50,5 +50,5 @@ await analyticsHub.recordDailyReturn(fundId, dailyReturn);
 
 ---
 
-**Related**: [NAV Update](/docs/protocol/processes/system/nav-update)
+**Related**: [NAV Update](/protocol/processes/system/nav-update)
 

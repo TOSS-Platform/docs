@@ -185,4 +185,4 @@ function setProtocolFeeRate(uint256 newRate) external onlyGovernance
 
 ---
 
-**Core Contracts Complete** | [Fund Layer →](/docs/protocol/contracts/fund/FundFactory)
+**Core Contracts Complete** | [Fund Layer →](/protocol/contracts/fund/FundFactory)

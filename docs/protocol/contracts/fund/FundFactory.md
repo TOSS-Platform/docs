@@ -519,7 +519,7 @@ async function deployFundFactory() {
 
 ---
 
-**Next**: [FundRegistry](/docs/protocol/contracts/fund/FundRegistry)
+**Next**: [FundRegistry](/protocol/contracts/fund/FundRegistry)
 
-**Back**: [Smart Contracts Overview](/docs/protocol/contracts/overview)
+**Back**: [Smart Contracts Overview](/protocol/contracts/overview)
 

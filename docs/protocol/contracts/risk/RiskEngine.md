@@ -453,5 +453,5 @@ event ThresholdUpdated(
 
 ---
 
-**Next**: [ProtocolRiskDomain](/docs/protocol/contracts/risk/ProtocolRiskDomain)
+**Next**: [ProtocolRiskDomain](/protocol/contracts/risk/ProtocolRiskDomain)
 

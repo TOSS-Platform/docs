@@ -31,5 +31,5 @@ penaltyEngine.applyPenalty(
 
 ---
 
-**Related**: [PenaltyEngine](/docs/protocol/contracts/risk/PenaltyEngine)
+**Related**: [PenaltyEngine](/protocol/contracts/risk/PenaltyEngine)
 

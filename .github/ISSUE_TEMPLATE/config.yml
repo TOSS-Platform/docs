@@ -1,0 +1,12 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation Questions
+    url: https://docs.toss.fi
+    about: Browse the documentation
+  - name: 💬 Community Support
+    url: https://discord.gg/toss
+    about: Ask questions in our Discord community
+  - name: 📧 Email Support
+    url: mailto:support@toss.finance
+    about: Contact support via email
+

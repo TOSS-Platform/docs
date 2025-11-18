@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2025-11-18T18:05:27.702Z",
-  "documentationHash": "2062fb17e25eaeb74d453293f53f6dcc6467c9d2ffded0f1c57cc76dc200b3bc",
+  "generatedAt": "2025-11-18T18:25:44.081Z",
+  "documentationHash": "ce99298e8804a120f85d1128aa6147c0669b549d1d01c9cd939cf48b835fab0f",
   "resourceCount": 152,
   "toolCount": 10,
   "resources": [
@@ -444,9 +444,9 @@
       "name": "Development Workflow with MCP",
       "description": "Documentation for Development Workflow with MCP",
       "mimeType": "text/markdown",
-      "contentHash": "511247764bc8d97fab2075799a84ddb9bb6a0cd81e8a9b4ab9854aac8830c95a",
-      "lastModified": "2025-11-18T07:21:03.292Z",
-      "size": 15538,
+      "contentHash": "316601ba287ffdeef0092fc0316f12fbfe6fd913b7d5aabbdc392f1820e406e5",
+      "lastModified": "2025-11-18T18:25:43.124Z",
+      "size": 21627,
       "category": "mcp",
       "tags": [
         "mcp",
@@ -2168,7 +2168,7 @@
       "description": "Documentation for Off-Chain Services Overview",
       "mimeType": "text/markdown",
       "contentHash": "1cd50bc3bb95ce9eae1afe504f1bd5973439c1809b42d087bff5f5d2f568f286",
-      "lastModified": "2025-11-18T18:05:25.431Z",
+      "lastModified": "2025-11-18T18:05:54.976Z",
       "size": 8713,
       "category": "technical",
       "tags": [

@@ -161,35 +161,52 @@ git push -u origin feature/add-slashing-process-doc
 
 1. Go to repository
 2. Click "Compare & pull request" button
-3. Fill PR template:
+3. Fill PR template (auto-populated from `.github/pull_request_template.md`):
 
+**Required sections**:
+- ✅ **Description**: What changes were made
+- ✅ **Changes Made**: List of changes with checkboxes
+- ✅ **Reason**: Why this change was made
+- ✅ **Related Issues**: Link to GitHub issues
+- ✅ **Checklist**: Complete all checkboxes
+- ✅ **Changelog Entry**: Copy CHANGELOG.md entry here
+
+**Example PR template**:
 ```markdown
 ## Description
 Add comprehensive documentation for slashing execution process
 
-## Changes
+## Changes Made
+- [x] Added new documentation
+- [x] Updated sidebar navigation
+- [x] Updated CHANGELOG.md
+
+**Detailed changes**:
 - Added `slashing-execution.md` with complete workflow
-- Updated sidebar navigation
 - Added sequence diagram
 - Included code examples
 
-## Type of Change
-- [x] Documentation addition
-- [ ] Documentation fix
-- [ ] Breaking change
-
-## Checklist
-- [x] Documentation is clear and complete
-- [x] MCP resources updated (automatic)
-- [x] Build passes locally
-- [x] Followed commit message conventions
-- [x] Updated sidebar if needed
-
-## Screenshots (if applicable)
-[Add screenshots of new documentation page]
+## Reason
+Critical process documentation was missing, needed for understanding automatic slashing mechanism
 
 ## Related Issues
 Closes #123
+
+## Checklist
+- [x] GitHub Issue Created
+- [x] CHANGELOG.md Updated
+- [x] Documentation is clear and complete
+- [x] MCP resources updated (automatic)
+- [x] Build passes locally
+- [x] Updated sidebar
+
+## Changelog Entry
+### Added
+- **Slashing Execution Process**: Added comprehensive slashing execution process documentation
+- **Reason**: Critical process documentation was missing
+- **Issue**: [#123](https://github.com/toss/docs/issues/123)
+- **Date**: 2024-01-15
+- **Author**: @technical-writer
 ```
 
 4. **Title**: Use conventional commit format
@@ -281,7 +298,36 @@ PR Merged → Workflow Triggers → MCP Sync → Build → Deploy
 - Deploy: ~1 minute
 - **Total**: ~3-4 minutes to live
 
-#### Step 10: Cleanup
+#### Step 10: Update Changelog
+
+**Before merging PR**, update CHANGELOG.md with your changes:
+
+```markdown
+### Added
+
+- **Slashing Execution Process Documentation**: Added comprehensive slashing execution process with step-by-step flows, examples, and error handling
+- **Reason**: Critical process documentation was missing, needed for understanding automatic slashing mechanism
+- **Issue**: [#123](https://github.com/toss/docs/issues/123)
+- **Date**: 2024-01-15
+- **Author**: @technical-writer
+```
+
+**Entry Format**:
+- **Description**: What was added/changed/fixed
+- **Reason**: Why this change was made
+- **Issue**: Link to GitHub issue (if applicable)
+- **Date**: YYYY-MM-DD (deployment date)
+- **Author**: GitHub username or name
+
+**Categories**:
+- `Added`: New documentation, features
+- `Changed`: Updates to existing content
+- `Fixed`: Bug fixes, corrections
+- `Deprecated`: Content marked for removal
+- `Removed`: Deleted content
+- `Security`: Security-related updates
+
+#### Step 11: Cleanup
 
 ```bash
 # Switch back to main
@@ -296,6 +342,150 @@ git branch -d feature/add-slashing-process-doc
 # Verify your changes live
 curl https://docs.toss.fi/protocol/processes/risk-compliance/slashing-execution
 ```
+
+---
+
+## Issue Management
+
+### Creating Issues for New Documentation
+
+**Always create a GitHub issue before starting** significant documentation work:
+
+1. **Go to GitHub Issues**
+   ```
+   https://github.com/toss/docs/issues/new
+   ```
+
+2. **Select Template**
+   - **📚 Documentation Feature Request**: For new documentation
+   - **🐛 Documentation Bug Report**: For fixes and corrections
+
+3. **Fill Out Issue Template**
+   - Feature description
+   - Purpose and reasoning
+   - Location in documentation
+   - Content outline
+   - Related documentation
+   - Acceptance criteria
+
+4. **Create Issue**
+   - Use conventional commit format in title: `docs: [brief description]`
+   - Add appropriate labels
+   - Assign to team member (if applicable)
+
+5. **Link Issue in PR**
+   - Reference issue in PR description: `Closes #123`
+   - Or link manually: `Related to #123`
+
+**Why Create Issues?**
+- ✅ Track documentation needs
+- ✅ Plan documentation roadmap
+- ✅ Avoid duplicate work
+- ✅ Link changes to requirements
+- ✅ Provide context for future changes
+
+### Issue Workflow
+
+```
+Issue Created → Assigned → In Progress → PR Created → PR Merged → Issue Closed
+```
+
+**Status Flow**:
+- `Open`: Issue created, needs work
+- `Assigned`: Assigned to team member
+- `In Progress`: Work started (PR created)
+- `Review`: PR open, under review
+- `Closed`: PR merged, issue resolved
+
+---
+
+## Changelog Management
+
+### When to Update Changelog
+
+**Update CHANGELOG.md for**:
+- ✅ New documentation sections or pages
+- ✅ Significant content updates
+- ✅ Breaking changes in structure
+- ✅ Security-related updates
+- ✅ Major reorganization
+
+**Don't update for**:
+- ❌ Minor typo fixes
+- ❌ Formatting changes
+- ❌ Internal refactoring without user impact
+
+### Changelog Entry Format
+
+**Location**: `/CHANGELOG.md`
+
+**Format**:
+```markdown
+### Added
+
+- **Section Name**: Brief description of what was added
+- **Reason**: Why this was needed
+- **Issue**: Link to GitHub issue (if applicable)
+- **Date**: YYYY-MM-DD (deployment date)
+- **Author**: GitHub username or name
+```
+
+**Example Entry**:
+```markdown
+### Added
+
+- **Trade Authorization Flow**: Added comprehensive trade authorization flow documentation with complete validation steps, sequence diagrams, and decision tree
+- **Reason**: Critical process documentation was missing, needed for understanding complete trade authorization mechanism
+- **Issue**: [#234](https://github.com/toss/docs/issues/234)
+- **Date**: 2024-01-20
+- **Author**: @technical-writer
+```
+
+### Changelog Categories
+
+| Category | When to Use | Example |
+|----------|-------------|---------|
+| `Added` | New documentation, features | New contract page, new process flow |
+| `Changed` | Updates to existing content | Updated formula, revised explanation |
+| `Fixed` | Bug fixes, corrections | Fixed broken link, corrected formula |
+| `Deprecated` | Content marked for removal | Page to be removed in future version |
+| `Removed` | Deleted content | Removed outdated section |
+| `Security` | Security-related updates | Added security best practices |
+
+### Changelog Workflow
+
+**During PR Creation**:
+
+1. **Before Creating PR**:
+   ```bash
+   # Update CHANGELOG.md
+   vim CHANGELOG.md
+   
+   # Add entry under appropriate section
+   # Use current date (will be deployment date)
+   ```
+
+2. **In PR Description**:
+   - Link to issue (if applicable)
+   - Note changelog update in description
+   - Example: "Updated CHANGELOG.md with new entry for RiskEngine documentation"
+
+3. **After PR Merge**:
+   - Verify changelog entry is correct
+   - Update date if different from deployment date
+   - Verify issue is closed (if applicable)
+
+**Version Updates**:
+- **MAJOR**: Breaking changes, major reorganization
+- **MINOR**: New features, significant additions
+- **PATCH**: Bug fixes, minor updates
+
+### Automated Changelog (Future)
+
+**Planned automation**:
+- Extract changelog entries from PR descriptions
+- Auto-generate changelog from conventional commits
+- Link changelog entries to issues automatically
 
 ---
 
@@ -590,6 +780,7 @@ Worth it for guaranteed sync
 
 ### Before Starting
 
+- [ ] **Create GitHub Issue**: Open issue for new features or significant changes
 - [ ] Pull latest from main: `git pull origin main`
 - [ ] Create descriptive feature branch
 - [ ] Understand what you're documenting
@@ -612,11 +803,19 @@ Worth it for guaranteed sync
 
 ### Pull Request
 
+- [ ] **Update CHANGELOG.md**: Add entry for significant changes
 - [ ] Use conventional commit format for PR title
 - [ ] Fill out PR template completely
+- [ ] Link to GitHub issue (if applicable)
 - [ ] Add appropriate labels
 - [ ] Tag relevant reviewers
 - [ ] Ensure CI passes
+
+### After Deployment
+
+- [ ] Verify changelog entry date matches deployment date
+- [ ] Close related GitHub issue (if applicable)
+- [ ] Verify documentation is live
 - [ ] Address review comments promptly
 
 ### After Merge

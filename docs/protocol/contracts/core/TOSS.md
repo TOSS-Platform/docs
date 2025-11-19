@@ -69,7 +69,7 @@ constructor(
 1. Mints entire 1B supply to `initialHolder`
 2. Sets governance address
 3. Initializes EIP-2612 domain separator
-4. Creates initial snapshot (ID: 0)
+4. Creates initial snapshot (ID: 1) - OpenZeppelin's ERC20Snapshot starts snapshot IDs from 1
 
 **Post-Deployment**:
 - Transfer initial supply to vesting contracts
@@ -459,8 +459,9 @@ event Snapshot(uint256 indexed snapshotId);
 event GovernanceUpdated(address indexed oldGovernance, address indexed newGovernance);
 event BurnerAuthorized(address indexed burner, bool authorized);
 
-// Burn (uses Transfer to address(0))
-// Transfer(from, address(0), amount) indicates burn
+// Burn
+event TokensBurned(address indexed account, uint256 amount, address indexed burner);
+// Note: Transfer event is also emitted by _burn (to address(0)) for ERC20 compliance
 ```
 
 ## Integration Points
@@ -491,7 +492,7 @@ TOSS.sol does not call external contracts (pure token logic).
 | Create snapshot | Governance creates a new snapshot when protocol needs historical balance for voting | New snapshot ID generated, current total supply and all balances captured at that moment, Snapshot event emitted |
 | Query historical balance | Query balance of an address at a specific snapshot ID | Returns balance at that snapshot moment, unaffected by subsequent transfers |
 | Permit gasless approval | User signs EIP-2612 permit off-chain, relayer submits permit with valid signature before deadline | Allowance set without user paying gas, nonce incremented, Approval event emitted |
-| Burn tokens (authorized) | Authorized burner (SlashingEngine) burns 1000 tokens from an account | Account balance decreases by 1000, total supply decreases by 1000, Transfer event to zero address emitted |
+| Burn tokens (authorized) | Authorized burner (SlashingEngine) burns 1000 tokens from an account | Account balance decreases by 1000, total supply decreases by 1000, TokensBurned event emitted, Transfer event to zero address also emitted |
 | Set authorized burner | Governance authorizes SlashingEngine as a burner | Burner added to authorizedBurners mapping, BurnerAuthorized event emitted |
 | Set governance address | Governance updates the governance contract address | New governance address set, GovernanceUpdated event emitted |
 | Transfer entire balance | User transfers their entire token balance to recipient | All tokens transferred, sender balance becomes zero, recipient balance equals full amount |
@@ -503,7 +504,7 @@ TOSS.sol does not call external contracts (pure token logic).
 | Zero amount transfer | User attempts to transfer 0 tokens | Transaction succeeds (zero is valid ERC20 amount), no state change, event still emitted |
 | Max uint256 allowance | User approves max uint256 (infinite approval) and spender transfers tokens | Allowance remains max uint256 after transfer, no need to re-approve |
 | Transfer to self | User transfers tokens to their own address | Transaction succeeds, balance unchanged, Transfer event still emitted |
-| Snapshot at deployment | Query balance at snapshot ID 0 (initial snapshot) | Returns initial balance at deployment |
+| Snapshot at deployment | Query balance at snapshot ID 1 (initial snapshot) | Returns initial balance at deployment |
 | Query non-existent snapshot | Query balance at snapshot ID that doesn't exist | Transaction reverts with "Invalid snapshot" error |
 | Permit at deadline boundary | User submits permit exactly at deadline timestamp | Transaction succeeds if submitted in same block, fails if deadline passed |
 | Burn zero amount | Authorized burner attempts to burn 0 tokens | Transaction succeeds, no state change |
@@ -547,7 +548,7 @@ TOSS.sol does not call external contracts (pure token logic).
 | Nonce increment on permit | Verify nonce increments after each permit to prevent replay | Nonce increases by 1 after permit, prevents signature reuse |
 | Domain separator includes chainId | Verify DOMAIN_SEPARATOR includes chainId to prevent cross-chain attacks | Permit signatures are chain-specific, cannot be reused on different chain |
 | Snapshot prevents flash loan manipulation | Verify snapshots taken before voting prevent flash loan voting power manipulation | Voting uses historical snapshot, flash loans cannot affect past snapshots |
-| Burn event emission | Verify all burns emit Transfer event for transparency | Every burn emits Transfer(from, address(0), amount) for full audit trail |
+| Burn event emission | Verify all burns emit events for transparency | Every burn emits TokensBurned(account, amount, burner) and Transfer(from, address(0), amount) for full audit trail |
 | Permit signature includes all parameters | Verify permit signature validation includes all parameters to prevent parameter substitution | Changing any parameter (owner, spender, value, deadline, nonce) invalidates signature |
 | Reentrancy protection on transfers | Verify contract is protected against reentrancy attacks during transfers | Reentrancy guards prevent recursive calls, safe from external callback attacks |
 

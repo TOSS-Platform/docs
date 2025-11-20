@@ -22,7 +22,7 @@ Distributes staking rewards and governance incentives to TOSS holders, Fund Mana
 ## State Variables
 
 ```solidity
-ITOSS public tossToken;
+IERC20 public tossToken;  // TOSS token contract (ERC20 interface)
 IStaking public staking;
 IGovernance public governance;
 
@@ -70,6 +70,162 @@ function claimRewards() external returns (uint256 amount)
 - Transfers TOSS to caller
 - Updates claimed tracking
 
+**Events**: `RewardsClaimed(account, amount, timestamp)`
+
+### Query Functions
+
+#### `getPendingRewards`
+
+```solidity
+function getPendingRewards(address account) external view returns (uint256)
+```
+
+**Purpose**: Get pending rewards for an account
+
+**Parameters**:
+- `account`: Address to query
+
+**Returns**: Amount of pending rewards
+
+#### `getClaimedRewards`
+
+```solidity
+function getClaimedRewards(address account) external view returns (uint256)
+```
+
+**Purpose**: Get total claimed rewards for an account
+
+**Parameters**:
+- `account`: Address to query
+
+**Returns**: Total amount of claimed rewards
+
+#### `getTotalDistributed`
+
+```solidity
+function getTotalDistributed() external view returns (uint256)
+```
+
+**Purpose**: Get total amount of rewards distributed
+
+**Returns**: Total distributed rewards
+
+### Administrative Functions
+
+#### `setRewardRate`
+
+```solidity
+function setRewardRate(uint256 newRate) external onlyGovernance
+```
+
+**Purpose**: Set the reward rate (rewards per second per TOSS staked)
+
+**Parameters**:
+- `newRate`: New reward rate in wei
+
+**Access Control**: Only governance
+
+**Events**: `RewardRateUpdated(oldRate, newRate)`
+
+#### `setStaking`
+
+```solidity
+function setStaking(address newStaking) external onlyGovernance
+```
+
+**Purpose**: Set the staking contract address
+
+**Parameters**:
+- `newStaking`: New staking contract address (can be address(0) to disable)
+
+**Access Control**: Only governance
+
+**Events**: `StakingUpdated(oldStaking, newStaking)`
+
+#### `setGovernance`
+
+```solidity
+function setGovernance(address newGovernance) external onlyGovernance
+```
+
+**Purpose**: Set the governance contract address
+
+**Parameters**:
+- `newGovernance`: New governance contract address
+
+**Access Control**: Only governance
+
+**Events**: `GovernanceUpdated(oldGovernance, newGovernance)`
+
+#### `updateRewards`
+
+```solidity
+function updateRewards() external
+```
+
+**Purpose**: Update rewards based on staking and reward rate (placeholder for future implementation)
+
+**Behavior**:
+- Currently updates `lastUpdateTime` only
+- Can be extended to calculate staking rewards automatically when Staking contract is available
+- For now, rewards are distributed manually via `distributeRewards`
+
+## Events
+
+### `RewardsDistributed`
+
+```solidity
+event RewardsDistributed(
+    address[] recipients,
+    uint256[] amounts,
+    uint256 timestamp
+)
+```
+
+Emitted when rewards are distributed to recipients.
+
+### `RewardsClaimed`
+
+```solidity
+event RewardsClaimed(
+    address indexed account,
+    uint256 amount,
+    uint256 timestamp
+)
+```
+
+Emitted when a user claims their pending rewards.
+
+### `RewardRateUpdated`
+
+```solidity
+event RewardRateUpdated(uint256 oldRate, uint256 newRate)
+```
+
+Emitted when the reward rate is updated.
+
+### `StakingUpdated`
+
+```solidity
+event StakingUpdated(
+    address indexed oldStaking,
+    address indexed newStaking
+)
+```
+
+Emitted when the staking contract address is updated.
+
+### `GovernanceUpdated`
+
+```solidity
+event GovernanceUpdated(
+    address indexed oldGovernance,
+    address indexed newGovernance
+)
+```
+
+Emitted when the governance contract address is updated.
+
 ## Test Scenarios
 
 ### Happy Path Tests
@@ -87,7 +243,7 @@ function claimRewards() external returns (uint256 amount)
 | Test Name | Scenario | Expected Result |
 |-----------|----------|-----------------|
 | Distribute zero rewards | Governance attempts to distribute 0 rewards | Transaction succeeds (zero is valid), no state change except event emission |
-| Claim zero pending rewards | User attempts to claim when pendingRewards is zero | Transaction succeeds, no tokens transferred, claimedRewards unchanged |
+| Claim zero pending rewards | User attempts to claim when pendingRewards is zero | Transaction reverts with "No pending rewards" error |
 | Distribute to empty recipient list | Governance attempts to distribute with empty recipient array | Transaction reverts with validation error |
 | Mismatched array lengths | Governance attempts to distribute with mismatched recipient and amount arrays | Transaction reverts with "Array length mismatch" error |
 | Distribute max uint256 rewards | Governance distributes maximum possible reward amount | Transaction succeeds, rewards distributed correctly |
@@ -98,7 +254,7 @@ function claimRewards() external returns (uint256 amount)
 |-----------|----------|-----------------|
 | Distribute from non-governance | Non-governance address attempts to distribute rewards | Transaction reverts with "Not governance" error |
 | Distribute exceeding available balance | Governance attempts to distribute more rewards than contract holds | Transaction reverts with "Insufficient balance" error |
-| Claim rewards exceeding pending | User attempts to claim more than their pending rewards | Transaction reverts with "Insufficient pending rewards" error |
+| Claim rewards exceeding pending | User attempts to claim more than their pending rewards | Cannot happen - claimRewards only claims available pendingRewards, cannot exceed |
 | Distribute to zero address | Governance attempts to distribute rewards to address(0) | Transaction reverts with zero address validation error |
 | Duplicate recipients in batch | Governance attempts to distribute to same recipient multiple times in batch | Transaction reverts or handles correctly (depends on implementation) |
 

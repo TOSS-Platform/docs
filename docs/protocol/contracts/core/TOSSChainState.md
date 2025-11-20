@@ -44,6 +44,18 @@ uint256 public lastPauseTime;
 uint256 public pauseCount;
 ```
 
+## Constants
+
+```solidity
+uint256 public constant MAX_PROTOCOL_FEE_RATE = 100;  // 1% max in basis points
+uint256 public constant MIN_FM_STAKE = 5_000 * 10**18;  // 5,000 TOSS minimum
+uint256 public constant MAX_FM_STAKE = 100_000 * 10**18;  // 100,000 TOSS maximum
+uint256 public constant MIN_SLASHING_BURN_RATIO = 10;  // 10% minimum
+uint256 public constant MAX_SLASHING_BURN_RATIO = 30;  // 30% maximum
+uint256 public constant INITIAL_PROTOCOL_VERSION = 100;  // v1.0.0
+uint256 public constant MAX_FEE_RATE_CHANGE_PERCENT = 50;  // 50% max change per update
+```
+
 ## Functions
 
 ### Constructor

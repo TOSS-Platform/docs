@@ -31,6 +31,7 @@ address public guardian;            // Emergency guardian
 // ===== Asset Tracking =====
 mapping(address => uint256) public reserves;  // token => amount
 address[] public supportedAssets;             // List of held assets
+mapping(address => bool) public isSupportedAsset;  // Quick lookup for supported assets
 
 // ===== Allocation Tracking =====
 struct Allocation {
@@ -52,6 +53,11 @@ mapping(uint256 => uint256) public dailySpent;  // day => amount spent
 // ===== Fee Collection =====
 mapping(address => uint256) public collectedFees;  // Lifetime fees per asset
 uint256 public totalFeesCollectedUSD;              // Total in USD equivalent
+
+// ===== Dependencies =====
+IFundRegistry public fundRegistry;  // Fund registry for vault validation
+IPriceOracle public priceOracle;    // Price oracle for USD conversions (can be address(0))
+TOSSChainState public chainState;   // Chain state for protocol state checks
 ```
 
 ## Functions
@@ -63,15 +69,21 @@ constructor(
     address _governance,
     address _guardian,
     uint256 _dailySpendLimit,
-    uint256 _emergencyReserve
+    uint256 _emergencyReserve,
+    address _fundRegistry,
+    address _priceOracle,
+    address _chainState
 )
 ```
 
 **Parameters**:
-- `_governance`: DAO governance contract
+- `_governance`: DAO governance contract address
 - `_guardian`: Emergency guardian address
-- `_dailySpendLimit`: Maximum daily spending (in USD equivalent)
-- `_emergencyReserve`: Minimum reserve to maintain
+- `_dailySpendLimit`: Maximum daily spending (in USD equivalent, 18 decimals)
+- `_emergencyReserve`: Minimum reserve to maintain (in USD equivalent, 18 decimals)
+- `_fundRegistry`: FundRegistry contract address for vault validation
+- `_priceOracle`: PriceOracle contract address (can be address(0) initially)
+- `_chainState`: TOSSChainState contract address for protocol state checks
 
 ### Fee Collection Functions
 
@@ -80,7 +92,8 @@ constructor(
 ```solidity
 function collectProtocolFee(
     address asset,
-    uint256 amount
+    uint256 amount,
+    uint256 fundId
 ) external onlyFundVault
 ```
 
@@ -89,6 +102,7 @@ function collectProtocolFee(
 **Parameters**:
 - `asset`: Token address (USDC, TOSS, etc.)
 - `amount`: Fee amount
+- `fundId`: Fund ID that collected the fee (for tracking)
 
 **Access Control**: Only registered FundManagerVaults
 
@@ -263,6 +277,29 @@ function getTotalValueUSD() external view returns (uint256)
 
 **Returns**: USD value of all assets using oracle prices
 
+#### `getSupportedAssets`
+
+```solidity
+function getSupportedAssets() external view returns (address[] memory)
+```
+
+**Purpose**: Get list of supported assets
+
+**Returns**: Array of supported asset addresses
+
+#### `getAllocation`
+
+```solidity
+function getAllocation(uint256 allocationId) external view returns (Allocation memory)
+```
+
+**Purpose**: Get allocation details
+
+**Parameters**:
+- `allocationId`: Allocation ID
+
+**Returns**: Allocation struct with recipient, amount, asset, timestamp, purpose, and executed status
+
 ### Administrative Functions
 
 #### `setDailySpendLimit`
@@ -287,6 +324,83 @@ function setEmergencyReserve(uint256 newReserve) external onlyGovernance
 
 **Access Control**: Only governance
 
+**Events**: `EmergencyReserveUpdated(oldReserve, newReserve)`
+
+#### `setGovernance`
+
+```solidity
+function setGovernance(address newGovernance) external onlyGovernance
+```
+
+**Purpose**: Update governance address
+
+**Parameters**:
+- `newGovernance`: New governance contract address
+
+**Access Control**: Only governance
+
+**Events**: `GovernanceUpdated(oldGovernance, newGovernance)`
+
+#### `setGuardian`
+
+```solidity
+function setGuardian(address newGuardian) external onlyGovernance
+```
+
+**Purpose**: Update guardian address
+
+**Parameters**:
+- `newGuardian`: New guardian address
+
+**Access Control**: Only governance
+
+**Events**: `GuardianUpdated(oldGuardian, newGuardian)`
+
+#### `setFundRegistry`
+
+```solidity
+function setFundRegistry(address newRegistry) external onlyGovernance
+```
+
+**Purpose**: Update fund registry address
+
+**Parameters**:
+- `newRegistry`: New fund registry address
+
+**Access Control**: Only governance
+
+**Events**: `FundRegistryUpdated(oldRegistry, newRegistry)`
+
+#### `setPriceOracle`
+
+```solidity
+function setPriceOracle(address newOracle) external onlyGovernance
+```
+
+**Purpose**: Update price oracle address
+
+**Parameters**:
+- `newOracle`: New price oracle address (can be address(0) to disable)
+
+**Access Control**: Only governance
+
+**Events**: `PriceOracleUpdated(oldOracle, newOracle)`
+
+#### `setChainState`
+
+```solidity
+function setChainState(address newChainState) external onlyGovernance
+```
+
+**Purpose**: Update chain state address
+
+**Parameters**:
+- `newChainState`: New chain state address
+
+**Access Control**: Only governance
+
+**Events**: `ChainStateUpdated(oldChainState, newChainState)`
+
 ## DAO-Configurable Parameters
 
 | Parameter | Initial Value | Governance Level | Update Frequency |
@@ -310,8 +424,11 @@ Must deploy after:
 const args = {
   governance: daoGovernance.address,
   guardian: guardianMultisig.address,
-  dailySpendLimit: ethers.utils.parseUnits("100000", 6), // $100k USDC
-  emergencyReserve: ethers.utils.parseUnits("500000", 6), // $500k USDC
+  dailySpendLimit: ethers.utils.parseUnits("100000", 18), // $100k USD (18 decimals)
+  emergencyReserve: ethers.utils.parseUnits("500000", 18), // $500k USD (18 decimals)
+  fundRegistry: fundRegistry.address,
+  priceOracle: priceOracle.address, // Can be address(0) initially
+  chainState: chainState.address,
 };
 ```
 
@@ -424,6 +541,11 @@ event EmergencyWithdrawal(
 event DailySpendLimitUpdated(uint256 oldLimit, uint256 newLimit);
 event EmergencyReserveUpdated(uint256 oldReserve, uint256 newReserve);
 event FundsReceived(address indexed asset, uint256 amount, address indexed sender, string source);
+event GovernanceUpdated(address indexed oldGovernance, address indexed newGovernance);
+event GuardianUpdated(address indexed oldGuardian, address indexed newGuardian);
+event FundRegistryUpdated(address indexed oldRegistry, address indexed newRegistry);
+event PriceOracleUpdated(address indexed oldOracle, address indexed newOracle);
+event ChainStateUpdated(address indexed oldChainState, address indexed newChainState);
 ```
 
 ## Integration Points

@@ -25,8 +25,11 @@ FundFactory deploys new fund contracts using minimal proxy pattern, validates FM
 ## State Variables
 
 ```solidity
+// ===== Constants =====
+uint256 public constant MIN_FM_SCORE = 50; // Minimum FM score required
+
 // ===== Core Dependencies =====
-ITOSS public immutable tossToken;
+IERC20 public immutable tossToken;
 IFundRegistry public immutable fundRegistry;
 IRiskEngine public immutable riskEngine;
 IFMRegistry public immutable fmRegistry;
@@ -49,6 +52,9 @@ uint256 public stakePerAUMRatio;       // Additional stake per $ AUM (basis poin
 // ===== Statistics =====
 uint256 public totalFundsCreated;
 mapping(address => uint256) public fundsCreatedByFM;
+
+// ===== Governance =====
+address public governance;
 ```
 
 ## Functions
@@ -61,7 +67,8 @@ constructor(
     address _fundRegistry,
     address _riskEngine,
     address _fmRegistry,
-    address _fundImplementation
+    address _fundImplementation,
+    address _governance
 )
 ```
 
@@ -71,6 +78,11 @@ constructor(
 - `_riskEngine`: RiskEngine for validation
 - `_fmRegistry`: FM registry for eligibility
 - `_fundImplementation`: Master fund contract (for cloning)
+- `_governance`: Governance address for parameter updates
+
+**Initialization**:
+- Sets initial `minimumFMStake` to 10,000 TOSS
+- Sets initial `stakePerAUMRatio` to 10 (0.1%)
 
 ### Main Functions
 
@@ -93,14 +105,16 @@ function createFund(
 - `fundAddress`: Deployed fund contract address
 - `fundId`: Unique fund identifier
 
-**Access Control**: Any address (eligibility checked)
+**Access Control**: Any address (eligibility checked via FMRegistry)
+
+**Reentrancy Protection**: Uses `nonReentrant` modifier
 
 **Behavior**:
 1. **Validate FM Eligibility**:
    ```solidity
-   require(fmRegistry.isEligible(msg.sender), "FM not eligible");
-   require(fmRegistry.getScore(msg.sender) >= MIN_FM_SCORE, "Score too low");
-   require(!slashingEngine.isBanned(msg.sender), "FM banned");
+   require(fmRegistry.isEligible(msg.sender), "FundFactory: FM not eligible");
+   require(fmRegistry.getScore(msg.sender) >= MIN_FM_SCORE, "FundFactory: Score too low");
+   require(!fmRegistry.isBanned(msg.sender), "FundFactory: FM banned");
    ```
 
 2. **Validate Stake Amount**:
@@ -140,7 +154,7 @@ function createFund(
    emit FundCreated(fundId, fundAddress, msg.sender, stakeAmount);
    ```
 
-**Events**: `FundCreated(fundId, fundAddress, manager, stakeAmount)`
+**Events**: `FundCreated(fundId, fundAddress, manager, stakeAmount, fundClass, riskTier)`
 
 #### `closeFund`
 
@@ -161,7 +175,7 @@ function closeFund(uint256 fundId) external
 - Transfers stake back to FM
 - Marks fund as closed in registry
 
-**Events**: `FundClosed(fundId, manager, returnedStake)`
+**Events**: `FundClosed(fundId, manager, returnedStake, slashedAmount)`
 
 #### `increaseStake`
 
@@ -178,11 +192,13 @@ function increaseStake(
 - `fundId`: Fund ID
 - `additionalStake`: Additional TOSS to stake
 
-**Access Control**: Only FM of that fund
+**Access Control**: Only FM of that fund (`onlyFMOfFund` modifier)
+
+**Reentrancy Protection**: Uses `nonReentrant` modifier
 
 **Use Case**: Fund AUM grows, needs more collateral
 
-**Events**: `StakeIncreased(fundId, additionalAmount, newTotal)`
+**Events**: `StakeIncreased(fundId, manager, additionalAmount, newTotal)`
 
 ### View Functions
 
@@ -232,10 +248,15 @@ function canCreateFund(address fm) external view returns (bool, string memory)
 - `string`: Reason if not eligible
 
 **Checks**:
-- FM registered and active
-- FM score ≥ minimum
-- No active bans
-- No excessive slashing history
+- FM registered and eligible (`fmRegistry.isEligible(fm)`)
+- FM score ≥ MIN_FM_SCORE (50) (`fmRegistry.getScore(fm) >= 50`)
+- No active bans (`!fmRegistry.isBanned(fm)`)
+
+**Returns**:
+- `(true, "")` if eligible
+- `(false, "FM not eligible")` if not eligible
+- `(false, "Score too low")` if score < 50
+- `(false, "FM banned")` if banned
 
 ## DAO-Configurable Parameters
 
@@ -267,7 +288,8 @@ const args = {
   fundRegistry: registry.address,
   riskEngine: riskEngine.address,
   fmRegistry: fmRegistry.address,
-  fundImplementation: fundImpl.address
+  fundImplementation: fundImpl.address,
+  governance: governance.address
 };
 
 const factory = await ethers.deployContract("FundFactory", Object.values(args));
@@ -279,12 +301,9 @@ const factory = await ethers.deployContract("FundFactory", Object.values(args));
 // 1. Set FundFactory in FundRegistry
 await fundRegistry.setFundFactory(factory.address);
 
-// 2. Configure parameters
-await factory.setMinimumFMStake(ethers.utils.parseEther("10000"));
-await factory.setStakePerAUMRatio(10);  // 0.1%
-
-// 3. Transfer ownership to DAO
-await factory.transferOwnership(governance.address);
+// 2. Configure parameters (optional, defaults are set in constructor)
+await factory.setMinimumFMStake(ethers.utils.parseEther("10000"), 0);
+await factory.setStakePerAUMRatio(10, 0);  // 0.1%
 ```
 
 ## Access Control
@@ -375,6 +394,7 @@ event FundImplementationUpdated(
 );
 
 event MinimumStakeUpdated(uint256 oldValue, uint256 newValue);
+event StakePerAUMRatioUpdated(uint256 oldValue, uint256 newValue);
 ```
 
 ## Integration Points
@@ -501,17 +521,18 @@ async function deployFundFactory() {
     fundRegistry.address,
     riskEngine.address,
     fmRegistry.address,
-    fundImplementation.address
+    fundImplementation.address,
+    governance.address
   );
   
-  await factory.deployed();
+  await factory.waitForDeployment();
   
-  // Configure
-  await factory.setMinimumFMStake(ethers.utils.parseEther("10000"));
-  await factory.setStakePerAUMRatio(10);  // 0.1%
+  // Configure (optional, defaults are set in constructor)
+  await factory.setMinimumFMStake(ethers.parseEther("10000"), 0);
+  await factory.setStakePerAUMRatio(10, 0);  // 0.1%
   
-  // Grant roles
-  await fundRegistry.grantRole(FACTORY_ROLE, factory.address);
+  // Set FundFactory in FundRegistry
+  await fundRegistry.setFundFactory(await factory.getAddress());
   
   return factory;
 }

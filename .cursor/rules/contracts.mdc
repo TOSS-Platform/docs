@@ -1155,6 +1155,84 @@ MUST be written in English. No Turkish or other non-English languages are allowe
 - Code review will reject PRs with non-English content
 - Linting should catch non-English strings (if configured)
 - Pre-commit hooks should check for non-English content
+
+## Code Quality and Linting Rule
+
+**CRITICAL**: All code MUST pass linting checks before being considered complete. Linting errors MUST be fixed before committing code.
+
+### Rule
+
+1. **After Every Development Session**: Run linting checks
+2. **Before Committing**: Ensure all linting errors are resolved
+3. **Automated Checks**: Use pre-commit hooks or post-development scripts
+
+### Requirements
+
+#### 1. Linting Commands
+
+```bash
+# Check all linting issues
+yarn lint
+
+# Check TypeScript linting
+yarn lint:ts
+
+# Check Solidity linting
+yarn lint:sol
+
+# Auto-fix formatting issues
+yarn format
+```
+
+#### 2. Pre-Development Checklist
+
+Before starting development:
+- [ ] Ensure linting tools are installed
+- [ ] Review existing linting configuration
+- [ ] Understand linting rules
+
+#### 3. Post-Development Checklist
+
+After completing development:
+- [ ] Run `yarn lint` to check for errors
+- [ ] Fix all linting errors (not warnings)
+- [ ] Run `yarn format` to auto-fix formatting
+- [ ] Verify code still compiles and tests pass
+- [ ] Commit only when linting passes
+
+#### 4. Automated Linting
+
+The following scripts automatically run linting:
+- `posttest`: Runs linting after tests
+- `postcompile`: Runs linting after compilation
+
+#### 5. Linting Rules
+
+**TypeScript/JavaScript**:
+- ESLint for code quality
+- Prettier for formatting
+- TypeScript strict mode enabled
+- No `any` types (warnings allowed for zkSync compatibility)
+
+**Solidity**:
+- Solhint for code quality
+- Prettier for formatting
+- Custom errors preferred over require statements (warnings)
+
+#### 6. Ignored Files
+
+The following build artifacts are ignored by Git and linting:
+- `artifacts/` and `artifacts-zk/` - Compiled contract artifacts
+- `cache/` and `cache-zk/` - Build cache
+- `typechain-types/` - Generated TypeScript types
+- `deployments-zk/` - zkSync deployment artifacts
+
+### Enforcement
+
+- **Pre-commit**: Linting must pass before committing
+- **CI/CD**: Automated linting checks in CI pipeline
+- **Code Review**: PRs with linting errors will be rejected
+- **Development Workflow**: Run `yarn lint` after every development session
 - All new code must be in English
 
 ### Migration

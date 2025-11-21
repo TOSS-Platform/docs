@@ -39,6 +39,11 @@ mapping(FundStatus => uint256[]) public fundsByStatus;
 // ===== Reverse Lookups =====
 mapping(address => uint256) public addressToFundId;  // address => fundId
 
+// ===== Access Control =====
+address public fundFactory;  // Only factory can register funds
+mapping(address => bool) public navEngines;  // Whitelisted NAV Engines
+address public governance;  // For admin functions
+
 enum FundStatus { ACTIVE, PAUSED, CLOSED, LIQUIDATING }
 ```
 
@@ -86,7 +91,153 @@ function updateFundNAV(
 
 **Access Control**: Only NAV Engine
 
+**Events**: `NAVUpdated(fundId, oldNAV, newNAV)`
+
+### `updateFundStatus`
+
+```solidity
+function updateFundStatus(
+    uint256 fundId,
+    FundStatus status
+) external
+```
+
+**Purpose**: Update fund status (ACTIVE, PAUSED, CLOSED, LIQUIDATING)
+
+**Parameters**:
+- `fundId`: Fund identifier
+- `status`: New fund status
+
+**Access Control**: FundFactory or Governance
+
+**Events**: `FundStatusUpdated(fundId, oldStatus, newStatus)`
+
+### `closeFund`
+
+```solidity
+function closeFund(uint256 fundId) external
+```
+
+**Purpose**: Close fund in registry
+
+**Parameters**:
+- `fundId`: Fund identifier
+
+**Access Control**: FundFactory or Governance
+
+**Events**: `FundClosed(fundId, manager)`, `FundStatusUpdated(fundId, oldStatus, CLOSED)`
+
+### `updateInvestorCount`
+
+```solidity
+function updateInvestorCount(
+    uint256 fundId,
+    uint256 newCount
+) external
+```
+
+**Purpose**: Update investor count for a fund
+
+**Parameters**:
+- `fundId`: Fund identifier
+- `newCount`: New investor count
+
+**Access Control**: FundFactory or Governance
+
+**Events**: `InvestorCountUpdated(fundId, newCount)`
+
+### `setFundFactory`
+
+```solidity
+function setFundFactory(address factory) external onlyGovernance
+```
+
+**Purpose**: Set FundFactory address (only factory can register funds)
+
+**Parameters**:
+- `factory`: FundFactory address
+
+**Access Control**: Only Governance
+
+**Events**: `FundFactoryUpdated(oldFactory, factory)`
+
+### `setNAVEngine`
+
+```solidity
+function setNAVEngine(address navEngine, bool enabled) external onlyGovernance
+```
+
+**Purpose**: Add/remove NAV Engine from whitelist
+
+**Parameters**:
+- `navEngine`: NAV Engine address
+- `enabled`: true to enable, false to disable
+
+**Access Control**: Only Governance
+
+**Events**: `NAVEngineUpdated(navEngine, enabled)`
+
 ### Query Functions
+
+#### `getFundMetadata`
+
+```solidity
+function getFundMetadata(
+    uint256 fundId
+) external view returns (FundMetadata memory)
+```
+
+**Purpose**: Get complete fund metadata
+
+**Returns**: FundMetadata struct with all fund information
+
+#### `getFundManager`
+
+```solidity
+function getFundManager(
+    uint256 fundId
+) external view returns (address)
+```
+
+**Purpose**: Get fund manager address
+
+**Returns**: Manager address
+
+#### `isRegisteredVault`
+
+```solidity
+function isRegisteredVault(
+    address vault
+) external view returns (bool)
+```
+
+**Purpose**: Check if an address is a registered fund vault
+
+**Returns**: true if vault is registered, false otherwise
+
+#### `getFundsByStatus`
+
+```solidity
+function getFundsByStatus(
+    FundStatus status
+) external view returns (uint256[] memory)
+```
+
+**Purpose**: Get all funds with specific status
+
+**Returns**: Array of fund IDs
+
+#### `getFundsByManager`
+
+```solidity
+function getFundsByManager(
+    address manager
+) external view returns (uint256[] memory)
+```
+
+**Purpose**: Get all funds managed by specific FM
+
+**Returns**: Array of fund IDs
 
 #### `getFundsByRiskTier`
 
@@ -104,9 +255,13 @@ function getFundsByRiskTier(
 
 ```solidity
 function getFundsByClass(
-    FundClass class
+    FundClass fundClass
 ) external view returns (uint256[] memory)
 ```
+
+**Purpose**: Get all funds of specific fund class
+
+**Returns**: Array of fund IDs
 
 #### `getFundsByPerformance`
 
@@ -129,7 +284,7 @@ function getFundsByPerformance(
 
 ```solidity
 function searchFunds(
-    FundClass class,
+    FundClass fundClass,
     RiskTier tier,
     uint256 minNAV,
     uint256 maxNAV,
@@ -138,6 +293,48 @@ function searchFunds(
 ```
 
 **Purpose**: Multi-criteria fund search
+
+**Parameters**:
+- `fundClass`: Fund class to filter by
+- `tier`: Risk tier to filter by
+- `minNAV`: Minimum NAV
+- `maxNAV`: Maximum NAV (use 0 for no max)
+- `status`: Fund status to filter by
+
+**Returns**: Array of fund IDs matching all criteria
+
+## Modifiers
+
+### `onlyFundFactory`
+
+Restricts function to FundFactory only.
+
+### `onlyNAVEngine`
+
+Restricts function to whitelisted NAV Engines only.
+
+### `onlyGovernance`
+
+Restricts function to Governance only.
+
+## Events
+
+```solidity
+event FundRegistered(
+    uint256 indexed fundId,
+    address indexed fundAddress,
+    address indexed manager,
+    FundClass fundClass,
+    RiskTier riskTier
+);
+
+event FundClosed(uint256 indexed fundId, address indexed manager);
+event FundFactoryUpdated(address indexed oldFactory, address indexed newFactory);
+event NAVUpdated(uint256 indexed fundId, uint256 oldNAV, uint256 newNAV);
+event FundStatusUpdated(uint256 indexed fundId, FundStatus oldStatus, FundStatus newStatus);
+event InvestorCountUpdated(uint256 indexed fundId, uint256 newCount);
+event NAVEngineUpdated(address indexed navEngine, bool enabled);
+```
 
 ## Test Scenarios
 
@@ -155,7 +352,13 @@ function searchFunds(
 | Search funds by criteria | Multi-criteria search: class, tier, NAV range, status | Returns fund IDs matching all criteria |
 | Get funds by performance | Query funds with minimum return over period | Returns fund IDs meeting performance criteria |
 | Update fund NAV | NAV Engine updates fund's current NAV | NAV updated in metadata, NAVUpdated event emitted |
-| Update fund status | Fund status changes (e.g., ACTIVE to CLOSED) | Status updated in metadata, event emitted |
+| Update fund status | Fund status changes (e.g., ACTIVE to CLOSED) | Status updated in metadata, FundStatusUpdated event emitted |
+| Close fund | FundFactory or Governance closes fund | Status set to CLOSED, FundClosed and FundStatusUpdated events emitted |
+| Update investor count | FundFactory or Governance updates investor count | Investor count updated, InvestorCountUpdated event emitted |
+| Set FundFactory | Governance sets FundFactory address | FundFactory address updated, FundFactoryUpdated event emitted |
+| Set NAV Engine | Governance adds/removes NAV Engine | NAV Engine whitelist updated, NAVEngineUpdated event emitted |
+| Check registered vault | Query if address is registered fund vault | Returns true if address is registered, false otherwise |
+| Get fund manager | Query fund manager by fund ID | Returns manager address for the fund |
 
 ### Edge Cases
 

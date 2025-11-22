@@ -21,12 +21,20 @@ The vault contract that securely holds fund assets, manages share accounting, an
 - ✅ Prevent unauthorized asset movement
 - ✅ Support multi-asset funds (USDC, ETH, BTC, etc.)
 
+## Constants
+
+```solidity
+uint256 public constant EMERGENCY_FEE_RATE = 500; // 5% (500 basis points)
+uint256 public constant SECONDS_PER_YEAR = 365 days;
+uint256 public constant NAV_DECIMALS = 1e6; // NAV in USD with 6 decimals
+```
+
 ## State Variables
 
 ```solidity
 // ===== Fund Identity =====
-uint256 public fundId;
-address public manager;
+uint256 public fundId_;  // Fund ID (set via setFundId)
+address public manager_;  // Fund Manager address
 IFundRegistry public fundRegistry;
 IRiskEngine public riskEngine;
 
@@ -37,11 +45,12 @@ uint256 public totalShares;
 // ===== Asset Holdings =====
 mapping(address => uint256) public holdings;  // asset => amount
 address[] public assets;  // List of held assets
+mapping(address => bool) public isAssetTracked;  // Quick lookup
 
 // ===== NAV Tracking =====
-uint256 public currentNAV;
-uint256 public highWaterMark;
-uint256 public lastNAVUpdate;
+uint256 public currentNAV;  // Current NAV in USD (6 decimals)
+uint256 public highWaterMark;  // Highest NAV reached
+uint256 public lastNAVUpdate;  // Timestamp of last NAV update
 
 // ===== Withdrawal Queue =====
 struct WithdrawalRequest {
@@ -54,9 +63,22 @@ mapping(uint256 => WithdrawalRequest) public withdrawalQueue;
 uint256 public queueLength;
 
 // ===== Limits =====
-uint256 public dailyWithdrawalLimit;
-uint256 public withdrawnToday;
-uint256 public lastWithdrawalReset;
+uint256 public dailyWithdrawalLimit;  // Max daily withdrawal (in USD, 6 decimals)
+uint256 public withdrawnToday;  // Amount withdrawn today (in USD, 6 decimals)
+uint256 public lastWithdrawalReset;  // Timestamp of last reset
+
+// ===== Configuration =====
+FundConfig public config;  // Fund configuration
+bool public initialized;  // Initialization flag
+
+// ===== Fee Tracking =====
+uint256 public lastFeeCollection;  // Timestamp of last fee collection
+
+// ===== Dependencies =====
+address public tradeExecutor;  // TradeExecutor contract address
+address public navEngine;  // NAV Engine contract address
+address public swapRouter;  // Swap router address
+TOSSTreasury public treasury;  // Treasury for fee collection
 ```
 
 ## Functions
@@ -67,20 +89,58 @@ uint256 public lastWithdrawalReset;
 
 ```solidity
 function initialize(
-    uint256 _fundId,
     address _manager,
     FundConfig memory config
 ) external
 ```
 
-**Purpose**: Initialize cloned fund contract
+**Purpose**: Initialize cloned fund contract (IFund interface)
 
 **Parameters**:
-- `_fundId`: Unique fund identifier
 - `_manager`: Fund Manager address
 - `config`: Initial fund configuration
 
 **Called By**: FundFactory during deployment
+
+**Note**: Fund ID is set separately via `setFundId()` after registration in FundRegistry.
+
+#### `setFundId`
+
+```solidity
+function setFundId(uint256 _fundId) external
+```
+
+**Purpose**: Set fund ID (called by FundFactory after registration)
+
+**Parameters**:
+- `_fundId`: Fund ID from registry
+
+**Access Control**: Can only be called once (when fundId_ == 0)
+
+#### `setDependencies`
+
+```solidity
+function setDependencies(
+    address _fundRegistry,
+    address _riskEngine,
+    address _tradeExecutor,
+    address _navEngine,
+    address _swapRouter,
+    address _treasury
+) external
+```
+
+**Purpose**: Set contract dependencies (called after initialization)
+
+**Parameters**:
+- `_fundRegistry`: FundRegistry address
+- `_riskEngine`: RiskEngine address
+- `_tradeExecutor`: TradeExecutor address
+- `_navEngine`: NAV Engine address
+- `_swapRouter`: Swap router address
+- `_treasury`: Treasury address
+
+**Access Control**: Only manager or before fundId is set
 
 ### Deposit Functions
 
@@ -193,7 +253,7 @@ function emergencyWithdraw(
 **Purpose**: Immediate withdrawal (higher fees, fund emergency only)
 
 **Conditions**:
-- Fund in EMERGENCY state
+- Fund in LIQUIDATING state
 - Pays 5% emergency fee
 - No queue wait
 
@@ -250,6 +310,7 @@ function updateNAV(
 **Behavior**:
 - Updates `currentNAV`
 - Updates `highWaterMark` if new high
+- Updates FundRegistry via `fundRegistry.updateFundNAV(fundId_, newNAV)`
 - Emits NAV update event
 
 **Events**: `NAVUpdated(oldNAV, newNAV, timestamp)`
@@ -298,6 +359,160 @@ if (currentNAV > highWaterMark):
 - Only if NAV > HWM
 - Only when investor withdraws or on schedule (quarterly)
 
+**Behavior**:
+- Calculates profit = currentNAV - highWaterMark
+- Calculates fee = profit × performanceFeeRate
+- Updates highWaterMark = currentNAV
+- Mints shares to FM (dilution)
+- Updates lastFeeCollection timestamp
+
+### View Functions
+
+#### `getShares`
+
+```solidity
+function getShares(address investor) external view returns (uint256)
+```
+
+**Purpose**: Get investor's share balance
+
+**Parameters**:
+- `investor`: Investor address
+
+**Returns**: Number of shares owned
+
+#### `getHoldings`
+
+```solidity
+function getHoldings(address asset) external view returns (uint256)
+```
+
+**Purpose**: Get holdings for specific asset
+
+**Parameters**:
+- `asset`: Asset address
+
+**Returns**: Amount held
+
+#### `getAssets`
+
+```solidity
+function getAssets() external view returns (address[] memory)
+```
+
+**Purpose**: Get list of held assets
+
+**Returns**: Array of asset addresses
+
+#### `getWithdrawalRequest`
+
+```solidity
+function getWithdrawalRequest(uint256 requestId) external view returns (WithdrawalRequest memory)
+```
+
+**Purpose**: Get withdrawal request details
+
+**Parameters**:
+- `requestId`: Request ID
+
+**Returns**: WithdrawalRequest struct
+
+#### `calculateShares`
+
+```solidity
+function calculateShares(uint256 amount, address asset) external view returns (uint256)
+```
+
+**Purpose**: Calculate shares for deposit amount
+
+**Parameters**:
+- `amount`: Amount to deposit
+- `asset`: Asset address
+
+**Returns**: Number of shares that would be minted
+
+#### `calculateWithdrawalAmount`
+
+```solidity
+function calculateWithdrawalAmount(uint256 shares) external view returns (uint256 amount)
+```
+
+**Purpose**: Calculate withdrawal amount for shares
+
+**Parameters**:
+- `shares`: Number of shares to redeem
+
+**Returns**: Amount that would be received (after fees)
+
+**Note**: Uses named return variable `amount` for clarity
+
+### Admin Functions
+
+#### `setTradeExecutor`
+
+```solidity
+function setTradeExecutor(address _tradeExecutor) external onlyManager
+```
+
+**Purpose**: Set TradeExecutor address
+
+**Parameters**:
+- `_tradeExecutor`: TradeExecutor address
+
+**Access Control**: Only manager
+
+#### `setNAVEngine`
+
+```solidity
+function setNAVEngine(address _navEngine) external onlyManager
+```
+
+**Purpose**: Set NAV Engine address
+
+**Parameters**:
+- `_navEngine`: NAV Engine address
+
+**Access Control**: Only manager
+
+#### `setSwapRouter`
+
+```solidity
+function setSwapRouter(address _swapRouter) external onlyManager
+```
+
+**Purpose**: Set swap router address
+
+**Parameters**:
+- `_swapRouter`: Swap router address
+
+**Access Control**: Only manager
+
+#### `setTreasury`
+
+```solidity
+function setTreasury(address _treasury) external onlyManager
+```
+
+**Purpose**: Set treasury address
+
+**Parameters**:
+- `_treasury`: Treasury address
+
+**Access Control**: Only manager
+
+#### `setDailyWithdrawalLimit`
+
+```solidity
+function setDailyWithdrawalLimit(uint256 _limit) external onlyManager
+```
+
+**Purpose**: Set daily withdrawal limit
+
+**Parameters**:
+- `_limit`: New daily withdrawal limit (in USD, 6 decimals)
+
+**Access Control**: Only manager
+
 ## DAO-Configurable Parameters
 
 | Parameter | Config Level | Who Can Change |
@@ -322,18 +537,31 @@ const vaultImpl = await FundManagerVault.deploy();
 fundFactory.setFundImplementation(vaultImpl.address);
 ```
 
+## Modifiers
+
+- `onlyManager()`: Only fund manager can call
+- `onlyTradeExecutor()`: Only TradeExecutor contract can call
+- `onlyNAVEngine()`: Only NAV Engine contract can call
+- `whenInitialized()`: Contract must be initialized
+
 ## Access Control
 
 ### Permission Matrix
 
-| Function | Anyone | Investor | FM | TradeExecutor | NAVEngine | SlashingEngine |
-|----------|--------|----------|-----|---------------|-----------|----------------|
-| `deposit` | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| `requestWithdrawal` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| `processWithdrawal` | ✅* | ✅ | ✅ | ❌ | ❌ | ❌ |
-| `executeTrade` | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
-| `updateNAV` | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| `slashFM` | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Function | Anyone | Investor | FM | TradeExecutor | NAVEngine |
+|----------|--------|----------|-----|---------------|-----------|
+| `deposit` | ✅ | ✅ | ✅ | ❌ | ❌ |
+| `requestWithdrawal` | ❌ | ✅ | ❌ | ❌ | ❌ |
+| `processWithdrawal` | ✅* | ✅ | ✅ | ❌ | ❌ |
+| `executeTrade` | ❌ | ❌ | ❌ | ✅ | ❌ |
+| `updateNAV` | ❌ | ❌ | ❌ | ❌ | ✅ |
+| `collectManagementFee` | ✅ | ✅ | ✅ | ❌ | ❌ |
+| `collectPerformanceFee` | ✅ | ✅ | ✅ | ❌ | ❌ |
+| `setTradeExecutor` | ❌ | ❌ | ✅ | ❌ | ❌ |
+| `setNAVEngine` | ❌ | ❌ | ✅ | ❌ | ❌ |
+| `setSwapRouter` | ❌ | ❌ | ✅ | ❌ | ❌ |
+| `setTreasury` | ❌ | ❌ | ✅ | ❌ | ❌ |
+| `setDailyWithdrawalLimit` | ❌ | ❌ | ✅ | ❌ | ❌ |
 
 *Anyone can process withdrawal (permissionless keeper network)
 
@@ -372,6 +600,7 @@ fundFactory.setFundImplementation(vaultImpl.address);
 ## Events
 
 ```solidity
+event FundInitialized(address indexed manager, IFundRegistry.FundClass fundClass, DAOConfigCore.RiskTier riskTier);
 event Deposit(address indexed investor, uint256 amount, address asset, uint256 shares, uint256 timestamp);
 event WithdrawalRequested(address indexed investor, uint256 shares, uint256 requestId, uint256 timestamp);
 event WithdrawalProcessed(uint256 indexed requestId, address investor, uint256 amount, uint256 timestamp);
@@ -396,7 +625,7 @@ event FeeCollected(FeeType feeType, uint256 amount, uint256 timestamp);
 | Collect management fee | Management fee collected on schedule | Fee calculated, shares minted to FM (dilution) or fee transferred, FeeCollected event emitted |
 | Collect performance fee | Performance fee collected when NAV &gt; HWM | Fee calculated on profit, highWaterMark updated, FeeCollected event emitted |
 | Deposit multiple assets | Investor deposits multiple assets in one transaction | All assets transferred, shares calculated based on total value, deposit succeeds |
-| Emergency withdrawal | Investor performs emergency withdrawal when fund in EMERGENCY state | Immediate withdrawal with 5% fee, no queue wait, emergency fee collected |
+| Emergency withdrawal | Investor performs emergency withdrawal when fund in LIQUIDATING state | Immediate withdrawal with 5% fee, no queue wait, emergency fee collected |
 
 ### Edge Cases
 
@@ -428,7 +657,7 @@ event FeeCollected(FeeType feeType, uint256 amount, uint256 timestamp);
 | Execute trade from non-TradeExecutor | Unauthorized address attempts to execute trade | Transaction reverts with "Only TradeExecutor" error |
 | Execute trade exceeding slippage | Trade executed but output amount below minAmountOut | Transaction reverts with "Slippage exceeded" error |
 | Update NAV from non-NAV Engine | Non-NAV Engine attempts to update NAV | Transaction reverts with "Only NAV Engine" error |
-| Emergency withdrawal when not in emergency | Investor attempts emergency withdrawal when fund not in EMERGENCY | Transaction reverts with "Not in emergency" error |
+| Emergency withdrawal when not in emergency | Investor attempts emergency withdrawal when fund not in LIQUIDATING | Transaction reverts with "Not in emergency" error |
 
 ### Security Tests
 
@@ -457,7 +686,7 @@ event FeeCollected(FeeType feeType, uint256 amount, uint256 timestamp);
 | Update NAV by NAV Engine | NAV Engine updates NAV | Transaction succeeds |
 | Update NAV by non-NAV Engine | Non-NAV Engine attempts to update NAV | Transaction reverts with "Only NAV Engine" |
 | Collect fees by FM | Fund Manager collects management/performance fees | Transaction succeeds if conditions met |
-| Emergency withdrawal by investor | Investor performs emergency withdrawal | Transaction succeeds if fund in EMERGENCY state |
+| Emergency withdrawal by investor | Investor performs emergency withdrawal | Transaction succeeds if fund in LIQUIDATING state |
 | Query functions by any address | Any address queries shares, NAV, holdings | Queries succeed, read-only functions are public |
 
 ### Integration Tests
@@ -472,13 +701,13 @@ event FeeCollected(FeeType feeType, uint256 amount, uint256 timestamp);
 | Trade execution via router | TradeExecutor routes trade through swap router | Swap executed correctly, output amount validated, holdings updated |
 | Share dilution from fees | Management fee collected via share minting | Shares minted to FM, existing investors diluted proportionally |
 | High water mark tracking | NAV increases above HWM, performance fee calculated | HWM updated, performance fee calculated on profit above HWM |
-| Emergency procedures | Fund enters emergency state, investors can emergency withdraw | Emergency state allows immediate withdrawals with fees |
+| Emergency procedures | Fund enters LIQUIDATING state, investors can emergency withdraw | LIQUIDATING state allows immediate withdrawals with fees |
 
 ### State Transition Tests
 
 | Test Name | Scenario | Expected Result |
 |-----------|----------|-----------------|
-| Fund state: ACTIVE → PAUSED | Fund paused, operations blocked | Deposit/withdrawal/trade operations blocked, only emergency withdrawals allowed |
+| Fund state: ACTIVE → PAUSED | Fund paused, operations blocked | Deposit/withdrawal/trade operations blocked, only emergency withdrawals allowed (when in LIQUIDATING state) |
 | Fund state: PAUSED → ACTIVE | Fund unpaused, operations resume | All operations resume normally |
 | Fund state: ACTIVE → CLOSED | Fund closed, no new operations | New deposits/withdrawals blocked, existing withdrawals processed, fund winding down |
 | Withdrawal state: QUEUED → PROCESSED | Withdrawal request queued, then processed | Request state transitions correctly, shares burned then assets transferred |

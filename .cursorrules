@@ -1,0 +1,67 @@
+# Cursor IDE Rules for TOSS Documentation
+
+## Commit Message Generation
+
+When generating commit messages, ALWAYS follow the **Conventional Commits** specification:
+
+### Format
+```
+<type>(<scope>): <subject>
+```
+
+### Required Types
+- `feat`: New feature or documentation section
+- `fix`: Bug fix or correction
+- `docs`: Documentation changes
+- `chore`: Maintenance (scripts, config)
+- `refactor`: Code/doc restructure
+- `style`: Formatting, no content change
+- `test`: Adding tests
+
+### Scope Examples (use when applicable)
+- `contracts`: Contract documentation
+- `processes`: Process workflows
+- `governance`: Governance docs
+- `tokenomics`: Tokenomics docs
+- `mcp`: MCP integration
+- `ci`: CI/CD workflows
+
+### Examples
+```bash
+docs(contracts): add missing functions to RewardDistributor documentation
+docs(contracts): update TOSSTreasury with all implemented features
+docs(contracts): add constants section to TOSSChainState documentation
+chore(rules): add reverse check requirements to contract completion rule
+fix(processes): correct slashing formula in tokenomics
+feat(mcp): add new MCP sync automation system
+```
+
+### Rules
+1. **Always use type prefix**: Every commit message MUST start with a type (`feat:`, `fix:`, `docs:`, etc.)
+2. **Use scope when relevant**: Add scope in parentheses when the change is specific to a module
+3. **Subject in imperative mood**: Use "add", "update", "fix", not "added", "updated", "fixed"
+4. **Keep subject under 72 characters**: Keep the subject line concise
+5. **No period at end**: Don't end the subject with a period
+6. **Be descriptive**: Explain what was changed, not just "update docs"
+
+### Bad Examples (DO NOT USE)
+- "update docs" (too vague, no type)
+- "fixes" (no context, no type)
+- "WIP" (work in progress, don't commit)
+- "added new feature" (past tense, no type)
+- "docs update" (wrong format, should be "docs: update")
+
+### Good Examples (USE THESE)
+- "docs(contracts): add missing functions to RewardDistributor"
+- "fix(processes): correct slashing formula calculation"
+- "chore: update package dependencies"
+- "feat(mcp): add automated MCP sync system"
+
+## When Generating Commit Messages
+
+1. Analyze the changed files
+2. Determine the appropriate type based on the changes
+3. Determine the scope if the change is module-specific
+4. Write a clear, imperative subject
+5. Format as: `<type>(<scope>): <subject>`
+

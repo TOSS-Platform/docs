@@ -15,51 +15,80 @@ Stores and manages fund-specific risk parameters, operational settings, and fee 
 ## State Variables
 
 ```solidity
-struct FundConfiguration {
-    // ===== Risk Limits =====
-    uint256 maxPositionSize;      // PSL: max % of NAV in single position
-    uint256 maxConcentration;     // PCL: max % of NAV in single asset
-    uint256 maxAssetExposure;     // AEL: max exposure per asset class
-    uint256 maxDrawdown;          // Maximum drawdown from HWM (%)
-    uint256 maxVolatility;        // Maximum annualized volatility (%)
-    uint256 maxLeverage;          // Maximum leverage ratio
-    
-    // ===== Trading Rules =====
-    uint256 maxDailyTrades;       // Trade frequency limit
-    uint256 maxSlippage;          // Maximum acceptable slippage (basis points)
-    uint256 minTradeSize;         // Minimum trade size (prevents dust)
-    address[] allowedAssets;      // Whitelist of tradeable assets
-    
-    // ===== Fees =====
-    uint256 managementFee;        // Annual management fee (basis points)
-    uint256 performanceFee;       // Performance fee above HWM (basis points)
-    uint256 depositFee;           // One-time deposit fee (basis points)
-    uint256 withdrawalFee;        // Withdrawal fee (basis points)
-    
-    // ===== Operational =====
-    uint256 minInvestment;        // Minimum deposit amount
-    uint256 lockupPeriod;         // Time before withdrawal allowed
-    FundClass fundClass;
-    RiskTier riskTier;
-    
-    // ===== Metadata =====
-    string strategyDescription;
-    bool kycRequired;
-    uint256 maxInvestors;         // 0 = unlimited
-}
-
-mapping(uint256 => FundConfiguration) public configs;  // fundId => config
+// Uses IFund.FundConfig struct (same as FundConfiguration in documentation)
+mapping(uint256 => IFund.FundConfig) public configs;  // fundId => config
+IFundRegistry public fundRegistry;  // For fundId validation
+IDAOConfigCore public daoConfig;  // For RiskTier limits
+address public governance;  // Access control
+address public fundFactory;  // FundFactory can set initial config
 ```
 
+**Note**: `FundConfiguration` in documentation is an alias for `IFund.FundConfig`. The contract uses `IFund.FundConfig` directly.
+
 ## Functions
+
+### Constructor
+
+```solidity
+constructor(
+    address _fundRegistry,
+    address _daoConfig,
+    address _governance
+)
+```
+
+**Purpose**: Initialize FundConfig contract
+
+**Parameters**:
+- `_fundRegistry`: FundRegistry address (for fundId validation)
+- `_daoConfig`: DAOConfigCore address (for RiskTier limits)
+- `_governance`: Governance address (for access control)
+
+### `setFundFactory`
+
+```solidity
+function setFundFactory(address _fundFactory) external onlyGovernance
+```
+
+**Purpose**: Set FundFactory address (allows FundFactory to set initial config)
+
+**Parameters**:
+- `_fundFactory`: FundFactory address
+
+**Access Control**: Only governance
+
+### `setInitialConfiguration`
+
+```solidity
+function setInitialConfiguration(
+    uint256 fundId,
+    IFund.FundConfig memory config
+) external
+```
+
+**Purpose**: Set initial fund configuration (called by FundFactory)
+
+**Parameters**:
+- `fundId`: Fund ID
+- `config`: Initial configuration
+
+**Access Control**: Only FundFactory or governance
+
+**Validations**:
+- Config not already set
+- Configuration within RiskTier limits
+- Fee changes within allowed ranges
+- Asset list valid for tier
+
+**Events**: `ConfigurationUpdated(fundId, emptyConfig, config)`
 
 ### `setConfiguration`
 
 ```solidity
 function setConfiguration(
     uint256 fundId,
-    FundConfiguration memory newConfig
-) external onlyFundGovernance
+    IFund.FundConfig memory newConfig
+) external onlyGovernance
 ```
 
 **Purpose**: Update fund configuration via governance
@@ -68,7 +97,7 @@ function setConfiguration(
 - `fundId`: Fund to update
 - `newConfig`: New configuration
 
-**Access Control**: Only FundGovernance (after proposal passes)
+**Access Control**: Only governance
 
 **Validations**:
 - New config within RiskTier limits
@@ -84,7 +113,7 @@ function updateRiskParameter(
     uint256 fundId,
     bytes32 parameter,
     uint256 newValue
-) external onlyFundGovernance
+) external onlyGovernance
 ```
 
 **Purpose**: Update single risk parameter

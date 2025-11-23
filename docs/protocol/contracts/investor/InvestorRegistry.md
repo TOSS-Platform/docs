@@ -12,6 +12,14 @@ Central registry for all investors, tracking identity, class, reputation score, 
 - Monitor investor status and history
 - Enable investor queries and filtering
 
+## Dependencies
+
+The contract requires the following dependencies:
+
+- `IStaking`: For TOSS staking balance queries (for class upgrade requirements)
+- `InvestorScoreCalculator`: For updating ICS scores (set via admin function)
+- `InvestorStateMachine`: For updating investor states (set via admin function)
+
 ## State Variables
 
 ```solidity
@@ -33,6 +41,33 @@ enum InvestorClass { RETAIL, PREMIUM, INSTITUTIONAL, STRATEGIC }
 enum InvestorState { ACTIVE, LIMITED, HIGH_RISK, FROZEN, BANNED }
 ```
 
+**Additional State Variables**:
+
+```solidity
+IStaking public immutable staking;                    // Staking contract for stake queries
+address public scoreCalculator;                       // InvestorScoreCalculator contract
+address public stateMachine;                          // InvestorStateMachine contract
+address public governance;                            // For admin functions
+mapping(address => bool) public authorizedVaults;    // FundManagerVault addresses
+```
+
+## Constructor
+
+```solidity
+constructor(
+    address _staking,
+    address _governance
+)
+```
+
+**Purpose**: Initialize InvestorRegistry contract
+
+**Parameters**:
+- `_staking`: Staking contract address
+- `_governance`: Governance address for admin functions
+
+**Validation**: Both parameters must be non-zero addresses
+
 ## Functions
 
 ### `registerInvestor`
@@ -48,10 +83,17 @@ function registerInvestor(
 **Returns**: Success status
 
 **Behavior**:
-- Creates investor profile
+- Creates investor profile with initial values
 - Assigns RETAIL class initially
 - Sets state to ACTIVE
-- Calculates initial ICS
+- Sets ICS score to 0 (will be calculated and updated by InvestorScoreCalculator later)
+- Sets totalInvested to 0
+- Sets tossStaked to 0
+- Sets fundsInvested to 0
+- Adds investor to investorList
+- Emits `InvestorRegistered` event
+
+**Access Control**: Public (can be called by anyone, typically by FundManagerVault on first deposit)
 
 ### `upgradeClass`
 
@@ -65,9 +107,11 @@ function upgradeClass(
 **Purpose**: Upgrade investor to higher class
 
 **Requirements**:
-- TOSS stake meets threshold
+- Investor must be registered
+- TOSS stake meets threshold (checked via staking contract)
 - ICS score meets minimum
-- No violations
+- Investor state is not FROZEN or BANNED
+- Cannot downgrade class
 
 **Class Thresholds**:
 ```
@@ -75,6 +119,16 @@ RETAIL → PREMIUM: 1,000 TOSS + ICS 50
 PREMIUM → INSTITUTIONAL: 10,000 TOSS + ICS 70
 INSTITUTIONAL → STRATEGIC: 100,000 TOSS + ICS 85
 ```
+
+**Behavior**:
+- Validates upgrade path (no downgrades)
+- Checks all requirements are met
+- Updates class in profile
+- Emits `InvestorClassUpgraded` event
+
+**Access Control**: Public (anyone can call, but requirements must be met)
+
+**Note**: Class upgrades can also happen automatically when ICS score or stake is updated via `updateICS` or `syncTossStaked`.
 
 ### `updateICS`
 
@@ -87,7 +141,258 @@ function updateICS(
 
 **Purpose**: Update Investor Composite Score
 
+**Parameters**:
+- `investor`: Investor address
+- `newScore`: New ICS score (0-100)
+
 **Access Control**: Only InvestorScoreCalculator
+
+**Behavior**:
+- Validates investor is registered
+- Validates score is 0-100
+- Updates ICS score in profile
+- Automatically checks if class can be upgraded (auto-upgrade)
+- Emits `ICSUpdated` event
+
+### `updateState`
+
+```solidity
+function updateState(
+    address investor,
+    InvestorState newState
+) external onlyStateMachine
+```
+
+**Purpose**: Update investor state
+
+**Parameters**:
+- `investor`: Investor address
+- `newState`: New investor state (ACTIVE, LIMITED, HIGH_RISK, FROZEN, BANNED)
+
+**Access Control**: Only InvestorStateMachine
+
+**Behavior**:
+- Validates investor is registered
+- Updates state in profile
+- Emits `InvestorStateUpdated` event
+
+### `updateTotalInvested`
+
+```solidity
+function updateTotalInvested(
+    address investor,
+    uint256 amount
+) external onlyAuthorizedVault
+```
+
+**Purpose**: Update total invested amount for investor (lifetime total)
+
+**Parameters**:
+- `investor`: Investor address
+- `amount`: Investment amount to add
+
+**Access Control**: Only authorized FundManagerVault
+
+**Behavior**:
+- Validates investor is registered
+- Adds amount to totalInvested (lifetime cumulative)
+- Emits `TotalInvestedUpdated` event
+
+**Note**: This is cumulative - withdrawals do not reduce this value as it represents lifetime investment.
+
+### `updateFundsInvested`
+
+```solidity
+function updateFundsInvested(
+    address investor,
+    uint256 fundId
+) external onlyAuthorizedVault
+```
+
+**Purpose**: Update funds invested count (increments when investing in a new fund)
+
+**Parameters**:
+- `investor`: Investor address
+- `fundId`: Fund ID (for tracking, currently not used to prevent double-counting)
+
+**Access Control**: Only authorized FundManagerVault
+
+**Behavior**:
+- Validates investor is registered
+- Increments fundsInvested count
+- Emits `FundsInvestedUpdated` event
+
+**Note**: This should be called when an investor invests in a new fund for the first time.
+
+### `syncTossStaked`
+
+```solidity
+function syncTossStaked(address investor) external
+```
+
+**Purpose**: Sync TOSS staked amount from staking contract
+
+**Parameters**:
+- `investor`: Investor address
+
+**Access Control**: Public (anyone can call)
+
+**Behavior**:
+- Validates investor is registered
+- Queries staking contract for current stake
+- Updates tossStaked in profile
+- Automatically checks if class can be upgraded (auto-upgrade)
+- Emits `TossStakedSynced` event
+
+### Query Functions
+
+### `getInvestorProfile`
+
+```solidity
+function getInvestorProfile(
+    address investor
+) external view returns (InvestorProfile memory profile)
+```
+
+**Purpose**: Get complete investor profile
+
+**Returns**: InvestorProfile struct with all investor data
+
+**Reverts**: If investor is not registered
+
+### `isRegistered`
+
+```solidity
+function isRegistered(address investor) external view returns (bool)
+```
+
+**Purpose**: Check if investor is registered
+
+**Returns**: true if registered, false otherwise
+
+### `getICS`
+
+```solidity
+function getICS(address investor) external view returns (uint256 icsScore)
+```
+
+**Purpose**: Get Investor Composite Score
+
+**Returns**: ICS score (0-100)
+
+**Reverts**: If investor is not registered
+
+### `getInvestorClass`
+
+```solidity
+function getInvestorClass(address investor) external view returns (InvestorClass class)
+```
+
+**Purpose**: Get investor class
+
+**Returns**: InvestorClass enum (RETAIL, PREMIUM, INSTITUTIONAL, STRATEGIC)
+
+**Reverts**: If investor is not registered
+
+### `getInvestorState`
+
+```solidity
+function getInvestorState(address investor) external view returns (InvestorState state)
+```
+
+**Purpose**: Get investor state
+
+**Returns**: InvestorState enum (ACTIVE, LIMITED, HIGH_RISK, FROZEN, BANNED)
+
+**Reverts**: If investor is not registered
+
+### `getInvestorCount`
+
+```solidity
+function getInvestorCount() external view returns (uint256 count)
+```
+
+**Purpose**: Get total number of registered investors
+
+**Returns**: Total investor count
+
+### Admin Functions
+
+### `setScoreCalculator`
+
+```solidity
+function setScoreCalculator(address calculator) external onlyGovernance
+```
+
+**Purpose**: Set InvestorScoreCalculator contract address
+
+**Access Control**: Only Governance
+
+**Events**: `ScoreCalculatorUpdated(oldCalculator, newCalculator)`
+
+### `setStateMachine`
+
+```solidity
+function setStateMachine(address machine) external onlyGovernance
+```
+
+**Purpose**: Set InvestorStateMachine contract address
+
+**Access Control**: Only Governance
+
+**Events**: `StateMachineUpdated(oldMachine, newMachine)`
+
+### `authorizeVault`
+
+```solidity
+function authorizeVault(address vault, bool authorized) external onlyGovernance
+```
+
+**Purpose**: Authorize or revoke FundManagerVault for investment tracking
+
+**Parameters**:
+- `vault`: Vault contract address
+- `authorized`: true to authorize, false to revoke
+
+**Access Control**: Only Governance
+
+**Events**: `VaultAuthorized(vault, authorized)`
+
+## Events
+
+- `InvestorRegistered(address indexed investor, uint256 indexed registeredAt)`
+- `InvestorClassUpgraded(address indexed investor, InvestorClass indexed oldClass, InvestorClass indexed newClass)`
+- `ICSUpdated(address indexed investor, uint256 indexed oldScore, uint256 indexed newScore)`
+- `InvestorStateUpdated(address indexed investor, InvestorState indexed oldState, InvestorState indexed newState)`
+- `TotalInvestedUpdated(address indexed investor, uint256 indexed newTotal)`
+- `FundsInvestedUpdated(address indexed investor, uint256 indexed newFundsInvested)`
+- `TossStakedSynced(address indexed investor, uint256 indexed newStake)`
+- `ScoreCalculatorUpdated(address indexed oldCalculator, address indexed newCalculator)`
+- `StateMachineUpdated(address indexed oldMachine, address indexed newMachine)`
+- `VaultAuthorized(address indexed vault, bool authorized)`
+
+## Custom Errors
+
+- `InvestorNotRegistered()`: Investor is not registered
+- `InvestorAlreadyRegistered()`: Investor is already registered
+- `InvalidClassUpgrade()`: Invalid class upgrade attempt (downgrade or same class)
+- `RequirementsNotMet()`: Class upgrade requirements not met
+- `InvalidScore()`: ICS score out of valid range (0-100)
+- `InvalidStateTransition()`: Invalid state transition
+- `OnlyScoreCalculator()`: Caller is not InvestorScoreCalculator
+- `OnlyStateMachine()`: Caller is not InvestorStateMachine
+- `OnlyAuthorizedVault()`: Caller is not authorized vault
+- `OnlyGovernance()`: Caller is not governance
+- `InvalidAddress()`: Invalid address (zero address)
+- `InvalidGovernance()`: Invalid governance address
+
+## Auto-Upgrade Feature
+
+The contract automatically upgrades investor class when:
+- ICS score is updated via `updateICS` (if stake requirements are met)
+- TOSS stake is synced via `syncTossStaked` (if ICS requirements are met)
+
+Auto-upgrade checks happen after each update and upgrade to the highest eligible class based on current thresholds. This ensures investors are automatically promoted when they meet requirements without requiring manual intervention.
 
 ## Test Scenarios
 
@@ -97,9 +402,9 @@ function updateICS(
 |-----------|----------|-----------------|
 | Register investor on first deposit | New investor deposits to fund for first time | Investor registered automatically, class set to RETAIL, state set to ACTIVE, InvestorRegistered event emitted |
 | Query investor profile | Query investor profile by address | Returns investor profile with class, state, score, registration date |
-| Upgrade investor class | Investor meets requirements, class upgraded to PREMIUM or WHALE | Class updated, InvestorClassUpgraded event emitted, new class benefits apply |
-| Query investor class | Query current investor class | Returns InvestorClass enum (RETAIL, PREMIUM, WHALE) |
-| Query investor state | Query current investor state | Returns InvestorState enum (ACTIVE, LIMITED, SUSPENDED, BANNED) |
+| Upgrade investor class | Investor meets requirements, class upgraded to PREMIUM, INSTITUTIONAL, or STRATEGIC | Class updated, InvestorClassUpgraded event emitted, new class benefits apply |
+| Query investor class | Query current investor class | Returns InvestorClass enum (RETAIL, PREMIUM, INSTITUTIONAL, STRATEGIC) |
+| Query investor state | Query current investor state | Returns InvestorState enum (ACTIVE, LIMITED, HIGH_RISK, FROZEN, BANNED) |
 | Multiple investors registration | Multiple new investors deposit to funds | All investors registered correctly, each tracked independently |
 | Update investor score | Investor score updated by InvestorScoreCalculator | Score updated in profile, score change tracked |
 | Query investor count | Query total number of registered investors | Returns count of all registered investors |
@@ -111,8 +416,9 @@ function updateICS(
 | Register investor with minimum deposit | Investor deposits minimum allowed amount | Investor registered successfully, class set to RETAIL |
 | Register investor with maximum deposit | Investor deposits very large amount | Investor registered successfully, class may upgrade if requirements met |
 | Upgrade to PREMIUM class | Investor meets PREMIUM requirements (ICS ≥50, stake ≥1k TOSS) | Class upgraded to PREMIUM, benefits unlocked |
-| Upgrade to WHALE class | Investor meets WHALE requirements (ICS ≥80, stake ≥10k TOSS) | Class upgraded to WHALE, maximum benefits unlocked |
-| Query non-registered investor | Query profile for address that hasn't deposited | Returns default profile or reverts depending on implementation |
+| Upgrade to INSTITUTIONAL class | Investor meets INSTITUTIONAL requirements (ICS ≥70, stake ≥10k TOSS) | Class upgraded to INSTITUTIONAL, benefits unlocked |
+| Upgrade to STRATEGIC class | Investor meets STRATEGIC requirements (ICS ≥85, stake ≥100k TOSS) | Class upgraded to STRATEGIC, maximum benefits unlocked |
+| Query non-registered investor | Query profile for address that hasn't deposited | Transaction reverts with "InvestorNotRegistered" error |
 | Investor with zero score | Investor has ICS score of 0 | Score tracked correctly, cannot upgrade class |
 | Investor with maximum score | Investor has ICS score of 100 | Maximum score tracked, all class upgrades possible |
 
@@ -120,7 +426,8 @@ function updateICS(
 
 | Test Name | Scenario | Expected Result |
 |-----------|----------|-----------------|
-| Upgrade class from non-authorized | Non-authorized address attempts to upgrade investor class | Transaction reverts with "Not authorized" error |
+| Upgrade class without meeting state requirements | Attempt to upgrade when investor is FROZEN or BANNED | Transaction reverts with "Requirements not met" error |
+| Upgrade class with invalid path | Attempt to downgrade class | Transaction reverts with "InvalidClassUpgrade" error |
 | Upgrade class without meeting requirements | Attempt to upgrade class when requirements not met | Transaction reverts with "Requirements not met" error |
 | Upgrade class for non-registered investor | Attempt to upgrade class for address not registered | Transaction reverts with "Investor not registered" error |
 | Upgrade to invalid class | Attempt to upgrade to invalid investor class | Transaction reverts with validation error |
@@ -130,7 +437,7 @@ function updateICS(
 
 | Test Name | Scenario | Expected Result |
 |-----------|----------|-----------------|
-| Prevent unauthorized class upgrades | Attacker attempts to upgrade investor class | Transaction reverts, only authorized contracts can upgrade |
+| Prevent unauthorized class upgrades | Attacker attempts to upgrade investor class without meeting requirements | Transaction reverts with "RequirementsNotMet" error |
 | Registration integrity | Verify investor registration cannot be manipulated | Registration automatic on deposit, cannot manipulate |
 | Class upgrade requirements enforcement | Verify class upgrades require meeting all criteria | All requirements checked, cannot upgrade without meeting criteria |
 | Profile data integrity | Verify investor profile data cannot be manipulated | Profile data immutable except through authorized updates, cannot manipulate |
@@ -141,8 +448,8 @@ function updateICS(
 | Test Name | Scenario | Expected Result |
 |-----------|----------|-----------------|
 | Register investor automatically | Fund vault deposits trigger automatic registration | Registration succeeds, investor profile created |
-| Upgrade class by authorized contract | Authorized contract (e.g., InvestorScoreCalculator) upgrades class | Transaction succeeds |
-| Upgrade class by non-authorized | Non-authorized attempts to upgrade class | Transaction reverts with "Not authorized" |
+| Upgrade class by anyone | Anyone can call upgradeClass if requirements are met | Transaction succeeds (public function, requirements enforced) |
+| Upgrade class without requirements | Attempt to upgrade without meeting requirements | Transaction reverts with "RequirementsNotMet" |
 | Update score by InvestorScoreCalculator | InvestorScoreCalculator updates investor score | Transaction succeeds |
 | Update score by non-authorized | Non-authorized attempts to update score | Transaction reverts with "Not authorized" |
 | Query functions by any address | Any address queries investor profiles, class, state | Queries succeed, read-only functions are public |
@@ -152,7 +459,10 @@ function updateICS(
 | Test Name | Scenario | Expected Result |
 |-----------|----------|-----------------|
 | Fund vault deposit registration | Investor deposits to fund, automatically registered | Registration triggered correctly, investor profile created |
-| Score calculator integration | InvestorScoreCalculator calculates score, registry updates | Score updated in registry, class upgrade checked |
+| Fund vault investment tracking | Vault reports deposit via updateTotalInvested | Total invested amount updated, lifetime total tracked |
+| Fund vault funds count tracking | Vault reports new fund investment via updateFundsInvested | Funds invested count incremented |
+| Score calculator integration | InvestorScoreCalculator calculates score, registry updates | Score updated in registry, auto-upgrade checked |
+| Staking integration | Investor stakes TOSS, syncTossStaked called | Stake synced from staking contract, auto-upgrade checked |
 | Class upgrade flow | Investor meets requirements, class upgraded automatically | Complete flow succeeds, investor receives new class benefits |
 | State machine integration | InvestorStateMachine updates state, registry reflects change | State updated correctly, profile reflects new state |
 | Multiple fund deposits | Investor deposits to multiple funds, profile shared | Profile shared across funds, class and state consistent |

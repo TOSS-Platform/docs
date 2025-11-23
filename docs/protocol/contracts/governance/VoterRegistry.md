@@ -2,7 +2,7 @@
 
 ## Overview
 
-Central registry tracking voter eligibility and voting power across all three governance levels.
+Central registry tracking voter eligibility and voting power across all three governance levels (Fund, FM, and Protocol).
 
 ## Purpose
 
@@ -10,6 +10,80 @@ Central registry tracking voter eligibility and voting power across all three go
 - Calculate voting power based on context
 - Provide unified voter queries
 - Support multiple governance systems
+- Prevent voting power manipulation through snapshot-based calculations
+
+## Dependencies
+
+The contract requires the following dependencies:
+
+- `IFundRegistry`: For fund metadata, FM status, and AUM queries
+- `IFundManagerVault`: For share balance queries (each fund has its own vault)
+- `IStaking`: For TOSS staking balance and lock duration
+- `IInvestorRegistry`: For investor class information
+- `IGuardianCommittee`: For guardian membership verification
+- `IFMRegistry`: For FM reputation scores
+
+## State Variables
+
+- `fundRegistry`: Immutable reference to FundRegistry contract
+- `vault`: Immutable reference to FundManagerVault contract (for share queries)
+- `staking`: Immutable reference to Staking contract
+- `investorRegistry`: Immutable reference to InvestorRegistry contract
+- `guardianCommittee`: Immutable reference to GuardianCommittee contract
+- `fmRegistry`: Immutable reference to FMRegistry contract (for reputation scores)
+
+## Enums
+
+### `GovernanceLevel`
+
+```solidity
+enum GovernanceLevel {
+    FUND,      // Fund-level governance
+    FM,        // Fund Manager-level governance
+    PROTOCOL   // Protocol-level governance
+}
+```
+
+### `VoterGroup`
+
+```solidity
+enum VoterGroup {
+    FM_ONLY,        // Only Fund Managers can vote
+    INVESTOR_ONLY,  // Only investors (non-FMs) can vote
+    BOTH,           // Both FMs and investors can vote
+    GUARDIAN_ONLY   // Only guardians can vote
+}
+```
+
+## Constructor
+
+```solidity
+constructor(
+    address _fundRegistry,
+    address _vault,
+    address _staking,
+    address _investorRegistry,
+    address _guardianCommittee,
+    address _fmRegistry
+)
+```
+
+**Parameters**:
+- `_fundRegistry`: FundRegistry contract address
+- `_vault`: FundManagerVault contract address (for share queries)
+- `_staking`: Staking contract address
+- `_investorRegistry`: InvestorRegistry contract address
+- `_guardianCommittee`: GuardianCommittee contract address
+- `_fmRegistry`: FMRegistry contract address (for reputation scores)
+
+**Validation**: All addresses must be non-zero, otherwise reverts with `InvalidAddress()` error.
+
+## Custom Errors
+
+- `InvalidAddress()`: Thrown when a zero address is provided in constructor
+- `InvalidGovernanceLevel()`: Thrown when an invalid `GovernanceLevel` enum value is provided
+- `InvalidVoterGroup()`: Thrown when an invalid `VoterGroup` enum value is provided
+- `InvalidSnapshot()`: Thrown when an invalid snapshot ID is provided (future snapshots, etc.)
 
 ## Functions
 
@@ -24,7 +98,12 @@ function isFundVoter(
 
 **Purpose**: Check if address can vote on fund proposals
 
-**Logic**: `vault.balanceOf(voter, fundId) > 0`
+**Logic**: 
+1. Get vault address for the fund from `fundRegistry.getFundMetadata(fundId)`
+2. If vault doesn't exist, return `false`
+3. Check if voter has shares in the fund vault: `fundVault.getShares(voter) > 0`
+
+**Note**: Each fund has its own vault contract, so we first get the vault address from FundRegistry, then query shares from that specific vault.
 
 ### `isFMVoter`
 
@@ -34,7 +113,13 @@ function isFMVoter(address voter) external view returns (bool)
 
 **Purpose**: Check if address is eligible FM voter
 
-**Logic**: Active FM with ≥1 fund
+**Logic**: 
+1. Check if address is active FM: `fundRegistry.isActiveFM(voter)`
+2. If not active FM, return `false`
+3. Get funds managed by FM: `fundsManaged = fundRegistry.getFundsManaged(voter)`
+4. Return `true` if `fundsManaged.length > 0`, otherwise `false`
+
+**Note**: FM must be both active AND have at least one fund to be eligible for FM-level voting.
 
 ### `isProtocolVoter`
 
@@ -47,7 +132,14 @@ function isProtocolVoter(
 
 **Purpose**: Check eligibility for protocol proposals
 
-**Logic**: Based on voter group specification
+**Logic**: Based on voter group specification:
+
+- **FM_ONLY**: Returns `true` if `fundRegistry.isActiveFM(voter)` is `true`
+- **INVESTOR_ONLY**: Returns `true` if:
+  - `staking.getStake(voter) > 0` (has staked TOSS)
+  - AND `!fundRegistry.isActiveFM(voter)` (is not an active FM)
+- **BOTH**: Returns `true` if `staking.getStake(voter) > 0` (has staked TOSS, regardless of FM status)
+- **GUARDIAN_ONLY**: Returns `true` if `guardianCommittee.isMember(voter)` is `true`
 
 ### `getVotingPower`
 
@@ -64,11 +156,130 @@ function getVotingPower(
 
 **Parameters**:
 - `voter`: Address to query
-- `level`: FUND, FM, or PROTOCOL
-- `contextId`: fundId for fund-level, 0 for others
-- `snapshot`: Block number for historical query
+- `level`: `GovernanceLevel` enum (FUND, FM, or PROTOCOL)
+- `contextId`: 
+  - For FUND level: `fundId` (the fund ID)
+  - For FM level: `0` (ignored)
+  - For PROTOCOL level: `VoterGroup` enum value (FM_ONLY, INVESTOR_ONLY, BOTH, GUARDIAN_ONLY)
+- `snapshot`: Snapshot ID or block number (0 for current state)
 
-**Returns**: Voting power in that context
+**Returns**: Voting power in that context (18 decimal precision)
+
+**Routing**:
+- **FUND level**: Calls `_getFundVotingPower(voter, contextId, snapshot)`
+- **FM level**: Calls `_getFMVotingPower(voter, snapshot)`
+- **PROTOCOL level**: Calls `_getProtocolVotingPower(voter, VoterGroup(contextId), snapshot)`
+
+**Validation**:
+- Invalid `GovernanceLevel` enum value → reverts with `InvalidGovernanceLevel()`
+- Invalid `VoterGroup` enum value (for PROTOCOL level) → reverts with `InvalidVoterGroup()`
+
+## Voting Power Calculation Details
+
+### Fund-Level Voting Power
+
+**Formula**: `(voterShares * 1e18) / totalShares`
+
+**Calculation**:
+1. Get vault address for the fund from `fundRegistry.getFundMetadata(fundId)`
+2. If `snapshot == 0`:
+   - `voterShares = fundVault.getShares(voter)`
+   - `totalShares = fundVault.totalShares()`
+3. If `snapshot > 0`:
+   - `voterShares = fundVault.balanceOfAt(voter, fundId, snapshot)`
+   - `totalShares = fundVault.totalSharesAt(fundId, snapshot)`
+4. If `voterShares == 0` or `totalShares == 0`, return `0`
+5. Return `(voterShares * 1e18) / totalShares` (percentage with 18 decimals)
+
+**Returns**: Voting power as percentage (18 decimals, e.g., `1e18` = 100%)
+
+### FM-Level Voting Power
+
+**Formula**: `(AUM * 60 / 100) + (AUM * reputation * 40 / 10000)`
+
+**Calculation**:
+1. Get total AUM managed at snapshot: `totalAUM = fundRegistry.getTotalAUMAt(voter, snapshot)`
+2. If `totalAUM == 0`, return `0`
+3. Get reputation score (0-100): `reputation = fmRegistry.getScore(voter)`
+4. Calculate AUM component: `aumComponent = (totalAUM * 60) / 100` (60% weight)
+5. Calculate reputation component: `repComponent = (totalAUM * reputation * 40) / 10000` (40% weight)
+6. Return `aumComponent + repComponent`
+
+**Returns**: Voting power in AUM units (same precision as AUM, typically 6 decimals for USD)
+
+### Protocol-Level Voting Power
+
+**Formula**: `TOSS_Staked × (1 + LockBonus) × RoleMultiplier`
+
+**Calculation**:
+1. Get staked TOSS at snapshot:
+   - If `snapshot == 0`: `stakedTOSS = staking.getStake(voter)`
+   - If `snapshot > 0`: `stakedTOSS = staking.balanceOfAt(voter, snapshot)`
+2. If `stakedTOSS == 0`, return `0`
+3. Get lock bonus: `lockBonus = _getLockBonus(voter)` (0-2.0x as 18 decimals)
+4. Get role multiplier: `roleMultiplier = _getRoleMultiplier(voter, group)` (18 decimals)
+5. Calculate: `votingPower = (stakedTOSS * (1e18 + lockBonus) * roleMultiplier) / (1e18 * 1e18)`
+
+**Returns**: Voting power in TOSS units (18 decimals)
+
+#### Lock Bonus Calculation
+
+**Formula**: Based on lock duration remaining
+
+**Lock Bonus Table**:
+| Lock Duration | Bonus | Multiplier | Value (18 decimals) |
+|---------------|-------|------------|---------------------|
+| None or expired | 0% | 1.0x | `0` |
+| < 90 days | 0% | 1.0x | `0` |
+| 90-180 days | 50% | 1.5x | `5 * 1e17` (0.5x) |
+| 180-365 days | 100% | 2.0x | `1 * 1e18` (1.0x) |
+| 365-730 days | 150% | 2.5x | `15 * 1e17` (1.5x) |
+| 730+ days | 200% | 3.0x | `2 * 1e18` (2.0x) |
+
+**Calculation**:
+1. Get lock end time: `lockEndTime = staking.lockEnd(voter)`
+2. If `lockEndTime == 0` or `lockEndTime <= block.timestamp`, return `0`
+3. Calculate remaining duration: `lockDuration = lockEndTime - block.timestamp`
+4. Apply bonus based on duration ranges above
+
+#### Role Multiplier Calculation
+
+**Formula**: Based on `VoterGroup` and investor class
+
+**Role Multiplier Table**:
+| VoterGroup | Condition | Multiplier | Value (18 decimals) |
+|------------|-----------|------------|----------------------|
+| FM_ONLY | Always | 1.5x | `15 * 1e17` |
+| INVESTOR_ONLY | Strategic | 2.0x | `20 * 1e17` |
+| INVESTOR_ONLY | Institutional | 1.5x | `15 * 1e17` |
+| INVESTOR_ONLY | Premium | 1.2x | `12 * 1e17` |
+| INVESTOR_ONLY | Retail | 1.0x | `10 * 1e17` |
+| BOTH | Is FM | 1.5x | `15 * 1e17` |
+| BOTH | Strategic (not FM) | 2.0x | `20 * 1e17` |
+| BOTH | Institutional (not FM) | 1.3x | `13 * 1e17` |
+| BOTH | Others (not FM) | 1.0x | `10 * 1e17` |
+| GUARDIAN_ONLY | Always | 1.0x | `10 * 1e17` |
+
+**Calculation**:
+1. For `FM_ONLY`: Return `15 * 1e17` (1.5x)
+2. For `INVESTOR_ONLY`: Get investor class from `investorRegistry.getInvestorClass(voter)` and return multiplier based on class
+3. For `BOTH`: 
+   - If `fundRegistry.isActiveFM(voter)`, return `15 * 1e17` (1.5x)
+   - Otherwise, get investor class and return multiplier (Strategic: 2.0x, Institutional: 1.3x, others: 1.0x)
+4. For `GUARDIAN_ONLY`: Return `10 * 1e17` (1.0x)
+
+## Snapshot Handling
+
+All voting power calculations support snapshot-based queries to prevent manipulation:
+
+- **Current State**: Pass `snapshot = 0` to get current voting power
+- **Historical State**: Pass `snapshot > 0` to get voting power at a specific snapshot/block
+- **Snapshot Sources**:
+  - Fund-level: Uses `fundVault.balanceOfAt()` and `fundVault.totalSharesAt()`
+  - FM-level: Uses `fundRegistry.getTotalAUMAt()`
+  - Protocol-level: Uses `staking.balanceOfAt()`
+
+**Security**: Snapshots prevent flash loan attacks and ensure voting power is calculated from historical state at proposal creation time.
 
 ## Test Scenarios
 

@@ -68,6 +68,7 @@ function calculateDrawdown(
 **Purpose**: Calculate current drawdown percentage
 
 **Parameters**:
+
 - `currentNAV`: Current NAV value (same units as highWaterMark)
 - `highWaterMark`: High water mark value (peak NAV)
 
@@ -80,6 +81,7 @@ drawdown = ((highWaterMark - currentNAV) / highWaterMark) × 100
 ```
 
 **Notes**:
+
 - Returns 0 if `currentNAV >= highWaterMark` (no decline)
 - Reverts with `InvalidHighWaterMark` if `highWaterMark` is zero
 
@@ -95,6 +97,7 @@ function calculateSharpeRatio(
 **Purpose**: Calculate risk-adjusted return
 
 **Parameters**:
+
 - `returns`: Array of period returns (basis points)
 - `riskFreeRate`: Risk-free rate in basis points (e.g., 200 = 2%)
 
@@ -107,6 +110,7 @@ sharpe = (avgReturn - riskFreeRate) / stdDev
 ```
 
 **Notes**:
+
 - Returns 0 if standard deviation is 0 (division by zero protection)
 - Returns 0 if only one return value provided (need at least 2 for stdDev)
 - Negative values indicate returns below risk-free rate
@@ -339,23 +343,23 @@ uint256 positionSizeByRisk = RiskMathLib.calculatePositionSizeByRisk(
 
 ### Integration Tests
 
-| Test Name                        | Scenario                                                 | Expected Result                                                  |
-| -------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------- |
-| RiskEngine uses calculations     | RiskEngine uses RiskMathLib for FI and risk calculations | Calculations used correctly, results accurate                    |
-| FundRiskDomain uses volatility   | FundRiskDomain calculates volatility for risk assessment | Volatility calculated correctly, used for risk validation        |
-| Drawdown tracking integration    | Drawdown calculated from NAV series for risk monitoring  | Drawdown tracked correctly, used for risk warnings               |
-| Correlation analysis integration | Correlation calculated for portfolio risk assessment     | Correlation analysis accurate, portfolio risk assessed correctly |
-| Position size calculation integration | Position size calculated for trade validation | Position size calculated correctly, used for PSL validation |
+| Test Name                             | Scenario                                                 | Expected Result                                                  |
+| ------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------- |
+| RiskEngine uses calculations          | RiskEngine uses RiskMathLib for FI and risk calculations | Calculations used correctly, results accurate                    |
+| FundRiskDomain uses volatility        | FundRiskDomain calculates volatility for risk assessment | Volatility calculated correctly, used for risk validation        |
+| Drawdown tracking integration         | Drawdown calculated from NAV series for risk monitoring  | Drawdown tracked correctly, used for risk warnings               |
+| Correlation analysis integration      | Correlation calculated for portfolio risk assessment     | Correlation analysis accurate, portfolio risk assessed correctly |
+| Position size calculation integration | Position size calculated for trade validation            | Position size calculated correctly, used for PSL validation      |
 
 ### Gas Optimization Tests
 
-| Test Name                   | Scenario                                      | Expected Result                                            |
-| --------------------------- | --------------------------------------------- | ---------------------------------------------------------- |
-| Volatility calculation gas  | Calculate volatility from returns array       | Gas usage reasonable for calculation                       |
-| Drawdown calculation gas    | Calculate drawdown from NAV series            | Gas usage reasonable for calculation                       |
-| Correlation calculation gas | Calculate correlation between return series   | Gas usage reasonable for calculation                       |
-| Position size calculation gas | Calculate position size from NAV and limits | Gas usage reasonable for calculation |
-| Library function gas        | Multiple library functions called in sequence | Each function uses similar gas, no gas accumulation issues |
+| Test Name                     | Scenario                                      | Expected Result                                            |
+| ----------------------------- | --------------------------------------------- | ---------------------------------------------------------- |
+| Volatility calculation gas    | Calculate volatility from returns array       | Gas usage reasonable for calculation                       |
+| Drawdown calculation gas      | Calculate drawdown from NAV series            | Gas usage reasonable for calculation                       |
+| Correlation calculation gas   | Calculate correlation between return series   | Gas usage reasonable for calculation                       |
+| Position size calculation gas | Calculate position size from NAV and limits   | Gas usage reasonable for calculation                       |
+| Library function gas          | Multiple library functions called in sequence | Each function uses similar gas, no gas accumulation issues |
 
 ---
 

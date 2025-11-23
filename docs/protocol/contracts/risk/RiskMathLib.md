@@ -11,6 +11,28 @@ Solidity library providing mathematical functions for risk calculations, volatil
 - Calculate Value at Risk (VaR)
 - Sharpe ratio calculations
 - Drawdown computations
+- Position size calculations based on risk parameters
+
+## Constants
+
+The library uses the following constants:
+
+- `BASIS_POINTS = 10000`: Used for percentage calculations (10000 = 100%)
+- `PRECISION = 1e18`: Used for high-precision calculations (e.g., square root operations)
+
+## Custom Errors
+
+The library defines the following custom errors:
+
+- `EmptyArray()`: Thrown when an empty array is provided
+- `InvalidPeriods()`: Thrown when periods parameter is zero or invalid
+- `InvalidHighWaterMark()`: Thrown when high water mark is zero
+- `ArrayLengthMismatch()`: Thrown when two arrays have different lengths
+- `InvalidConfidenceLevel()`: Thrown when confidence level is outside valid range (0-10000)
+- `DivisionByZero()`: Thrown when division by zero would occur
+- `InvalidNAV()`: Thrown when NAV is zero or invalid
+- `InvalidMaxPositionSize()`: Thrown when max position size is zero or exceeds 100%
+- `InvalidStopLoss()`: Thrown when stop loss is zero or exceeds 100%
 
 ## Functions
 
@@ -27,8 +49,8 @@ function calculateVolatility(
 
 **Parameters**:
 
-- `returns`: Array of period returns
-- `periods`: Number of periods per year
+- `returns`: Array of period returns (basis points, where 10000 = 100% = no change)
+- `periods`: Number of periods per year (e.g., 365 for daily, 12 for monthly, 52 for weekly)
 
 **Returns**: Annualized volatility (basis points)
 
@@ -45,11 +67,21 @@ function calculateDrawdown(
 
 **Purpose**: Calculate current drawdown percentage
 
+**Parameters**:
+- `currentNAV`: Current NAV value (same units as highWaterMark)
+- `highWaterMark`: High water mark value (peak NAV)
+
+**Returns**: Drawdown percentage in basis points (0-10000, where 10000 = 100%)
+
 **Formula**:
 
 ```
 drawdown = ((highWaterMark - currentNAV) / highWaterMark) × 100
 ```
+
+**Notes**:
+- Returns 0 if `currentNAV >= highWaterMark` (no decline)
+- Reverts with `InvalidHighWaterMark` if `highWaterMark` is zero
 
 ### `calculateSharpeRatio`
 
@@ -62,11 +94,22 @@ function calculateSharpeRatio(
 
 **Purpose**: Calculate risk-adjusted return
 
+**Parameters**:
+- `returns`: Array of period returns (basis points)
+- `riskFreeRate`: Risk-free rate in basis points (e.g., 200 = 2%)
+
+**Returns**: Sharpe ratio as signed integer (can be negative)
+
 **Formula**:
 
 ```
 sharpe = (avgReturn - riskFreeRate) / stdDev
 ```
+
+**Notes**:
+- Returns 0 if standard deviation is 0 (division by zero protection)
+- Returns 0 if only one return value provided (need at least 2 for stdDev)
+- Negative values indicate returns below risk-free rate
 
 ### `calculateCorrelation`
 
@@ -270,6 +313,8 @@ uint256 positionSizeByRisk = RiskMathLib.calculatePositionSizeByRisk(
 | Calculate with overflow values                        | Attempt to calculate with values that cause overflow                 | Transaction reverts with overflow error or handles gracefully |
 | Calculate with mismatched arrays                      | Attempt to calculate correlation with different array lengths        | Transaction reverts with "ArrayLengthMismatch" error          |
 | Calculate with invalid confidence level               | Attempt to calculate VaR with confidence level > 100%                | Transaction reverts with "InvalidConfidenceLevel" error       |
+| Calculate with zero high water mark                   | Attempt to calculate drawdown with zero high water mark              | Transaction reverts with "InvalidHighWaterMark" error         |
+| Calculate with division by zero                       | Attempt to calculate with values that cause division by zero         | Transaction reverts with "DivisionByZero" error or returns 0  |
 | Calculate position size with zero NAV                 | Attempt to calculate position size with zero NAV                     | Transaction reverts with "InvalidNAV" error                   |
 | Calculate position size with zero max position size   | Attempt to calculate position size with zero max position size       | Transaction reverts with "InvalidMaxPositionSize" error       |
 | Calculate position size with max position size > 100% | Attempt to calculate position size with max position size above 100% | Transaction reverts with "InvalidMaxPositionSize" error       |
@@ -300,6 +345,7 @@ uint256 positionSizeByRisk = RiskMathLib.calculatePositionSizeByRisk(
 | FundRiskDomain uses volatility   | FundRiskDomain calculates volatility for risk assessment | Volatility calculated correctly, used for risk validation        |
 | Drawdown tracking integration    | Drawdown calculated from NAV series for risk monitoring  | Drawdown tracked correctly, used for risk warnings               |
 | Correlation analysis integration | Correlation calculated for portfolio risk assessment     | Correlation analysis accurate, portfolio risk assessed correctly |
+| Position size calculation integration | Position size calculated for trade validation | Position size calculated correctly, used for PSL validation |
 
 ### Gas Optimization Tests
 
@@ -308,6 +354,7 @@ uint256 positionSizeByRisk = RiskMathLib.calculatePositionSizeByRisk(
 | Volatility calculation gas  | Calculate volatility from returns array       | Gas usage reasonable for calculation                       |
 | Drawdown calculation gas    | Calculate drawdown from NAV series            | Gas usage reasonable for calculation                       |
 | Correlation calculation gas | Calculate correlation between return series   | Gas usage reasonable for calculation                       |
+| Position size calculation gas | Calculate position size from NAV and limits | Gas usage reasonable for calculation |
 | Library function gas        | Multiple library functions called in sequence | Each function uses similar gas, no gas accumulation issues |
 
 ---

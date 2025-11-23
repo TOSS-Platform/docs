@@ -65,6 +65,73 @@ function calculateSharpeRatio(
 sharpe = (avgReturn - riskFreeRate) / stdDev
 ```
 
+### `calculateCorrelation`
+
+```solidity
+function calculateCorrelation(
+    uint256[] memory returns1,
+    uint256[] memory returns2
+) internal pure returns (int256 correlation)
+```
+
+**Purpose**: Calculate Pearson correlation coefficient between two return series
+
+**Parameters**:
+- `returns1`: First return series (basis points)
+- `returns2`: Second return series (basis points)
+
+**Returns**: Correlation coefficient in basis points (-10000 to +10000, where -10000 = -1.0, +10000 = +1.0)
+
+**Formula**: Pearson correlation coefficient
+```
+correlation = covariance(returns1, returns2) / (stdDev1 × stdDev2)
+```
+
+**Notes**:
+- Both arrays must have the same length
+- Returns 0 if either standard deviation is 0 (division by zero protection)
+- Returns BASIS_POINTS (10000) for single point (perfect correlation)
+
+### `calculateVaR`
+
+```solidity
+function calculateVaR(
+    uint256[] memory returns,
+    uint256 confidenceLevel
+) internal pure returns (uint256 varValue)
+```
+
+**Purpose**: Calculate Value at Risk (VaR) at specified confidence level
+
+**Parameters**:
+- `returns`: Array of period returns (basis points)
+- `confidenceLevel`: Confidence level in basis points (e.g., 9500 = 95%)
+
+**Returns**: Value at Risk in basis points (potential loss percentage)
+
+**Formula**: Historical VaR method
+- Sorts returns in ascending order
+- Finds percentile based on confidence level
+- Returns absolute value of negative return (loss)
+
+**Notes**:
+- Uses historical VaR method (sorts returns and finds percentile)
+- For 95% confidence, finds 5th percentile (worst 5% of returns)
+- Returns 0 if all returns are positive (no loss expected)
+- Confidence level must be between 1 and 10000 (0.01% to 100%)
+
+## Usage
+
+All functions are `internal pure` and must be used via `using` statement:
+
+```solidity
+using RiskMathLib for uint256[];
+
+// Example usage
+uint256[] memory returns = [10000, 10500, 9800, 10200];
+uint256 volatility = RiskMathLib.calculateVolatility(returns, 365);
+```
+
 ## Test Scenarios
 
 ### Happy Path Tests
@@ -76,7 +143,6 @@ sharpe = (avgReturn - riskFreeRate) / stdDev
 | Calculate correlation | Calculate correlation between two asset returns | Correlation coefficient calculated correctly, range -1 to +1 |
 | Calculate VaR (Value at Risk) | Calculate Value at Risk at specific confidence level | VaR calculated correctly, represents potential loss at confidence level |
 | Calculate Sharpe ratio | Calculate Sharpe ratio from returns and risk-free rate | Sharpe ratio calculated correctly, risk-adjusted return metric accurate |
-| Calculate position size | Calculate optimal position size based on risk parameters | Position size calculated correctly using risk formulas, respects limits |
 
 ### Edge Cases
 
@@ -96,9 +162,11 @@ sharpe = (avgReturn - riskFreeRate) / stdDev
 | Test Name | Scenario | Expected Result |
 |-----------|----------|-----------------|
 | Calculate with empty array | Attempt to calculate volatility with empty returns array | Transaction reverts with "Empty array" error |
-| Calculate with invalid time period | Attempt to calculate with invalid annualization period | Transaction reverts with validation error |
-| Calculate with negative time period | Attempt to calculate with negative time period | Transaction reverts with "Invalid time period" error |
+| Calculate with invalid time period | Attempt to calculate with invalid annualization period | Transaction reverts with "InvalidPeriods" error |
+| Calculate with zero periods | Attempt to calculate with zero periods | Transaction reverts with "InvalidPeriods" error |
 | Calculate with overflow values | Attempt to calculate with values that cause overflow | Transaction reverts with overflow error or handles gracefully |
+| Calculate with mismatched arrays | Attempt to calculate correlation with different array lengths | Transaction reverts with "ArrayLengthMismatch" error |
+| Calculate with invalid confidence level | Attempt to calculate VaR with confidence level > 100% | Transaction reverts with "InvalidConfidenceLevel" error |
 
 ### Security Tests
 
@@ -113,8 +181,8 @@ sharpe = (avgReturn - riskFreeRate) / stdDev
 
 | Test Name | Scenario | Expected Result |
 |-----------|----------|-----------------|
-| Use library functions by any contract | Any contract calls RiskMathLib functions | Functions are public, any contract can use |
-| Query functions by any address | Any address queries calculation results | Queries succeed, functions are public |
+| Use library functions by any contract | Any contract uses RiskMathLib functions via `using` statement | Functions are internal pure, any contract can use via `using RiskMathLib for uint256[]` |
+| Query functions by any address | Any address queries calculation results | Queries succeed, functions are internal pure and accessible via library usage |
 
 ### Integration Tests
 

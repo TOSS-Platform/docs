@@ -208,7 +208,7 @@ function getMaxManagementFee(uint256 tier) external view returns (uint256)
 **Returns**: maxManagementFee in basis points
 
 **Validations**:
-- `tier` must be <= 3
+- `tier` must be &lt;= 3
 
 **Called By**: FundConfig
 
@@ -226,7 +226,7 @@ function getMaxPerformanceFee(uint256 tier) external view returns (uint256)
 **Returns**: maxPerformanceFee in basis points
 
 **Validations**:
-- `tier` must be <= 3
+- `tier` must be &lt;= 3
 
 **Called By**: FundConfig
 

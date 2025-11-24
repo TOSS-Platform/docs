@@ -2,15 +2,65 @@
 
 ## Overview
 
-Compliance screening contract that checks addresses against sanctions lists, implements transaction limits, and flags suspicious activity.
+Compliance screening contract that checks addresses against sanctions lists, implements transaction limits, and flags suspicious activity. Uses ReentrancyGuard for security.
 
 ## Purpose
 
 - Screen against OFAC/sanctions lists
-- Implement transaction limits
 - Detect suspicious patterns
 - Enable compliance reporting
-- Jurisdictional restrictions
+
+**Note**: Transaction limits and jurisdictional restrictions are planned for future implementation.
+
+## Inheritance
+
+- `ReentrancyGuard`: OpenZeppelin's ReentrancyGuard for protection against reentrancy attacks
+- `IAMLGuard`: Implements the AMLGuard interface
+
+## Constructor
+
+```solidity
+constructor(
+    address _governance,
+    address _guardianCommittee
+)
+```
+
+**Purpose**: Initialize AMLGuard contract
+
+**Parameters**:
+
+- `_governance`: Governance address (cannot be zero address)
+- `_guardianCommittee`: Guardian committee contract address (cannot be zero address)
+
+**Reverts**: If any parameter is zero address (`InvalidAddress`)
+
+## Constants
+
+```solidity
+string private constant REASON_SANCTIONED = "Address is on sanctions list";
+string private constant REASON_CLEAN = "Address is clean";
+```
+
+Used for consistent reason messages in address checks.
+
+## State Variables
+
+```solidity
+mapping(address => bool) public sanctionedAddresses;  // Addresses on sanctions list
+
+struct SuspiciousReport {
+    address reporter;
+    string reason;
+    uint256 timestamp;
+}
+
+mapping(address => SuspiciousReport) public suspiciousReports;  // Suspicious activity reports
+
+// Access Control
+address public governance;
+IGuardianCommittee public guardianCommittee;
+```
 
 ## Functions
 
@@ -24,9 +74,116 @@ function checkAddress(
 
 **Purpose**: Check if address is sanctioned
 
+**Parameters**:
+
+- `addr`: Address to check
+
 **Returns**:
-- `allowed`: Whether address can interact
-- `reason`: Reason if blocked
+
+- `allowed`: Whether address can interact (true if clean, false if sanctioned)
+- `reason`: Reason if blocked ("Address is on sanctions list" or "Address is clean")
+
+**Note**: This is a view function, so events cannot be emitted. The `AddressChecked` event is defined in the interface for potential future use or for contracts that wrap this function in a state-changing function.
+
+### `addToSanctions`
+
+```solidity
+function addToSanctions(address addr) external onlyGovernance
+```
+
+**Purpose**: Add address to sanctions list
+
+**Parameters**:
+
+- `addr`: Address to sanction (cannot be zero address)
+
+**Access Control**: Only Governance
+
+**Reverts**:
+
+- If `addr` is zero address (`InvalidAddress`)
+- If address is already sanctioned (`AlreadySanctioned`)
+- If caller is not governance (`NotGovernance`)
+
+**Events**: Emits `AddressSanctioned` event
+
+### `removeFromSanctions`
+
+```solidity
+function removeFromSanctions(address addr) external onlyGovernance
+```
+
+**Purpose**: Remove address from sanctions list
+
+**Parameters**:
+
+- `addr`: Address to unsanction (cannot be zero address)
+
+**Access Control**: Only Governance
+
+**Reverts**:
+
+- If `addr` is zero address (`InvalidAddress`)
+- If address is not sanctioned (`NotSanctioned`)
+- If caller is not governance (`NotGovernance`)
+
+**Events**: Emits `AddressUnsanctioned` event
+
+### `batchCheckAddresses`
+
+```solidity
+function batchCheckAddresses(
+    address[] calldata addresses
+) external view returns (bool[] memory allowed, string[] memory reasons)
+```
+
+**Purpose**: Batch check multiple addresses for sanctions
+
+**Parameters**:
+
+- `addresses`: Array of addresses to check
+
+**Returns**:
+
+- `allowed`: Array of allowed statuses (true if clean, false if sanctioned)
+- `reasons`: Array of reasons for each address
+
+**Gas Optimization**: More efficient than calling `checkAddress` multiple times
+
+### `isSanctioned`
+
+```solidity
+function isSanctioned(address addr) external view returns (bool)
+```
+
+**Purpose**: Query whether address is on sanctions list
+
+**Parameters**:
+
+- `addr`: Address to query
+
+**Returns**: `true` if address is sanctioned, `false` otherwise
+
+### `getSuspiciousReport`
+
+```solidity
+function getSuspiciousReport(
+    address addr
+) external view returns (SuspiciousReport memory report)
+```
+
+**Purpose**: Get suspicious report for an address
+
+**Parameters**:
+
+- `addr`: Address to query
+
+**Returns**: `SuspiciousReport` struct containing:
+- `reporter`: Address that reported the suspicious activity
+- `reason`: Reason for the report
+- `timestamp`: Timestamp when the report was made
+
+**Note**: Returns empty struct (zero values) if no report exists for the address
 
 ### `reportSuspicious`
 
@@ -39,13 +196,219 @@ function reportSuspicious(
 
 **Purpose**: Flag address for review
 
+**Parameters**:
+
+- `addr`: Address to flag (cannot be zero address)
+- `reason`: Reason for flagging (cannot be empty)
+
+**Access Control**: Only Guardian (via GuardianCommittee)
+
+**Reverts**:
+
+- If `addr` is zero address (`InvalidAddress`)
+- If `reason` is empty (`EmptyReason`)
+- If caller is not a guardian (`NotGuardian`)
+
+**Events**: Emits `SuspiciousAddressReported` event
+
+**Note**: Multiple reports for the same address will overwrite the previous report
+
+### Administrative Functions
+
+#### `setGovernance`
+
+```solidity
+function setGovernance(address newGovernance) external onlyGovernance
+```
+
+**Purpose**: Update governance address
+
+**Parameters**:
+
+- `newGovernance`: New governance address (cannot be zero address)
+
+**Access Control**: Only Governance
+
+**Reverts**: If `newGovernance` is zero address (`InvalidAddress`)
+
+**Events**: Emits `GovernanceUpdated` event
+
+#### `setGuardianCommittee`
+
+```solidity
+function setGuardianCommittee(address newGuardianCommittee) external onlyGovernance
+```
+
+**Purpose**: Update guardian committee address
+
+**Parameters**:
+
+- `newGuardianCommittee`: New guardian committee contract address (cannot be zero address)
+
+**Access Control**: Only Governance
+
+**Reverts**: If `newGuardianCommittee` is zero address (`InvalidAddress`)
+
+**Events**: Emits `GuardianCommitteeUpdated` event
+
+## Events
+
+### `AddressChecked`
+
+```solidity
+event AddressChecked(
+    address indexed addr,
+    bool allowed,
+    string reason
+);
+```
+
+**Note**: This event is defined in the interface but cannot be emitted by `checkAddress` since it is a view function. It may be used by contracts that wrap `checkAddress` in a state-changing function.
+
+### `AddressSanctioned`
+
+```solidity
+event AddressSanctioned(
+    address indexed addr,
+    address indexed by,
+    uint256 timestamp
+);
+```
+
+Emitted when an address is added to the sanctions list.
+
+### `AddressUnsanctioned`
+
+```solidity
+event AddressUnsanctioned(
+    address indexed addr,
+    address indexed by,
+    uint256 timestamp
+);
+```
+
+Emitted when an address is removed from the sanctions list.
+
+### `SuspiciousAddressReported`
+
+```solidity
+event SuspiciousAddressReported(
+    address indexed addr,
+    string reason,
+    address indexed reporter,
+    uint256 timestamp
+);
+```
+
+Emitted when a guardian reports a suspicious address.
+
+### `GovernanceUpdated`
+
+```solidity
+event GovernanceUpdated(
+    address indexed oldGovernance,
+    address indexed newGovernance
+);
+```
+
+Emitted when the governance address is updated.
+
+### `GuardianCommitteeUpdated`
+
+```solidity
+event GuardianCommitteeUpdated(
+    address indexed oldGuardianCommittee,
+    address indexed newGuardianCommittee
+);
+```
+
+Emitted when the guardian committee address is updated.
+
+## Custom Errors
+
+### `NotGovernance`
+
+```solidity
+error NotGovernance();
+```
+
+Reverted when a function requiring governance access is called by a non-governance address.
+
+### `NotGuardian`
+
+```solidity
+error NotGuardian();
+```
+
+Reverted when a function requiring guardian access is called by a non-guardian address.
+
+### `InvalidAddress`
+
+```solidity
+error InvalidAddress();
+```
+
+Reverted when a zero address is provided where a valid address is required.
+
+### `AlreadySanctioned`
+
+```solidity
+error AlreadySanctioned();
+```
+
+Reverted when attempting to add an address that is already on the sanctions list.
+
+### `NotSanctioned`
+
+```solidity
+error NotSanctioned();
+```
+
+Reverted when attempting to remove an address that is not on the sanctions list.
+
+### `EmptyReason`
+
+```solidity
+error EmptyReason();
+```
+
+Reverted when an empty reason string is provided to `reportSuspicious`.
+
+## Access Control
+
+### Roles
+
+| Role | Addresses | Permissions |
+|------|-----------|-------------|
+| **Governance** | DAO | Add/remove sanctions, update governance and guardian committee |
+| **Guardian** | Guardian Committee Members | Report suspicious addresses |
+
+### Modifiers
+
+- `onlyGovernance`: Ensures caller is the governance address
+- `onlyGuardian`: Ensures caller is a member of the guardian committee (via `IGuardianCommittee.isMember()`)
+
+### Permission Matrix
+
+| Function | Anyone | Governance | Guardian |
+|----------|--------|------------|----------|
+| `checkAddress` | ✅ | ✅ | ✅ |
+| `batchCheckAddresses` | ✅ | ✅ | ✅ |
+| `isSanctioned` | ✅ | ✅ | ✅ |
+| `getSuspiciousReport` | ✅ | ✅ | ✅ |
+| `addToSanctions` | ❌ | ✅ | ❌ |
+| `removeFromSanctions` | ❌ | ✅ | ❌ |
+| `reportSuspicious` | ❌ | ❌ | ✅ |
+| `setGovernance` | ❌ | ✅ | ❌ |
+| `setGuardianCommittee` | ❌ | ✅ | ❌ |
+
 ## Test Scenarios
 
 ### Happy Path Tests
 
 | Test Name | Scenario | Expected Result |
 |-----------|----------|-----------------|
-| Check clean address | AMLGuard checks address not on sanctions list | Check passes, address allowed, AddressChecked event emitted |
+| Check clean address | AMLGuard checks address not on sanctions list | Check passes, address allowed (note: AddressChecked event cannot be emitted in view functions) |
 | Add address to sanctions | Governance adds address to sanctions list | Address added, AddressSanctioned event emitted, future checks will block |
 | Remove address from sanctions | Governance removes address from sanctions list | Address removed, AddressUnsanctioned event emitted, address can operate |
 | Batch check addresses | Check multiple addresses for sanctions | All addresses checked, results returned, batch check efficient |
@@ -58,11 +421,11 @@ function reportSuspicious(
 
 | Test Name | Scenario | Expected Result |
 |-----------|----------|-----------------|
-| Check zero address | Check if zero address (address(0)) is sanctioned | Zero address handled correctly, may be blocked or allowed depending on implementation |
+| Check zero address | Check if zero address (address(0)) is sanctioned | Zero address is allowed (returns true, "Address is clean"). Cannot be added to sanctions (reverts with `InvalidAddress`) |
 | Check contract address | Check if contract address is on sanctions list | Contract addresses handled correctly, sanctions apply equally |
-| Add duplicate address | Attempt to add address already on sanctions list | Transaction may succeed (no-op) or revert depending on implementation |
-| Remove non-sanctioned address | Attempt to remove address not on sanctions list | Transaction may succeed (no-op) or revert depending on implementation |
-| Query non-existent address | Query sanctions status for address never checked | Returns false (not sanctioned) or reverts depending on implementation |
+| Add duplicate address | Attempt to add address already on sanctions list | Transaction reverts with `AlreadySanctioned` error |
+| Remove non-sanctioned address | Attempt to remove address not on sanctions list | Transaction reverts with `NotSanctioned` error |
+| Query non-existent address | Query sanctions status for address never checked | Returns false (not sanctioned) |
 | Batch check with all clean | Check multiple addresses, all clean | All checks pass, batch check efficient |
 | Batch check with all sanctioned | Check multiple addresses, all sanctioned | All checks fail, batch check efficient |
 | Batch check with mixed | Check multiple addresses, some sanctioned, some clean | Sanctioned addresses identified, clean addresses allowed |

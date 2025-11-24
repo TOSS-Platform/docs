@@ -2,7 +2,7 @@
 
 ## Overview
 
-Governance system for Fund Managers to collectively manage their professional standards, stake requirements, and operational parameters. Voting power weighted by AUM + reputation.
+The `FMGovernance` contract is a crucial component of the TOSS Protocol's multi-level governance system. It enables Fund Managers (FMs) to collectively propose, vote on, and execute changes related to their professional standards, stake requirements, and operational parameters that affect the entire FM community. Voting power within `FMGovernance` is uniquely weighted by a combination of a Fund Manager's Assets Under Management (AUM) and their reputation score, ensuring that participants with significant "skin in the game" and a proven track record have a proportional influence.
 
 ## Purpose
 
@@ -19,7 +19,410 @@ Governance system for Fund Managers to collectively manage their professional st
 - ✅ Execute FM governance decisions
 - ✅ Track FM governance participation
 
-[Complete specifications in Governance Layer]
+## State Variables
+
+```solidity
+IFundRegistry public immutable fundRegistry;
+IFMRegistry public immutable fmRegistry;
+ISlashingEngine public immutable slashingEngine;
+IFundFactory public fundFactory; // Not immutable, can be set later
+IDAOConfigCore public daoConfig; // Not immutable, can be set later
+
+uint256 public proposalCount;
+mapping(uint256 => FMProposal) public fmProposals;
+mapping(uint256 => mapping(address => bool)) public hasVotedFM;
+```
+
+**Note**: `fundFactory` and `daoConfig` are not immutable and can be set after deployment using `setFundFactory()` and `setDAOConfig()` functions.
+
+## Constants
+
+```solidity
+uint256 public constant VOTING_DELAY = 3 days;        // 3 days discussion period (PROPOSAL_DISCUSSION_PERIOD)
+uint256 public constant VOTING_PERIOD = 7 days;      // 7 days voting period
+uint256 public constant GRACE_PERIOD = 14 days;       // 14 days grace period after timelock
+uint256 public constant MIN_FM_ACTIVE_DAYS = 30 days; // Must be active for 30 days
+uint256 public constant MIN_DAYS_SINCE_SLASH = 90 days; // 90 days since last slash
+```
+
+**Note**: Quorum and timelock delays are retrieved from `DAOConfigCore` via `getFMQuorum()` and `getFMTimelock()` functions, not hardcoded constants.
+
+## Proposal Types
+
+```solidity
+enum ProposalType {
+    FM_STAKE_REQUIREMENT,     // Change minimum FM stake
+    FUNDCLASS_TEMPLATE,       // Modify FundClass definition
+    RISKTIER_DEFINITION,      // Update RiskTier parameters
+    CERTIFICATION_STANDARD,   // FM certification requirements
+    DISPUTE_PROCEDURE,        // FM-to-FM dispute resolution
+    FEE_GUIDELINES,           // Recommended fee ranges
+    REPORTING_STANDARD        // Reporting requirements
+}
+```
+
+## Constructor
+
+```solidity
+constructor(
+    address _fundRegistry,
+    address _fmRegistry,
+    address _slashingEngine
+)
+```
+
+**Parameters**:
+- `_fundRegistry`: FundRegistry contract address
+- `_fmRegistry`: FMRegistry contract address
+- `_slashingEngine`: SlashingEngine contract address
+
+**Note**: `fundFactory` and `daoConfig` must be set after deployment using `setFundFactory()` and `setDAOConfig()` functions.
+
+## Setup Functions
+
+### `setFundFactory`
+
+```solidity
+function setFundFactory(address _fundFactory) external
+```
+
+**Purpose**: Set FundFactory address (can be set later)
+
+**Access Control**: Can be set once, or only by governance if already set
+
+### `setDAOConfig`
+
+```solidity
+function setDAOConfig(address _daoConfig) external
+```
+
+**Purpose**: Set DAOConfigCore address (can be set later)
+
+**Access Control**: Can be set once, or only by governance if already set
+
+## Functions
+
+### Proposal Creation
+
+#### `createProposal`
+
+```solidity
+function createProposal(
+    ProposalType proposalType,
+    bytes calldata proposalData,
+    string calldata title,
+    string calldata description
+) external onlyActiveFM returns (uint256 proposalId)
+```
+
+**Purpose**: Create FM-level proposal
+
+**Requirements**:
+- FM must be active (`fundRegistry.isActiveFM`)
+- FM must have at least one active fund
+- FM must be active for at least 30 days
+- FM must not have been slashed in last 90 days
+
+**Returns**: Proposal ID
+
+### Voting
+
+#### `castVote`
+
+```solidity
+function castVote(uint256 proposalId, uint8 support) external onlyActiveFM
+```
+
+**Purpose**: Cast vote on FM proposal
+
+**Parameters**:
+- `proposalId`: Proposal ID
+- `support`: 0=against, 1=for, 2=abstain
+
+**Voting Power**: Calculated as `VP = (AUM × 0.6) + (AUM × Reputation/100 × 0.4)`
+
+**Note**: Abstain votes (support == 2) are recorded but not counted in approval calculations. Only `forVotes` and `againstVotes` are used for approval threshold checks.
+
+### State Management
+
+#### `state`
+
+```solidity
+function state(uint256 proposalId) public view returns (ProposalState)
+```
+
+**Purpose**: Get current proposal state
+
+**State Transitions**:
+- PENDING → ACTIVE (voting starts)
+- ACTIVE → SUCCEEDED/DEFEATED (voting ends)
+- SUCCEEDED → QUEUED (queue called)
+- QUEUED → EXECUTED/EXPIRED (execute or expire)
+
+### Execution
+
+#### `queue`
+
+```solidity
+function queue(uint256 proposalId) external
+```
+
+**Purpose**: Queue approved proposal for execution
+
+**Requirements**:
+- Proposal state must be SUCCEEDED
+- Sets ETA based on proposal type timelock delay
+
+#### `execute`
+
+```solidity
+function execute(uint256 proposalId) external
+```
+
+**Purpose**: Execute queued proposal after timelock
+
+**Requirements**:
+- Proposal state must be QUEUED
+- Timelock must have passed
+- Must be within grace period
+
+#### `cancel`
+
+```solidity
+function cancel(uint256 proposalId) external
+```
+
+**Purpose**: Cancel proposal (proposer or governance only)
+
+**Access Control**: Only proposer or governance can cancel
+
+**Requirements**:
+- Proposal must not be executed
+- Only proposer or governance can cancel
+
+### View Functions
+
+#### `getProposal`
+
+```solidity
+function getProposal(uint256 proposalId) external view returns (FMProposal memory proposal)
+```
+
+**Purpose**: Get proposal details
+
+**Returns**: Complete FMProposal struct
+
+#### `getVotingPower`
+
+```solidity
+function getVotingPower(address fm, uint256 proposalId) external view returns (uint256 votingPower)
+```
+
+**Purpose**: Get FM's voting power on a proposal
+
+**Returns**: Voting power (AUM + reputation weighted)
+
+#### `hasVotedOnProposal`
+
+```solidity
+function hasVotedOnProposal(address fm, uint256 proposalId) external view returns (bool)
+```
+
+**Purpose**: Check if FM has voted on a proposal
+
+**Returns**: `true` if voted, `false` otherwise
+
+## Voting Power Calculation
+
+**Formula**: `VP = (AUM × 0.6) + (AUM × Reputation/100 × 0.4)`
+
+**Components**:
+- AUM: Total Assets Under Management from `fundRegistry.getTotalAUMAt(fm, snapshot)`
+- Reputation: Score from `fmRegistry.getScore(fm)` (0-100)
+
+**Examples**:
+- FM with $10M AUM, 80 reputation: `10M × (0.6 + 0.8 × 0.4) = 9.2M voting power`
+- FM with $5M AUM, 0 reputation: `5M × 0.6 = 3M voting power`
+- FM with $20M AUM, 100 reputation: `20M × (0.6 + 1.0 × 0.4) = 20M voting power`
+
+## Quorum and Approval Requirements
+
+**Quorum**: Hardcoded values based on proposal type
+- `FM_STAKE_REQUIREMENT`: 30%
+- `FUNDCLASS_TEMPLATE`: 25%
+- `RISKTIER_DEFINITION`: 30%
+- Default: 25%
+
+**Approval**: 60% weighted approval required for all proposal types
+
+**Note**: Quorum and approval thresholds are currently hardcoded in the contract. Future versions may retrieve these from `DAOConfigCore` for governance-controlled updates.
+
+## Timelock Delays
+
+**Delays**: Hardcoded values based on proposal type
+- `FM_STAKE_REQUIREMENT`: 7 days
+- `FUNDCLASS_TEMPLATE`: 5 days
+- `RISKTIER_DEFINITION`: 5 days
+- Default: 3 days
+
+**Note**: Timelock delays are currently hardcoded in the contract. Future versions may retrieve these from `DAOConfigCore` for governance-controlled updates.
+
+## Proposal Eligibility
+
+FM must meet all criteria to create proposals:
+1. Active FM (`fundRegistry.isActiveFM`)
+2. At least one active fund (`fundRegistry.getFundsManaged(fm).length > 0`)
+3. Active for 30+ days (`block.timestamp >= fundRegistry.fmActiveSince(fm) + MIN_FM_ACTIVE_DAYS`)
+4. No slash in last 90 days (`slashingEngine.daysSinceLastSlash(fm) >= MIN_DAYS_SINCE_SLASH`)
+
+## Custom Errors
+
+```solidity
+error NotActiveFM();
+error NotEligibleToPropose();
+error InvalidProposalData();
+error VotingNotStarted();
+error VotingEnded();
+error ProposalNotActive();
+error AlreadyVoted();
+error NoVotingPower();
+error InvalidSupport();
+error ProposalNotFound();
+error ProposalNotSucceeded();
+error ProposalNotQueued();
+error TimelockNotPassed();
+error ProposalExpired();
+error NotProposer();
+error InvalidAddress();
+error NotGovernance();
+```
+
+## Events
+
+```solidity
+event FMProposalCreated(
+    uint256 indexed proposalId,
+    address indexed proposer,
+    ProposalType proposalType,
+    string title
+);
+
+event FMVoteCast(
+    uint256 indexed proposalId,
+    address indexed voter,
+    uint8 support,              // 0=against, 1=for, 2=abstain
+    uint256 votingPower         // AUM + reputation weighted
+);
+
+event FMProposalQueued(
+    uint256 indexed proposalId,
+    uint256 eta
+);
+
+event FMProposalExecuted(
+    uint256 indexed proposalId,
+    address indexed executor
+);
+
+event FMProposalCanceled(
+    uint256 indexed proposalId,
+    address indexed canceler
+);
+```
+
+## Internal Functions
+
+### `_canFMPropose`
+
+```solidity
+function _canFMPropose(address fm) internal view returns (bool)
+```
+
+**Purpose**: Validate FM eligibility to propose
+
+**Checks**:
+- FM must be active
+- FM must have at least one fund
+- FM must be active for 30+ days
+- FM must not have been slashed in last 90 days
+
+### `_getFMVotingPower`
+
+```solidity
+function _getFMVotingPower(address fm, uint256 snapshot) internal view returns (uint256)
+```
+
+**Purpose**: Calculate FM voting power based on AUM and reputation at snapshot
+
+**Formula**: `VP = (AUM × 0.6) + (AUM × Reputation/100 × 0.4)`
+
+### `_getTotalFMVotingPower`
+
+```solidity
+function _getTotalFMVotingPower(uint256 snapshot) internal view returns (uint256)
+```
+
+**Purpose**: Get total FM voting power at a given snapshot
+
+**Returns**: Sum of all active FMs' voting power at snapshot
+
+### `_getRequiredQuorum`
+
+```solidity
+function _getRequiredQuorum(ProposalType proposalType) internal pure returns (uint256)
+```
+
+**Purpose**: Get required quorum for proposal type
+
+**Returns**: Hardcoded quorum percentage based on proposal type (25-30%)
+
+### `_getRequiredApproval`
+
+```solidity
+function _getRequiredApproval(ProposalType proposalType) internal pure returns (uint256)
+```
+
+**Purpose**: Get required approval threshold for proposal type
+
+**Returns**: Hardcoded approval percentage (60% for all types)
+
+### `_getTimelockDelay`
+
+```solidity
+function _getTimelockDelay(ProposalType proposalType) internal pure returns (uint256)
+```
+
+**Purpose**: Get timelock delay for proposal type
+
+**Returns**: Hardcoded timelock delay based on proposal type (3-7 days)
+
+### `_validateFMProposalData`
+
+```solidity
+function _validateFMProposalData(ProposalType proposalType, bytes calldata proposalData) internal pure
+```
+
+**Purpose**: Validate proposal data structure based on type
+
+**Validations**:
+- Proposal data must not be empty
+- Data length must match expected structure for proposal type
+
+### `_executeProposal`
+
+```solidity
+function _executeProposal(FMProposal storage proposal) internal
+```
+
+**Purpose**: Execute proposal based on type
+
+**Implementation**:
+- `FM_STAKE_REQUIREMENT`: Updates minimum FM stake via `fundFactory.setMinimumFMStake()`
+- `FUNDCLASS_TEMPLATE`: Placeholder - not implemented yet (reverts with `InvalidProposalData`)
+- `RISKTIER_DEFINITION`: Placeholder - not implemented yet (reverts with `InvalidProposalData`)
+- Other proposal types: Placeholder implementations (to be completed)
+
+[Complete specifications in Governance Layer](/protocol/contracts/governance-layer)
 
 ## Test Scenarios
 

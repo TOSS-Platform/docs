@@ -232,10 +232,13 @@ The contract includes a `receive()` payable function to allow direct ETH deposit
 | Fund paymaster | Governance funds paymaster with ETH | ETH transferred to paymaster, paymaster balance increased, PaymasterFunded event emitted |
 | Query vault balance | Query current ETH balance in GasVault | Balance returned correctly, amount accurate |
 | Query paymaster balance | Query current ETH balance of paymaster | Paymaster balance returned correctly, amount accurate |
+| Query gas usage | Query gas usage for a specific user | Gas usage returned correctly, amount accurate |
 | Withdraw from vault | Governance withdraws ETH from vault to treasury | ETH transferred to treasury, vault balance decreased, Withdrawal event emitted |
 | Fund multiple paymasters | Governance funds multiple paymasters | All paymasters funded correctly, balances updated independently |
-| Emergency withdrawal | Governance performs emergency withdrawal | ETH withdrawn to designated address, emergency procedures followed |
+| Emergency withdrawal | Governance performs emergency withdrawal | ETH withdrawn to designated address, EmergencyWithdrawal event emitted |
 | Set paymaster address | Governance sets or updates paymaster address | Paymaster address updated, future funding uses new address, PaymasterUpdated event emitted |
+| Set governance address | Governance updates governance address | Governance address updated, GovernanceUpdated event emitted |
+| Track gas usage | Paymaster tracks gas usage for user | Gas usage accumulated correctly, GasUsageTracked event emitted |
 | Fund paymaster with large amount | Governance funds paymaster with large ETH amount | Large amounts handled correctly, paymaster balance updated accurately |
 
 ### Edge Cases
@@ -246,6 +249,10 @@ The contract includes a `receive()` payable function to allow direct ETH deposit
 | Fund paymaster with maximum amount | Attempt to fund paymaster with max uint256 ETH | Maximum amounts handled correctly, balance updated accurately |
 | Query empty vault | Query vault balance when vault is empty | Returns zero balance, no error |
 | Query before funding | Query paymaster balance before any funding | Returns current paymaster balance (may be zero or pre-existing balance) |
+| Query gas usage for new user | Query gas usage for address that hasn't used gas | Returns zero, no error |
+| Query paymaster balance when not set | Query paymaster balance when paymaster is address(0) | Returns zero, no error |
+| Set paymaster multiple times | Governance updates paymaster address multiple times | Each update succeeds, PaymasterUpdated event emitted each time |
+| Track gas usage multiple times | Paymaster tracks gas usage for same user multiple times | Gas usage accumulates correctly, total matches sum |
 | Fund paymaster multiple times | Fund same paymaster multiple times | All funding transactions succeed, balance accumulates correctly |
 | Withdraw entire balance | Governance withdraws entire vault balance | All ETH withdrawn, vault balance becomes zero |
 | Fund paymaster after withdrawal | Fund paymaster after previous withdrawal | Funding succeeds, balance updated correctly |
@@ -260,10 +267,16 @@ The contract includes a `receive()` payable function to allow direct ETH deposit
 | Track gas usage from non-paymaster | Non-paymaster address attempts to track gas usage | Transaction reverts with `NotPaymaster()` error |
 | Set governance from non-authorized | Non-authorized address attempts to set governance | Transaction reverts with `NotGovernance()` error |
 | Emergency withdraw from non-authorized | Non-authorized address attempts emergency withdrawal | Transaction reverts with `NotGovernance()` error |
-| Fund invalid paymaster | Attempt to fund paymaster address(0) or invalid address | Transaction reverts with validation error |
-| Withdraw more than balance | Attempt to withdraw more ETH than vault balance | Transaction reverts with "Insufficient balance" error |
-| Fund paymaster with insufficient vault balance | Attempt to fund paymaster when vault has insufficient balance | Transaction reverts with "Insufficient balance" error |
-| Set invalid paymaster | Attempt to set paymaster to address(0) | Transaction reverts with validation error |
+| Fund paymaster when not set | Attempt to fund paymaster when paymaster is address(0) | Transaction reverts with `InvalidAddress()` error |
+| Withdraw more than balance | Attempt to withdraw more ETH than vault balance | Transaction reverts with `InsufficientBalance()` error |
+| Fund paymaster with insufficient vault balance | Attempt to fund paymaster when vault has insufficient balance | Transaction reverts with `InsufficientBalance()` error |
+| Set invalid paymaster | Attempt to set paymaster to address(0) | Transaction reverts with `InvalidAddress()` error |
+| Withdraw to zero address | Attempt to withdraw to address(0) | Transaction reverts with `InvalidAddress()` error |
+| Emergency withdraw to zero address | Attempt emergency withdrawal to address(0) | Transaction reverts with `InvalidAddress()` error |
+| Track gas usage for zero address | Attempt to track gas usage for address(0) | Transaction reverts with `InvalidAddress()` error |
+| Set governance to zero address | Attempt to set governance to address(0) | Transaction reverts with `InvalidAddress()` error |
+| Withdraw zero amount | Attempt to withdraw 0 ETH | Transaction reverts with `AmountMustBeGreaterThanZero()` error |
+| Emergency withdraw zero amount | Attempt emergency withdrawal of 0 ETH | Transaction reverts with `AmountMustBeGreaterThanZero()` error |
 
 ### Security Tests
 
@@ -282,12 +295,18 @@ The contract includes a `receive()` payable function to allow direct ETH deposit
 | Test Name | Scenario | Expected Result |
 |-----------|----------|-----------------|
 | Fund paymaster by governance | Governance funds paymaster | Transaction succeeds |
-| Fund paymaster by non-authorized | Non-authorized attempts to fund paymaster | Transaction reverts with "Not authorized" |
+| Fund paymaster by non-authorized | Non-authorized attempts to fund paymaster | Transaction reverts with `NotGovernance()` |
 | Withdraw by governance | Governance withdraws from vault | Transaction succeeds |
-| Withdraw by non-authorized | Non-authorized attempts to withdraw | Transaction reverts with "Not authorized" |
+| Withdraw by non-authorized | Non-authorized attempts to withdraw | Transaction reverts with `NotGovernance()` |
 | Set paymaster by governance | Governance sets paymaster address | Transaction succeeds |
-| Set paymaster by non-authorized | Non-authorized attempts to set paymaster | Transaction reverts with "Not authorized" |
-| Query functions by any address | Any address queries vault balance, paymaster balance | Queries succeed, read-only functions are public |
+| Set paymaster by non-authorized | Non-authorized attempts to set paymaster | Transaction reverts with `NotGovernance()` |
+| Track gas usage by paymaster | Paymaster tracks gas usage | Transaction succeeds |
+| Track gas usage by non-paymaster | Non-paymaster attempts to track gas usage | Transaction reverts with `NotPaymaster()` |
+| Set governance by governance | Governance updates governance address | Transaction succeeds |
+| Set governance by non-authorized | Non-authorized attempts to set governance | Transaction reverts with `NotGovernance()` |
+| Emergency withdraw by governance | Governance performs emergency withdrawal | Transaction succeeds |
+| Emergency withdraw by non-authorized | Non-authorized attempts emergency withdrawal | Transaction reverts with `NotGovernance()` |
+| Query functions by any address | Any address queries vault balance, paymaster balance, gas usage | Queries succeed, read-only functions are public |
 
 ### Integration Tests
 
@@ -307,7 +326,10 @@ The contract includes a `receive()` payable function to allow direct ETH deposit
 | Fund paymaster gas | Governance funds paymaster | Gas usage reasonable for funding operation |
 | Withdraw from vault gas | Governance withdraws from vault | Gas usage reasonable for withdrawal operation |
 | Set paymaster gas | Governance sets paymaster address | Gas usage reasonable for update operation |
-| Query operations gas | Multiple queries for vault balance, paymaster balance | View functions consume no gas (read-only) |
+| Query operations gas | Multiple queries for vault balance, paymaster balance, gas usage | View functions consume no gas (read-only) |
+| Track gas usage gas | Paymaster tracks gas usage for user | Gas usage reasonable for tracking operation |
+| Set governance gas | Governance updates governance address | Gas usage reasonable for update operation |
+| Emergency withdrawal gas | Governance performs emergency withdrawal | Gas usage reasonable for emergency operation |
 
 ---
 

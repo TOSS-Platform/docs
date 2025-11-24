@@ -91,7 +91,7 @@ function validate() external view returns (bool healthy, uint256 faultIndex)
 **Returns**:
 
 - `healthy`: Whether protocol is healthy
-- `faultIndex`: 0 if healthy, >0 if issues
+- `faultIndex`: 0 if healthy, &gt;0 if issues
 
 **Checks** (in order of priority):
 

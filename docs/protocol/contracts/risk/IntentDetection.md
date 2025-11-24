@@ -114,8 +114,8 @@ intentProbability = (
 
 **Front-Running Detection**:
 - Checks for withdrawals within 1 hour before trade
-- Large withdrawals (>5% of NAV) + immediate trade = high suspicion (80)
-- Medium withdrawals (>2% of NAV) + trade = medium suspicion (50)
+- Large withdrawals (&gt;5% of NAV) + immediate trade = high suspicion (80)
+- Medium withdrawals (&gt;2% of NAV) + trade = medium suspicion (50)
 - Multiple withdrawals pattern = increased suspicion (40)
 
 **Asset Manipulation Detection**:
@@ -390,7 +390,7 @@ function requestWithdrawal(uint256 amount) external {
 **Mitigation**:
 - ✅ Withdrawal requests recorded automatically by vault
 - ✅ Trade timing analyzed relative to withdrawals
-- ✅ Large withdrawal thresholds (>5% NAV) for high suspicion
+- ✅ Large withdrawal thresholds (&gt;5% NAV) for high suspicion
 - ✅ Multiple withdrawal patterns detected
 
 **Severity**: Medium → Mitigated
@@ -402,7 +402,7 @@ function requestWithdrawal(uint256 amount) external {
 **Mitigation**:
 - ✅ Trade history tracked in circular buffer
 - ✅ Same asset buy/sell within 1 hour = wash trading (70 score)
-- ✅ High trade frequency detection (>10 trades/hour)
+- ✅ High trade frequency detection (&gt;10 trades/hour)
 - ✅ Pattern recognition across multiple trades
 
 **Severity**: Medium → Mitigated

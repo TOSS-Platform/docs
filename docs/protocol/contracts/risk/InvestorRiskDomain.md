@@ -255,7 +255,7 @@ error InvalidAction();
 - **Window Duration**: 1 hour
 - **Warning**: 2-5 withdrawals (faultIndex += 30)
 - **High Risk**: 6-10 withdrawals (faultIndex += 70)
-- **Critical**: >10 withdrawals (faultIndex = 100)
+- **Critical**: &gt;10 withdrawals (faultIndex = 100)
 
 ## Implementation Details
 

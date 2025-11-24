@@ -97,7 +97,7 @@ function getPrice(
 3. Handle source failures gracefully (skip failed sources)
 4. If all sources fail, use `lastPrice` if available (confidence: 30) or revert
 5. Calculate median price from valid sources
-6. Reject outliers (>5% deviation from median)
+6. Reject outliers (&gt;5% deviation from median)
 7. If all prices are outliers, use `lastPrice` if available (confidence: 20) or return median with low confidence
 8. Recalculate median from filtered prices
 9. Calculate confidence score based on source count and deviation
@@ -565,7 +565,7 @@ modifier onlyGuardianOrAuto() {
    - Check `lastPrice[asset]` if available → return with confidence 30
    - Otherwise revert with `NoOracleSources`
 5. **Median Calculation**: Calculate median from valid prices
-6. **Outlier Rejection**: Filter prices with >5% deviation from median
+6. **Outlier Rejection**: Filter prices with &gt;5% deviation from median
 7. **Final Calculation**: Recalculate median from filtered prices
 8. **Confidence Scoring**: Calculate confidence based on source count and deviation
 
@@ -575,7 +575,7 @@ modifier onlyGuardianOrAuto() {
 
 - `_querySource(source, asset)`: Query price from single source (external for try-catch)
 - `_calculateMedian(prices)`: Calculate median from sorted price array
-- `_rejectOutliers(prices, median)`: Filter prices with >5% deviation
+- `_rejectOutliers(prices, median)`: Filter prices with &gt;5% deviation
 - `_calculateDeviation(price, median)`: Calculate deviation in basis points
 - `_calculateMaxDeviation(prices, median)`: Find max deviation in array
 - `_calculateConfidence(sourceCount, maxDev)`: Calculate confidence score (0-100)
@@ -612,7 +612,7 @@ The `lastPrice` mapping is intended as a fallback mechanism:
 ### Gas Optimization
 
 - View functions (`getPrice`, `isHealthy`, `getSourceCount`, `getPriceSources`) consume no gas
-- Median calculation uses bubble sort (efficient for small arrays, typically <10 sources)
+- Median calculation uses bubble sort (efficient for small arrays, typically &lt;10 sources)
 - Failed sources are skipped early to avoid unnecessary gas usage
 - Outlier rejection happens before final median calculation
 

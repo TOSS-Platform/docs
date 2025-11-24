@@ -6,41 +6,222 @@ Manages gas funds for Paymaster operations, enabling gas-sponsored transactions 
 
 ## Purpose
 
-- Hold gas reserves (ETH/USDC)
+- Hold gas reserves (ETH)
 - Fund Paymaster operations
-- Track gas usage per domain
-- Auto-refill from protocol fees
+- Track gas usage per user
 - Enable gasless UX
+- Emergency withdrawal capabilities
+
+## State Variables
+
+- `address public paymaster` - Paymaster address that receives funds
+- `address public governance` - Governance address with administrative privileges
+- `mapping(address => uint256) public gasUsage` - Tracks gas usage per user address
+
+## Constructor
+
+```solidity
+constructor(address _governance)
+```
+
+**Parameters**:
+- `_governance`: Initial governance address (cannot be address(0))
+
+**Initialization**: Sets governance address and validates it is not zero address
 
 ## Functions
 
 ### `fundPaymaster`
 
 ```solidity
-function fundPaymaster(
-    uint256 amount
-) external onlyGovernance
+function fundPaymaster(uint256 amount) external onlyGovernance nonReentrant
 ```
 
-**Purpose**: Transfer funds to Paymaster
+**Purpose**: Transfer ETH funds from vault to Paymaster
 
 **Parameters**:
-- `amount`: ETH amount to transfer
+- `amount`: ETH amount to transfer (must be > 0)
 
 **Access Control**: Only governance
+
+**Security**: Protected by ReentrancyGuard
+
+**Reverts**:
+- `AmountMustBeGreaterThanZero()` - If amount is zero
+- `InvalidAddress()` - If paymaster is not set (address(0))
+- `InsufficientBalance()` - If vault balance is less than amount or transfer fails
+- `NotGovernance()` - If caller is not governance
+
+**Events**: `PaymasterFunded(paymaster, amount, timestamp)`
 
 ### `trackGasUsage`
 
 ```solidity
-function trackGasUsage(
-    address user,
-    uint256 gasUsed
-) external onlyPaymaster
+function trackGasUsage(address user, uint256 gasUsed) external onlyPaymaster
 ```
 
-**Purpose**: Track gas consumption
+**Purpose**: Track gas consumption per user for analytics and refill scheduling
 
-**Use Case**: Analytics, refill scheduling
+**Parameters**:
+- `user`: Address that used gas (cannot be address(0))
+- `gasUsed`: Amount of gas used
+
+**Access Control**: Only paymaster
+
+**Reverts**:
+- `InvalidAddress()` - If user is address(0)
+- `NotPaymaster()` - If caller is not paymaster
+
+**Events**: `GasUsageTracked(user, gasUsed, timestamp)`
+
+### `withdraw`
+
+```solidity
+function withdraw(address to, uint256 amount) external onlyGovernance nonReentrant
+```
+
+**Purpose**: Withdraw ETH from vault to specified address (e.g., treasury)
+
+**Parameters**:
+- `to`: Address to receive the funds (cannot be address(0))
+- `amount`: Amount of ETH to withdraw (must be > 0)
+
+**Access Control**: Only governance
+
+**Security**: Protected by ReentrancyGuard
+
+**Reverts**:
+- `InvalidAddress()` - If `to` is address(0)
+- `AmountMustBeGreaterThanZero()` - If amount is zero
+- `InsufficientBalance()` - If vault balance is less than amount or transfer fails
+- `NotGovernance()` - If caller is not governance
+
+**Events**: `Withdrawal(to, amount, timestamp)`
+
+### `setPaymaster`
+
+```solidity
+function setPaymaster(address _paymaster) external onlyGovernance
+```
+
+**Purpose**: Set or update paymaster address
+
+**Parameters**:
+- `_paymaster`: New paymaster address (cannot be address(0))
+
+**Access Control**: Only governance
+
+**Reverts**:
+- `InvalidAddress()` - If `_paymaster` is address(0)
+- `NotGovernance()` - If caller is not governance
+
+**Events**: `PaymasterUpdated(oldPaymaster, newPaymaster)`
+
+### `emergencyWithdraw`
+
+```solidity
+function emergencyWithdraw(address to, uint256 amount) external onlyGovernance nonReentrant
+```
+
+**Purpose**: Emergency withdrawal of ETH from vault
+
+**Parameters**:
+- `to`: Address to receive the funds (cannot be address(0))
+- `amount`: Amount of ETH to withdraw (must be > 0)
+
+**Access Control**: Only governance
+
+**Security**: Protected by ReentrancyGuard
+
+**Reverts**:
+- `InvalidAddress()` - If `to` is address(0)
+- `AmountMustBeGreaterThanZero()` - If amount is zero
+- `InsufficientBalance()` - If vault balance is less than amount or transfer fails
+- `NotGovernance()` - If caller is not governance
+
+**Events**: `EmergencyWithdrawal(to, amount, timestamp)`
+
+### `setGovernance`
+
+```solidity
+function setGovernance(address newGovernance) external onlyGovernance
+```
+
+**Purpose**: Update governance address
+
+**Parameters**:
+- `newGovernance`: New governance address (cannot be address(0))
+
+**Access Control**: Only governance
+
+**Reverts**:
+- `InvalidAddress()` - If `newGovernance` is address(0)
+- `NotGovernance()` - If caller is not governance
+
+**Events**: `GovernanceUpdated(oldGovernance, newGovernance)`
+
+### Query Functions
+
+#### `getVaultBalance`
+
+```solidity
+function getVaultBalance() external view returns (uint256 balance)
+```
+
+**Purpose**: Get current ETH balance in vault
+
+**Returns**: Current vault balance in wei
+
+#### `getPaymasterBalance`
+
+```solidity
+function getPaymasterBalance() external view returns (uint256 balance)
+```
+
+**Purpose**: Get current ETH balance of paymaster
+
+**Returns**: Current paymaster balance in wei (returns 0 if paymaster is not set)
+
+#### `getGasUsage`
+
+```solidity
+function getGasUsage(address user) external view returns (uint256 gasUsed)
+```
+
+**Purpose**: Get gas usage for a specific user
+
+**Parameters**:
+- `user`: Address to query
+
+**Returns**: Total gas used by the user
+
+## Events
+
+- `PaymasterFunded(address indexed paymaster, uint256 amount, uint256 timestamp)` - Emitted when paymaster is funded
+- `Withdrawal(address indexed to, uint256 amount, uint256 timestamp)` - Emitted when funds are withdrawn from vault
+- `PaymasterUpdated(address indexed oldPaymaster, address indexed newPaymaster)` - Emitted when paymaster address is updated
+- `GasUsageTracked(address indexed user, uint256 gasUsed, uint256 timestamp)` - Emitted when gas usage is tracked
+- `EmergencyWithdrawal(address indexed to, uint256 amount, uint256 timestamp)` - Emitted when emergency withdrawal is performed
+- `GovernanceUpdated(address indexed oldGovernance, address indexed newGovernance)` - Emitted when governance address is updated
+
+## Custom Errors
+
+- `NotGovernance()` - Thrown when caller is not governance
+- `NotPaymaster()` - Thrown when caller is not paymaster
+- `InvalidAddress()` - Thrown when address parameter is address(0)
+- `InsufficientBalance()` - Thrown when vault balance is insufficient or transfer fails
+- `AmountMustBeGreaterThanZero()` - Thrown when amount parameter is zero
+
+## Security Features
+
+- **ReentrancyGuard**: All state-changing functions that transfer ETH are protected by OpenZeppelin's ReentrancyGuard
+- **Access Control**: Functions are protected by `onlyGovernance` and `onlyPaymaster` modifiers
+- **Input Validation**: All address parameters are validated to be non-zero
+- **Balance Checks**: All withdrawal operations verify sufficient balance before transfer
+
+## Receive Function
+
+The contract includes a `receive()` payable function to allow direct ETH deposits to the vault.
 
 ## Test Scenarios
 
@@ -61,7 +242,7 @@ function trackGasUsage(
 
 | Test Name | Scenario | Expected Result |
 |-----------|----------|-----------------|
-| Fund paymaster with zero amount | Attempt to fund paymaster with 0 ETH | Transaction succeeds (no-op) or reverts depending on implementation |
+| Fund paymaster with zero amount | Attempt to fund paymaster with 0 ETH | Transaction reverts with `AmountMustBeGreaterThanZero()` error |
 | Fund paymaster with maximum amount | Attempt to fund paymaster with max uint256 ETH | Maximum amounts handled correctly, balance updated accurately |
 | Query empty vault | Query vault balance when vault is empty | Returns zero balance, no error |
 | Query before funding | Query paymaster balance before any funding | Returns current paymaster balance (may be zero or pre-existing balance) |
@@ -73,9 +254,12 @@ function trackGasUsage(
 
 | Test Name | Scenario | Expected Result |
 |-----------|----------|-----------------|
-| Fund paymaster from non-authorized | Non-authorized address attempts to fund paymaster | Transaction reverts with "Not authorized" error |
-| Withdraw from non-authorized | Non-authorized address attempts to withdraw from vault | Transaction reverts with "Not authorized" error |
-| Set paymaster from non-authorized | Non-authorized address attempts to set paymaster address | Transaction reverts with "Not authorized" error |
+| Fund paymaster from non-authorized | Non-authorized address attempts to fund paymaster | Transaction reverts with `NotGovernance()` error |
+| Withdraw from non-authorized | Non-authorized address attempts to withdraw from vault | Transaction reverts with `NotGovernance()` error |
+| Set paymaster from non-authorized | Non-authorized address attempts to set paymaster address | Transaction reverts with `NotGovernance()` error |
+| Track gas usage from non-paymaster | Non-paymaster address attempts to track gas usage | Transaction reverts with `NotPaymaster()` error |
+| Set governance from non-authorized | Non-authorized address attempts to set governance | Transaction reverts with `NotGovernance()` error |
+| Emergency withdraw from non-authorized | Non-authorized address attempts emergency withdrawal | Transaction reverts with `NotGovernance()` error |
 | Fund invalid paymaster | Attempt to fund paymaster address(0) or invalid address | Transaction reverts with validation error |
 | Withdraw more than balance | Attempt to withdraw more ETH than vault balance | Transaction reverts with "Insufficient balance" error |
 | Fund paymaster with insufficient vault balance | Attempt to fund paymaster when vault has insufficient balance | Transaction reverts with "Insufficient balance" error |
